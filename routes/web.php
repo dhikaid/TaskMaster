@@ -7,5 +7,5 @@ Route::get('/', function () {
 });
 
 Route::get('/home', function () {
-    return view('home.blade.php');
+    return view('home');
 });
