@@ -9,6 +9,8 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/home', function () {
-    return view('home');
+Route::get('/login', function () {
+    return Inertia::render('Login', [
+        'data' => 2,
+    ]);
 });
