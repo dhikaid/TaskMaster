@@ -16,6 +16,8 @@ Route::get('/logina', function () {
     return Inertia::render('Home');
 });
 
-Route::get('/home', function () {
-    return view('home');
+Route::get('/login', function () {
+    return Inertia::render('Login', [
+        'data' => 2,
+    ]);
 });
