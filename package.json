@@ -16,6 +16,7 @@
         "vite": "^5.0"
     },
     "dependencies": {
+        "@inertiajs/inertia": "^0.11.1",
         "@inertiajs/react": "^1.0.16",
         "concurrently": "^8.2.2",
         "react": "^18.3.1",
