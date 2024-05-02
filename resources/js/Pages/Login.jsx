@@ -39,32 +39,20 @@ export default function Login(props) {
                         <div className="py-10">
                             <h2 className="text-3xl font-bold text-sky-300 mb-2 text-center">Create an Account</h2>
                             <div className="border-2 w-20 border-sky-300 inline-block mb-2"></div>
-                            {/* <div className="flex justify-center">
-                                <a href="#" className="border-2 border-gray-200 rounded-full p-3 mx-1"><FaFacebook className="text-sm"/></a>
-                                <a href="#" className="border-2 border-gray-200 rounded-full p-3 mx-1"><FaGoogle className="text-sm"/></a>
-                                <a href="#" className="border-2 border-gray-200 rounded-full p-3 mx-1"><FaLinkedin className="text-sm"/></a>
-                            </div>
-                            <p className="text-gray-400 text-xs my-3">or use your email account</p> */}
                             <form onSubmit={handleSubmit}>
                                 <div className="flex flex-col items-center mt-2">
-                                    <div className="bg-gray-100 md:w-40 w-full  p-2 flex items-center mb-3 rounded-lg"><MdPersonOutline className="text-gray-400 m-2"/>
-                                    <input type="text" name="username" placeholder="Username" className="bg-gray-100 outline-none text-sm flex-1 " value={formData.username} onChange={handleChange} />
+                                    <div className="bg-gray-100  w-64  p-2 flex items-center mb-3 rounded-lg"><MdPersonOutline className="text-gray-400 m-2"/>
+                                    <input required autoComplete="off" type="text" name="username" placeholder="Username" className="bg-gray-100 outline-none text-sm flex-1 " value={formData.username} onChange={handleChange} />
                                     </div>
                                     <div className="bg-gray-100 w-64 p-2 flex items-center mb-3 rounded-lg"><FaRegEnvelope className="text-gray-400 m-2"/>
-                                    <input type="email" name="email" placeholder="Email" className="bg-gray-100 outline-none text-sm flex-1 " value={formData.email} onChange={handleChange} />
+                                    <input required autoComplete="off" type="email" name="email" placeholder="Email" className="bg-gray-100 outline-none text-sm flex-1 " value={formData.email} onChange={handleChange} />
                                     </div>
                                     <div className="bg-gray-100 w-64 p-2 flex items-center mb-3 rounded-lg"><MdLockOutline className="text-gray-400 m-2"/>
-                                    <input type="password" name="password1" placeholder="Password" className="bg-gray-100 outline-none text-sm flex-1 " value={formData.password1} onChange={handleChange} />
+                                    <input required autoComplete="off" type="password" name="password1" placeholder="Password" className="bg-gray-100 outline-none text-sm flex-1 " value={formData.password1} onChange={handleChange} />
                                     </div>
                                     <div className="bg-gray-100 w-64 p-2 flex items-center mb-3 rounded-lg"><MdLockOutline className="text-gray-400 m-2"/>
-                                    <input type="password" name="password2" placeholder="Confirm Password" className="bg-gray-100 outline-none text-sm flex-1" value={formData.password2} onChange={handleChange} />
+                                    <input required autoComplete="off" type="password" name="password2" placeholder="Confirm Password" className="bg-gray-100 outline-none text-sm flex-1" value={formData.password2} onChange={handleChange} />
                                     </div>
-                                    {/* <div className="flex w-64 mb-5">
-                                        <label className="flex items-center text-xs">
-                                            <input type="checkbox" name="remember" className="mr-2" checked={formData.remember} onChange={handleChange} />Remember me
-                                        </label>
-                                        <a href="#" className="text-xs ml-12">Forgot Password?</a>
-                                    </div> */}
                                     <div className="flex justify-between w-64 mb-5">
                                         <a href="#" className="text-xs">Sudah punya akun?</a>
                                         <p>Sign In</p>
