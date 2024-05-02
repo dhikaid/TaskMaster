@@ -1,27 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* app.css */
-
-/* Animasi transisi antara form sign-in dan sign-up */
-.sign-in-form {
-    width: 100%;
-    transition: width 0.5s ease-in-out;
-}
-
-.sign-up-form {
-    width: calc(100% - 320px); /* Sesuaikan dengan lebar samping kanan */
-    transition: width 0.5s ease-in-out;
-}
-
-/* Animasi transisi perubahan posisi teks sambutan */
-.sign-in-welcome {
-    transform: translateX(0);
-    transition: transform 0.5s ease-in-out;
-}
-
-.sign-up-welcome {
-    transform: translateX(-320px); /* Sesuaikan dengan lebar samping kanan */
-    transition: transform 0.5s ease-in-out;
-}
+body {
+    font-family: 'Poppins', sans-serif;
+    }
