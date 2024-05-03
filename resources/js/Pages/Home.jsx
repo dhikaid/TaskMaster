@@ -7,7 +7,7 @@ export default function Home(props) {
         const formData = {
             name: "John",
             email: "john@example.com",
-            _token: props.csrf,
+            _token: this.$page.props.csrf,
         };
         console.log(formData);
         // Send POST request to '/users' route with form data

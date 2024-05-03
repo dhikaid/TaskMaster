@@ -19,5 +19,9 @@ Route::get('/oauth', function () {
 Route::get('/test', function () {
     return view('home');
 });
+
+// POST REGISTER
+Route::post('/oauth/register', [OauthController::class, 'register']);
+
 // POST LOGIN
 Route::post('/oauth/login', [OauthController::class, 'login']);
