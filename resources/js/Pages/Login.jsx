@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { MdLockOutline, MdPersonOutline } from "react-icons/md";
-import { router } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 
 export default function Login(props) {
     const [formData, setFormData] = useState({
@@ -8,6 +8,8 @@ export default function Login(props) {
         password: "",
         _token: props.csrf,
     });
+
+    const { errors, flash } = usePage().props;
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -42,6 +44,11 @@ export default function Login(props) {
                                 Sign In
                             </h2>
                             <div className="border-2 w-20 border-sky-300 inline-block mb-2"></div>
+                            {flash.message && (
+                                <div className="alert font-semibold text-red-500 pb-2">
+                                    {flash.message.message}
+                                </div>
+                            )}
                             <form onSubmit={handleSubmit}>
                                 <div className="flex flex-col items-center mt-2">
                                     <div className="bg-gray-100 w-64 p-2 flex items-center mb-3 rounded-lg">
@@ -51,9 +58,11 @@ export default function Login(props) {
                                             autoComplete="off"
                                             type="text"
                                             name="username"
+
                                             placeholder="Username"
+
                                             className="bg-gray-100 outline-none text-sm flex-1 "
-                                            value={formData.email}
+                                            value={formData.username}
                                             onChange={handleChange}
                                         />
                                     </div>
@@ -70,11 +79,17 @@ export default function Login(props) {
                                             onChange={handleChange}
                                         />
                                     </div>
+                                    <button className="text-sky-300 text-end mt-2 block md:hidden text-xs my-2">
+                                        Forgot Password?
+                                    </button>
                                     <button
                                         type="submit"
-                                        className="border-2 border-sky-300 rounded-full px-12 py-2 inline-block font-semibold hover:bg-sky-400 hover:text-white mt-2 "
+                                        className="border-2 border-sky-300 text-white bg-sky-300 rounded-full px-12 py-2 inline-block font-semibold hover:bg-sky-400  mt-2 "
                                     >
                                         Sign In
+                                    </button>
+                                    <button className="text-sky-300 text-end mt-2 block md:hidden text-xs my-4 pt-2">
+                                        Don't have an account yet?
                                     </button>
                                 </div>
                             </form>
@@ -91,10 +106,10 @@ export default function Login(props) {
                             your journey with us.
                         </p>
                         <button
-                        className="border-2 border-white rounded-full px-12 py-2 inline-block font-semibold hover:bg-sky-400"
-                        onClick={handleSignUpClick}
+                            className="border-2 border-white rounded-full px-12 py-2 inline-block font-semibold hover:bg-sky-400"
+                            onClick={handleSignUpClick}
                         >
-                        Sign Up
+                            Sign Up
                         </button>
                     </div>
                 </div>
