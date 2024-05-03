@@ -11,10 +11,13 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/oauth', function () {
-    return Inertia('Login');
+Route::get('/register', function () {
+    return Inertia('Register');
 });
 
+Route::get('/login', function () {
+    return Inertia('Login');
+});
 
 Route::get('/test', function () {
     return view('home');
