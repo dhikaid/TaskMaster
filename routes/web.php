@@ -12,7 +12,7 @@ Route::get('/', function () {
 });
 
 Route::get('/oauth', function () {
-    return Inertia::render('Login');
+    return Inertia('Login');
 });
 
 

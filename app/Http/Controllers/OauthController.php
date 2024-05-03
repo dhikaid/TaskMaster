@@ -3,17 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OauthController extends Controller
 {
 
-
-    // logij
+    // login
     public function login(Request $request)
     {
-        return dd($request);
+        $validatedData = $request->validate([
+            'username' => "required",
+            'password' => "required|min:8"
+        ]);
+
+        if (Auth::attempt($validatedData)) {
+            $request->session()->regenerate();
+            return redirect()->intended('/dashboard');
+        }
+
+        return back()->with('error', "You are not loggedin!");
     }
 
     public function register(Request $request)
@@ -28,6 +38,6 @@ class OauthController extends Controller
         $validatedData['password'] = $validatedData['password2'];
 
         $user = User::create($validatedData);
-        return Inertia::render("Home");
+        return Inertia("Home");
     }
 }
