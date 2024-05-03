@@ -34,7 +34,7 @@ export default function Login(props) {
             </head>
             <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center ">
             <div className="bg-white rounded-2xl shadow-2xl flex flex-col md:flex-row md:w-2/3 max-w-4xl">
-                        <div className="md:w-3/5 p-5 flex flex-col justify-center"> {/* Mengatur container card menjadi flex container */}
+                        <div className="md:w-3/5 p-5 flex flex-col justify-center"> 
                         <div className="text-left font-bold"> <span className="text-sky-300">Task</span> Master</div>
                         <div className="py-10">
                             <h2 className="text-3xl font-bold text-sky-300 mb-2 text-center">Create an Account</h2>
