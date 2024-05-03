@@ -25,7 +25,7 @@ export default function Register(props) {
 
         try {
             await router.post("/oauth/register", formData);
-            router.visit("/home");
+            // router.visit("/home");
         } catch (error) {
             console.error("Error during register:", error);
         }
@@ -78,7 +78,9 @@ export default function Register(props) {
                                                 onChange={handleChange}
                                             />
                                             {errors.email && (
-                                                <div className="text-red-500 text-xs mt-1">{errors.email}</div>
+                                                <div className="text-red-500 text-xs mt-1">
+                                                    {errors.email}
+                                                </div>
                                             )}
                                         </div>
                                         <div className="bg-gray-100 w-64 p-2 flex items-center mb-3 rounded-lg">
@@ -94,7 +96,9 @@ export default function Register(props) {
                                                 onChange={handleChange}
                                             />
                                             {errors.password1 && (
-                                                <div className="text-red-500 text-xs mt-1">{errors.password1}</div>
+                                                <div className="text-red-500 text-xs mt-1">
+                                                    {errors.password1}
+                                                </div>
                                             )}
                                         </div>
                                         <div className="bg-gray-100 w-64 p-2 flex items-center mb-3 rounded-lg">
@@ -111,7 +115,10 @@ export default function Register(props) {
                                             />
                                         </div>
                                         <div className="text-start ml-3 w-64 mb-5 block sm:hidden">
-                                            <a href="#" className="text-xs text-sky-400 hover:text-sky-600 font-semibold">
+                                            <a
+                                                href="#"
+                                                className="text-xs text-sky-400 hover:text-sky-600 font-semibold"
+                                            >
                                                 Sign In
                                             </a>
                                         </div>

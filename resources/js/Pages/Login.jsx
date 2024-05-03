@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { MdLockOutline, MdPersonOutline } from "react-icons/md";
-import { router } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 
 export default function Login(props) {
     const [formData, setFormData] = useState({
-        email: "",
+        username: "",
         password: "",
         _token: props.csrf,
     });
+
+    const { errors, flash } = usePage().props;
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -19,7 +21,7 @@ export default function Login(props) {
 
         try {
             await router.post("/oauth/login", formData);
-            router.visit("/home");
+            // router.visit("/home");
         } catch (error) {
             console.error("Error during login:", error);
         }
@@ -42,6 +44,11 @@ export default function Login(props) {
                             <h2 className="text-3xl font-bold text-sky-300 mb-2 text-center">
                                 Sign In
                             </h2>
+                            {flash.message && (
+                                <div className="alert">
+                                    {flash.message.message}
+                                </div>
+                            )}
                             <div className="border-2 w-20 border-sky-300 inline-block mb-2"></div>
                             <form onSubmit={handleSubmit}>
                                 <div className="flex flex-col items-center mt-2">
@@ -50,11 +57,11 @@ export default function Login(props) {
                                         <input
                                             required
                                             autoComplete="off"
-                                            type="email"
-                                            name="email"
+                                            type="text"
+                                            name="username"
                                             placeholder="Email"
                                             className="bg-gray-100 outline-none text-sm flex-1 "
-                                            value={formData.email}
+                                            value={formData.username}
                                             onChange={handleChange}
                                         />
                                     </div>
@@ -92,10 +99,10 @@ export default function Login(props) {
                             your journey with us.
                         </p>
                         <button
-                        className="border-2 border-white rounded-full px-12 py-2 inline-block font-semibold hover:bg-sky-400"
-                        onClick={handleSignUpClick}
+                            className="border-2 border-white rounded-full px-12 py-2 inline-block font-semibold hover:bg-sky-400"
+                            onClick={handleSignUpClick}
                         >
-                        Sign Up
+                            Sign Up
                         </button>
                     </div>
                 </div>

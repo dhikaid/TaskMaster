@@ -20,10 +20,14 @@ class OauthController extends Controller
 
         if (Auth::attempt($validatedData)) {
             $request->session()->regenerate();
-            return redirect()->intended('/dashboard');
+            return redirect()->intended('/home');
         }
 
-        return back()->with('error', "You are not loggedin!");
+        $data = [
+            'status' => 419,
+            'message' => "Username or Password is incorrect!"
+        ];
+        return  back()->with('message', $data);
     }
 
     public function register(Request $request)
