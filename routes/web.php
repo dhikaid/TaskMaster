@@ -11,6 +11,12 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/home', function () {
+    return Inertia::render('Home', [
+        'data' => 1,
+    ]);
+});
+
 Route::get('/register', function () {
     return Inertia('Register');
 });
