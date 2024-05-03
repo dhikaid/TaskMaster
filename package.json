@@ -4,6 +4,7 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build ",
+        "install": "concurrently  \"git pull origin main\"  \"composer install\" \"npm install\"",
         "start": "concurrently  \"php artisan config:cache\"  \"php artisan migrate --force\" \"php artisan serve\" \"npm run dev \"  ",
         "startbackup": "concurrently  \"php artisan config:cache\"  \"php artisan migrate:fresh --force\" \"php artisan serve\" \"npm run dev \"  "
     },
