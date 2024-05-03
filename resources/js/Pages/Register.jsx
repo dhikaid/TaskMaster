@@ -25,7 +25,6 @@ export default function Register(props) {
 
         try {
             await router.post("/oauth/register", formData);
-            router.visit("/home");
         } catch (error) {
             console.error("Error during register:", error);
         }
@@ -110,17 +109,17 @@ export default function Register(props) {
                                                 onChange={handleChange}
                                             />
                                         </div>
-                                        <div className="text-start ml-3 w-64 mb-5 block sm:hidden">
-                                            <a href="#" className="text-xs text-sky-400 hover:text-sky-600 font-semibold">
-                                                Sign In
-                                            </a>
-                                        </div>
                                         <button
                                             type="submit"
                                             className="border-2 border-sky-300 bg-sky-400 rounded-full px-12 py-2 inline-block font-semibold hover:bg-sky-500 text-white mt-2 "
                                         >
                                             Sign Up
                                         </button>
+                                        <div className="text-center mt-2 w-64 mb-5 block sm:hidden">
+                                            <a href="#" className="text-xs text-sky-400 hover:text-sky-600 font-semibold">
+                                                Sign In
+                                            </a>
+                                        </div>
                                     </div>
                                 </form>
                             </div>

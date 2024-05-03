@@ -4,7 +4,7 @@ import { router } from "@inertiajs/react";
 
 export default function Login(props) {
     const [formData, setFormData] = useState({
-        email: "",
+        username: "",
         password: "",
         _token: props.csrf,
     });
@@ -19,7 +19,6 @@ export default function Login(props) {
 
         try {
             await router.post("/oauth/login", formData);
-            router.visit("/home");
         } catch (error) {
             console.error("Error during login:", error);
         }
@@ -50,9 +49,9 @@ export default function Login(props) {
                                         <input
                                             required
                                             autoComplete="off"
-                                            type="email"
-                                            name="email"
-                                            placeholder="Email"
+                                            type="text"
+                                            name="username"
+                                            placeholder="Username"
                                             className="bg-gray-100 outline-none text-sm flex-1 "
                                             value={formData.email}
                                             onChange={handleChange}
