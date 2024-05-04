@@ -25,12 +25,16 @@ export default function Register(props) {
 
         try {
             await router.post("/oauth/register", formData);
-            // router.visit("/home");
+
         } catch (error) {
             console.error("Error during register:", error);
         }
     };
 
+    const handleSignInClick = (event) => {
+        event.preventDefault();
+        router.visit("/login");
+    };
     return (
         <>
             <div className="flex flex-col items-center min-h-screen py-2 bg-gray-100">
@@ -77,12 +81,12 @@ export default function Register(props) {
                                                 value={formData.email}
                                                 onChange={handleChange}
                                             />
+                                        </div>
                                             {errors.email && (
                                                 <div className="text-red-500 text-xs mt-1">
                                                     {errors.email}
                                                 </div>
                                             )}
-                                        </div>
                                         <div className="bg-gray-100 w-64 p-2 flex items-center mb-3 rounded-lg">
                                             <MdLockOutline className="text-gray-400 m-2" />
                                             <input
@@ -95,12 +99,12 @@ export default function Register(props) {
                                                 value={formData.password1}
                                                 onChange={handleChange}
                                             />
+                                        </div>
                                             {errors.password1 && (
                                                 <div className="text-red-500 text-xs mt-1">
                                                     {errors.password1}
                                                 </div>
                                             )}
-                                        </div>
                                         <div className="bg-gray-100 w-64 p-2 flex items-center mb-3 rounded-lg">
                                             <MdLockOutline className="text-gray-400 m-2" />
                                             <input
@@ -114,20 +118,17 @@ export default function Register(props) {
                                                 onChange={handleChange}
                                             />
                                         </div>
-                                        <div className="text-start ml-3 w-64 mb-5 block sm:hidden">
-                                            <a
-                                                href="#"
-                                                className="text-xs text-sky-400 hover:text-sky-600 font-semibold"
-                                            >
-                                                Sign In
-                                            </a>
-                                        </div>
                                         <button
                                             type="submit"
                                             className="border-2 border-sky-300 bg-sky-400 rounded-full px-12 py-2 inline-block font-semibold hover:bg-sky-500 text-white mt-2 "
                                         >
                                             Sign Up
                                         </button>
+                                        <div className="text-center mt-2 w-64 mb-5 block sm:hidden">
+                                            <a href="#" className="text-xs text-sky-400 hover:text-sky-600 font-semibold" onClick={handleSignInClick}>
+                                                Sign In
+                                            </a>
+                                        </div>
                                     </div>
                                 </form>
                             </div>
@@ -142,12 +143,12 @@ export default function Register(props) {
                                 Enter your personal details and start journey
                                 with us
                             </p>
-                            <a
-                                href="#"
-                                className="border-2 border-white rounded-full px-12 py-2 inline-block font-semibold hover:bg-sky-400 "
-                            >
-                                Sign In
-                            </a>
+                            <button
+                            className="border-2 border-white rounded-full px-12 py-2 inline-block font-semibold hover:bg-sky-400"
+                            onClick={handleSignInClick}
+                        >
+                            Sign In
+                        </button>
                         </div>
                     </div>
                 </main>

@@ -21,7 +21,6 @@ export default function Login(props) {
 
         try {
             await router.post("/oauth/login", formData);
-            // router.visit("/home");
         } catch (error) {
             console.error("Error during login:", error);
         }
@@ -44,12 +43,12 @@ export default function Login(props) {
                             <h2 className="text-3xl font-bold text-sky-300 mb-2 text-center">
                                 Sign In
                             </h2>
+                            <div className="border-2 w-20 border-sky-300 inline-block mb-2"></div>
                             {flash.message && (
-                                <div className="alert">
+                                <div className="alert font-semibold text-red-500 pb-2">
                                     {flash.message.message}
                                 </div>
                             )}
-                            <div className="border-2 w-20 border-sky-300 inline-block mb-2"></div>
                             <form onSubmit={handleSubmit}>
                                 <div className="flex flex-col items-center mt-2">
                                     <div className="bg-gray-100 w-64 p-2 flex items-center mb-3 rounded-lg">
@@ -59,7 +58,9 @@ export default function Login(props) {
                                             autoComplete="off"
                                             type="text"
                                             name="username"
-                                            placeholder="Email"
+
+                                            placeholder="Username"
+
                                             className="bg-gray-100 outline-none text-sm flex-1 "
                                             value={formData.username}
                                             onChange={handleChange}
@@ -78,11 +79,17 @@ export default function Login(props) {
                                             onChange={handleChange}
                                         />
                                     </div>
+                                    <button className="text-sky-300 text-end mt-2 block md:hidden text-xs my-2">
+                                        Forgot Password?
+                                    </button>
                                     <button
                                         type="submit"
-                                        className="border-2 border-sky-300 rounded-full px-12 py-2 inline-block font-semibold hover:bg-sky-400 hover:text-white mt-2 "
+                                        className="border-2 border-sky-300 text-white bg-sky-300 rounded-full px-12 py-2 inline-block font-semibold hover:bg-sky-400  mt-2 "
                                     >
                                         Sign In
+                                    </button>
+                                    <button className="text-sky-300 text-end mt-2 block md:hidden text-xs my-4 pt-2">
+                                        Don't have an account yet?
                                     </button>
                                 </div>
                             </form>
