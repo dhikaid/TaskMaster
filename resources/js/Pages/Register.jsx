@@ -25,7 +25,6 @@ export default function Register(props) {
 
         try {
             await router.post("/oauth/register", formData);
-
         } catch (error) {
             console.error("Error during register:", error);
         }
@@ -56,67 +55,89 @@ export default function Register(props) {
                                 <div className="border-2 w-20 border-sky-300 inline-block mb-2"></div>
                                 <form onSubmit={handleSubmit} method="POST">
                                     <div className="flex flex-col items-center mt-2">
-                                        <div className="bg-gray-100  w-64  p-2 flex items-center mb-3 rounded-lg">
-                                            <MdPersonOutline className="text-gray-400 m-2" />
-                                            <input
-                                                required
-                                                autoComplete="off"
-                                                type="text"
-                                                name="username"
-                                                placeholder="Username"
-                                                className="bg-gray-100 outline-none text-sm flex-1 "
-                                                value={formData.username}
-                                                onChange={handleChange}
-                                            />
+                                        {/* USERNAME */}
+                                        <div className="formGroup mb-3 w-80">
+                                            <div className="bg-gray-100  p-2 flex items-center  rounded-lg">
+                                                <MdPersonOutline className="text-gray-400 m-2" />
+                                                <input
+                                                    required
+                                                    autoComplete="off"
+                                                    type="text"
+                                                    name="username"
+                                                    placeholder="Username"
+                                                    className="bg-gray-100 outline-none text-sm flex-1 "
+                                                    value={formData.username}
+                                                    onChange={handleChange}
+                                                />
+                                            </div>
+                                            {errors.username && (
+                                                <div className="text-red-500 text-xs mt-1 text-start">
+                                                    {errors.username}
+                                                </div>
+                                            )}
                                         </div>
-                                        <div className="bg-gray-100 w-64 p-2 flex items-center mb-3 rounded-lg">
-                                            <FaRegEnvelope className="text-gray-400 m-2" />
-                                            <input
-                                                required
-                                                autoComplete="off"
-                                                type="email"
-                                                name="email"
-                                                placeholder="Email"
-                                                className="bg-gray-100 outline-none text-sm flex-1 "
-                                                value={formData.email}
-                                                onChange={handleChange}
-                                            />
-                                        </div>
+                                        {/* EMAIL */}
+                                        <div className="formGroup mb-3 w-80">
+                                            <div className="bg-gray-100  p-2 flex items-center rounded-lg">
+                                                <FaRegEnvelope className="text-gray-400 m-2" />
+                                                <input
+                                                    required
+                                                    autoComplete="off"
+                                                    type="email"
+                                                    name="email"
+                                                    placeholder="Email"
+                                                    className="bg-gray-100 outline-none text-sm flex-1 "
+                                                    value={formData.email}
+                                                    onChange={handleChange}
+                                                />
+                                            </div>
                                             {errors.email && (
-                                                <div className="text-red-500 text-xs mt-1">
+                                                <div className="text-red-500 text-xs mt-1 text-start">
                                                     {errors.email}
                                                 </div>
                                             )}
-                                        <div className="bg-gray-100 w-64 p-2 flex items-center mb-3 rounded-lg">
-                                            <MdLockOutline className="text-gray-400 m-2" />
-                                            <input
-                                                required
-                                                autoComplete="off"
-                                                type="password"
-                                                name="password1"
-                                                placeholder="Password"
-                                                className="bg-gray-100 outline-none text-sm flex-1 "
-                                                value={formData.password1}
-                                                onChange={handleChange}
-                                            />
                                         </div>
+                                        {/* PASSWORD 1 */}
+                                        <div className="formGroup mb-3 w-80">
+                                            <div className="bg-gray-100  p-2 flex items-center  rounded-lg">
+                                                <MdLockOutline className="text-gray-400 m-2" />
+                                                <input
+                                                    required
+                                                    autoComplete="off"
+                                                    type="password"
+                                                    name="password1"
+                                                    placeholder="Password"
+                                                    className="bg-gray-100 outline-none text-sm flex-1 "
+                                                    value={formData.password1}
+                                                    onChange={handleChange}
+                                                />
+                                            </div>
                                             {errors.password1 && (
-                                                <div className="text-red-500 text-xs mt-1">
+                                                <div className="text-red-500 text-xs mt-1 text-start">
                                                     {errors.password1}
                                                 </div>
                                             )}
-                                        <div className="bg-gray-100 w-64 p-2 flex items-center mb-3 rounded-lg">
-                                            <MdLockOutline className="text-gray-400 m-2" />
-                                            <input
-                                                required
-                                                autoComplete="off"
-                                                type="password"
-                                                name="password2"
-                                                placeholder="Confirm Password"
-                                                className="bg-gray-100 outline-none text-sm flex-1"
-                                                value={formData.password2}
-                                                onChange={handleChange}
-                                            />
+                                        </div>
+                                        {/* PASSWORD 2 */}
+                                        <div className="formGroup mb-3 w-80">
+                                            <div className="bg-gray-100 p-2 flex items-center  rounded-lg">
+                                                <MdLockOutline className="text-gray-400 m-2" />
+                                                <input
+                                                    required
+                                                    autoComplete="off"
+                                                    type="password"
+                                                    name="password2"
+                                                    placeholder="Confirm Password"
+                                                    className="bg-gray-100 outline-none text-sm flex-1"
+                                                    value={formData.password2}
+                                                    onChange={handleChange}
+                                                />
+                                            </div>
+                                            {errors.password2 && (
+                                                <div className="text-red-500 text-xs mt-1 text-start">
+                                                    {errors.password2}
+                                                </div>
+                                            )}
                                         </div>
                                         <button
                                             type="submit"
@@ -125,7 +146,11 @@ export default function Register(props) {
                                             Sign Up
                                         </button>
                                         <div className="text-center mt-2 w-64 mb-5 block sm:hidden">
-                                            <a href="#" className="text-xs text-sky-400 hover:text-sky-600 font-semibold" onClick={handleSignInClick}>
+                                            <a
+                                                href="#"
+                                                className="text-xs text-sky-400 hover:text-sky-600 font-semibold"
+                                                onClick={handleSignInClick}
+                                            >
                                                 Sign In
                                             </a>
                                         </div>
@@ -144,11 +169,11 @@ export default function Register(props) {
                                 with us
                             </p>
                             <button
-                            className="border-2 border-white rounded-full px-12 py-2 inline-block font-semibold hover:bg-sky-400"
-                            onClick={handleSignInClick}
-                        >
-                            Sign In
-                        </button>
+                                className="border-2 border-white rounded-full px-12 py-2 inline-block font-semibold hover:bg-sky-400"
+                                onClick={handleSignInClick}
+                            >
+                                Sign In
+                            </button>
                         </div>
                     </div>
                 </main>

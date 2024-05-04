@@ -33,15 +33,21 @@ class OauthController extends Controller
     public function register(Request $request)
     {
         $validatedData = $request->validate([
-            'username' => "required",
+            'username' => "required|unique:users,username",
             'email' => "email:rfc,dns|required",
             'password1' => "required|min:8",
             'password2' => "required|min:8|same:password1",
+        ], [
+            "password1.required" => "The password field is required.",
+            "password2.required" => "The password field is required.",
+            "password1.min" => "The password field must be at least 8 characters.",
+            "password2.min" => "The password field must be at least 8 characters.",
+            "password2.same" => "The password must be same.",
         ]);
 
         $validatedData['password'] = $validatedData['password2'];
 
         $user = User::create($validatedData);
-        return Inertia("Home");
+        return redirect('/login')->with('success', 'Monggo login');
     }
 }
