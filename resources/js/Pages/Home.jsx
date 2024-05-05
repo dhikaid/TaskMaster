@@ -5,22 +5,20 @@ export default function Home(props) {
     const handleSubmit = () => {
         // Form data to be submitted
         const formData = {
-            name: "John",
-            email: "john@example.com",
-            _token: this.$page.props.csrf,
+            _token: props.csrf,
         };
         console.log(formData);
         // Send POST request to '/users' route with form data
-        router.post("/oauth/login", formData);
+        router.post("/logout", formData);
     };
 
     return (
         <div>
             <h1 className="text-3xl font-bold underline">Welcome</h1>
             <p className="text-xl bg-red-600 flex justify-center items-center">
-                Hello {props.csrf_token}, welcome to your first Inertia app!
+                Hello {props.csrf}, welcome to your first Inertia app!
             </p>
-            <button onClick={handleSubmit}>Submit</button>
+            <button onClick={handleSubmit}>Logout</button>
         </div>
     );
 }

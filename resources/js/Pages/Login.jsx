@@ -33,12 +33,12 @@ export default function Login(props) {
 
     return (
         <div className="flex flex-col items-center min-h-screen py-2 bg-gray-100 relative">
-                <head>
-                    <title>Login</title>
-                </head>
+            <head>
+                <title>Login</title>
+            </head>
             <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
                 <div className="bg-white rounded-2xl shadow-2xl flex flex-col md:flex-row md:w-2/3 max-w-4xl relative">
-                <div className="md:w-3/5 p-5 flex flex-col items-center md:mx-auto md:max-w-md justify-center my-auto">
+                    <div className="md:w-3/5 p-5 flex flex-col items-center md:mx-auto md:max-w-md justify-center my-auto">
                         <div className="text-left font-bold absolute top-0 left-0 ml-5 mt-5">
                             <span className="text-sky-300">Task</span> Master
                         </div>
@@ -47,19 +47,37 @@ export default function Login(props) {
                                 Sign In
                             </h2>
                             <div className="border-2 w-20 border-sky-300 inline-block mb-2"></div>
-                            {flash.message && (
-                            <div className="bg-sky-300 border-1 rounded-lg p-1 mb-4 flex items-center">
-                                <div className="text-white flex items-center justify-center rounded-l-lg mr-2">
-                                    <MdError className="text-4xl" />
-                                </div>
-                                <div>
-                                    <h2 className="font-bold text-md text-left text-white">Error!</h2>
-                                    <p className="text-sm text-white">{flash.message.message}</p>
-                                </div>
-                            </div>
-                        )}
+                            {flash.message &&
+                                (flash.message.status === 200 ? (
+                                    <div className="bg-gray-100 border-t-4  max-w-80 border-green-500 border-1 rounded-lg p-1 mb-4 flex items-center">
+                                        <div className="flex items-center justify-center rounded-l-lg mr-2">
+                                            <MdError className="text-4xl text-green-500" />
+                                        </div>
+                                        <div>
+                                            <h2 className="font-bold text-md text-left text-green-500">
+                                                Success!
+                                            </h2>
+                                            <p className="text-sm text-start text-green-500">
+                                                {flash.message.message}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="bg-gray-100 border-t-4  max-w-80 border-red-500 border-1 rounded-lg p-1 mb-4 flex items-center">
+                                        <div className="flex items-center justify-center rounded-l-lg mr-2">
+                                            <MdError className="text-4xl text-red-500" />
+                                        </div>
+                                        <div>
+                                            <h2 className="font-bold text-md text-left text-red-500">
+                                                Error!
+                                            </h2>
+                                            <p className="text-sm text-red-500">
+                                                {flash.message.message}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))}
 
-                        
                             <form onSubmit={handleSubmit}>
                                 <div className="formgroup w-80 mx-auto">
                                     <div className="bg-gray-100 p-2 flex items-center mb-3 rounded-lg">
@@ -89,7 +107,10 @@ export default function Login(props) {
                                         />
                                     </div>
                                     <div className="flex justify-end">
-                                        <a href="#" className="text-sky-300 text-right text-xs mt-1 mr-2 mb-2">
+                                        <a
+                                            href="#"
+                                            className="text-sky-300 text-right text-xs mt-1 mr-2 mb-2"
+                                        >
                                             Forgot Password?
                                         </a>
                                     </div>
@@ -100,7 +121,14 @@ export default function Login(props) {
                                         Sign In
                                     </button>
                                     <p className="text-center mt-2 block xl:hidden text-xs my-4 pt-2">
-                                        Don't have an account yet? <a href="#" onClick={handleSignUpClick} className="text-sky-400">Sign Up</a>
+                                        Don't have an account yet?{" "}
+                                        <a
+                                            href="#"
+                                            onClick={handleSignUpClick}
+                                            className="text-sky-400"
+                                        >
+                                            Sign Up
+                                        </a>
                                     </p>
                                 </div>
                             </form>
