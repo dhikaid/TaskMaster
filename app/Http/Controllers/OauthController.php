@@ -34,7 +34,7 @@ class OauthController extends Controller
     {
         $validatedData = $request->validate([
             'username' => "required|unique:users,username",
-            'email' => "email:rfc,dns|required",
+            'email' => "email:rfc,dns|required|unique:users,email",
             'password1' => "required|min:8",
             'password2' => "required|min:8|same:password1",
         ], [
@@ -48,6 +48,28 @@ class OauthController extends Controller
         $validatedData['password'] = $validatedData['password2'];
 
         $user = User::create($validatedData);
-        return redirect('/login')->with('success', 'Monggo login');
+
+        $data = [
+            'status' => 200,
+            'message' => "Your account has been created. Please login!"
+        ];
+
+        return redirect('/login')->with('message', $data);
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        $data = [
+            'status' => 200,
+            'message' => "You has been logged out from system!"
+        ];
+
+        return redirect('/login')->with('message', $data);
     }
 }

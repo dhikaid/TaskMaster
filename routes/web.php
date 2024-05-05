@@ -18,12 +18,14 @@ Route::get('/home', function () {
 })->middleware('auth');
 
 Route::get('/register', function () {
-    return Inertia('Register');
+    return Inertia::render('Register');
 });
 
 Route::get('/login', function () {
-    return Inertia('Login');
+    return Inertia::render('Login');
 })->name('login');
+
+Route::post('/logout', [OauthController::class, 'logout'])->middleware('auth');
 
 Route::get('/test', function () {
     return view('home');
