@@ -4,7 +4,6 @@ use App\Http\Controllers\OauthController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-
 Route::get('/', function () {
     return Inertia::render('Home', [
         'data' => 1,
@@ -18,11 +17,19 @@ Route::get('/home', function () {
 })->middleware('auth');
 
 Route::get('/register', function () {
-    return Inertia::render('Register');
+    return Inertia::render('Register', [
+        'isLoginPage' => false,
+        'handleSignUpClick' => [OauthController::class, 'login'], // Ganti dengan handler yang sesuai
+        'handleSignInClick' => [OauthController::class, 'login'], // Ganti dengan handler yang sesuai
+    ]);
 });
 
 Route::get('/login', function () {
-    return Inertia::render('Login');
+    return Inertia::render('Login', [
+        'isLoginPage' => true,
+        'handleSignUpClick' => [OauthController::class, 'login'], // Ganti dengan handler yang sesuai
+        'handleSignInClick' => [OauthController::class, 'login'], // Ganti dengan handler yang sesuai
+    ]);
 })->name('login');
 
 Route::post('/logout', [OauthController::class, 'logout'])->middleware('auth');
@@ -36,3 +43,4 @@ Route::post('/oauth/register', [OauthController::class, 'register'])->middleware
 
 // POST LOGIN
 Route::post('/oauth/login', [OauthController::class, 'login'])->middleware('guest');
+

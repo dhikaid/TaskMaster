@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { MdLockOutline, MdPersonOutline, MdError } from "react-icons/md";
+import { FaCircleCheck } from "react-icons/fa6";
 import { router, usePage } from "@inertiajs/react";
+import SignInCard from "../component/Fragments/SignInCard";
 
 export default function Login(props) {
     const [formData, setFormData] = useState({
@@ -50,8 +52,8 @@ export default function Login(props) {
                             {flash.message &&
                                 (flash.message.status === 200 ? (
                                     <div className="bg-gray-100 border-t-4  max-w-80 border-green-500 border-1 rounded-lg p-1 mb-4 flex items-center">
-                                        <div className="flex items-center justify-center rounded-l-lg mr-2">
-                                            <MdError className="text-4xl text-green-500" />
+                                        <div className="flex items-center justify-center rounded-l-lg mr-2 px-2">
+                                            <FaCircleCheck className="text-3xl text-green-500" />
                                         </div>
                                         <div>
                                             <h2 className="font-bold text-md text-left text-green-500">
@@ -64,7 +66,7 @@ export default function Login(props) {
                                     </div>
                                 ) : (
                                     <div className="bg-gray-100 border-t-4  max-w-80 border-red-500 border-1 rounded-lg p-1 mb-4 flex items-center">
-                                        <div className="flex items-center justify-center rounded-l-lg mr-2">
+                                        <div className="flex items-center justify-center rounded-l-lg mr-2 px-1">
                                             <MdError className="text-4xl text-red-500" />
                                         </div>
                                         <div>
@@ -80,10 +82,11 @@ export default function Login(props) {
 
                             <form onSubmit={handleSubmit}>
                                 <div className="formgroup w-80 mx-auto">
-                                    <div className="bg-gray-100 p-2 flex items-center mb-3 rounded-lg">
+                                <div className="mb-3">
+                                    <div className="bg-gray-100 p-2 flex items-center rounded-lg">
                                         <MdPersonOutline className="text-gray-400 m-2" />
                                         <input
-                                            required
+                                            
                                             autoComplete="off"
                                             type="text"
                                             name="username"
@@ -93,7 +96,14 @@ export default function Login(props) {
                                             onChange={handleChange}
                                         />
                                     </div>
-                                    <div className="bg-gray-100 p-2 flex items-center mb-3 rounded-lg">
+                                    {errors.username && (
+                                                <div className="text-red-500 text-xs mt-1 text-start">
+                                                    {errors.username}
+                                                </div>
+                                            )}
+                                    </div>
+                                    <div className="mb-3">
+                                    <div className="bg-gray-100 p-2 flex items-center rounded-lg">
                                         <MdLockOutline className="text-gray-400 m-2" />
                                         <input
                                             required
@@ -105,6 +115,13 @@ export default function Login(props) {
                                             value={formData.password}
                                             onChange={handleChange}
                                         />
+                                    </div>
+                                    
+                                    {errors.password && (
+                                                <div className="text-red-500 text-xs mt-1 text-start">
+                                                    {errors.password}
+                                                </div>
+                                            )}
                                     </div>
                                     <div className="flex justify-end">
                                         <a
@@ -135,24 +152,9 @@ export default function Login(props) {
                         </div>
                     </div>
                     {/* Sign up */}
-                    <div className="w-2/5 bg-sky-300 text-white rounded-r-lg rounded-l-3xl py-36 px-12 hidden xl:block">
-                        <h2 className="text-3xl font-bold mb-2">
-                            Hello, Friend!
-                        </h2>
-                        <div className="border-2 w-10 border-white inline-block mb-2"></div>
-                        <p className="m-6">
-                            Don't have an account yet? Sign up now and start
-                            your journey with us.
-                        </p>
-                        <button
-                            className="border-2 border-white rounded-full px-12 py-2 inline-block font-semibold hover:bg-sky-400"
-                            onClick={handleSignUpClick}
-                        >
-                            Sign Up
-                        </button>
-                    </div>
+                    <SignInCard handleSignInClick={handleSignUpClick} />
                 </div>
             </main>
-        </div>
-    );
+        </div>
+    );
 }
