@@ -19,16 +19,12 @@ Route::get('/home', function () {
 Route::get('/register', function () {
     return Inertia::render('Register', [
         'isLoginPage' => false,
-        'handleSignUpClick' => [OauthController::class, 'login'], // Ganti dengan handler yang sesuai
-        'handleSignInClick' => [OauthController::class, 'login'], // Ganti dengan handler yang sesuai
     ]);
 });
 
 Route::get('/login', function () {
     return Inertia::render('Login', [
-        'isLoginPage' => true,
-        'handleSignUpClick' => [OauthController::class, 'login'], // Ganti dengan handler yang sesuai
-        'handleSignInClick' => [OauthController::class, 'login'], // Ganti dengan handler yang sesuai
+        'isLoginPage' => true
     ]);
 })->name('login');
 
@@ -43,4 +39,3 @@ Route::post('/oauth/register', [OauthController::class, 'register'])->middleware
 
 // POST LOGIN
 Route::post('/oauth/login', [OauthController::class, 'login'])->middleware('guest');
-
