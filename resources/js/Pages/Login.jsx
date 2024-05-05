@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { MdLockOutline, MdPersonOutline, MdError } from "react-icons/md";
 import { FaCircleCheck } from "react-icons/fa6";
 import { router, usePage } from "@inertiajs/react";
-import SignInCard from "../component/Fragments/SignInCard";
+import SignUpCard from "../component/Fragments/SignUpCard";
 
 export default function Login(props) {
     const [formData, setFormData] = useState({
@@ -11,7 +11,7 @@ export default function Login(props) {
         _token: props.csrf,
     });
 
-    const { errors, flash } = usePage().props;
+    const { errors, flash, isLoginPage } = usePage().props;
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -28,7 +28,7 @@ export default function Login(props) {
         }
     };
 
-    const handleSignUpClick = (event) => {
+    const handleSignInClick = (event) => {
         event.preventDefault();
         router.visit("/register");
     };
@@ -82,46 +82,45 @@ export default function Login(props) {
 
                             <form onSubmit={handleSubmit}>
                                 <div className="formgroup w-80 mx-auto">
-                                <div className="mb-3">
-                                    <div className="bg-gray-100 p-2 flex items-center rounded-lg">
-                                        <MdPersonOutline className="text-gray-400 m-2" />
-                                        <input
-                                            
-                                            autoComplete="off"
-                                            type="text"
-                                            name="username"
-                                            placeholder="Username"
-                                            className="bg-gray-100 outline-none text-sm flex-1"
-                                            value={formData.username}
-                                            onChange={handleChange}
-                                        />
-                                    </div>
-                                    {errors.username && (
-                                                <div className="text-red-500 text-xs mt-1 text-start">
-                                                    {errors.username}
-                                                </div>
-                                            )}
+                                    <div className="mb-3">
+                                        <div className="bg-gray-100 p-2 flex items-center rounded-lg">
+                                            <MdPersonOutline className="text-gray-400 m-2" />
+                                            <input
+                                                autoComplete="off"
+                                                type="text"
+                                                name="username"
+                                                placeholder="Username"
+                                                className="bg-gray-100 outline-none text-sm flex-1"
+                                                value={formData.username}
+                                                onChange={handleChange}
+                                            />
+                                        </div>
+                                        {errors.username && (
+                                            <div className="text-red-500 text-xs mt-1 text-start">
+                                                {errors.username}
+                                            </div>
+                                        )}
                                     </div>
                                     <div className="mb-3">
-                                    <div className="bg-gray-100 p-2 flex items-center rounded-lg">
-                                        <MdLockOutline className="text-gray-400 m-2" />
-                                        <input
-                                            required
-                                            autoComplete="off"
-                                            type="password"
-                                            name="password"
-                                            placeholder="Password"
-                                            className="bg-gray-100 outline-none text-sm flex-1"
-                                            value={formData.password}
-                                            onChange={handleChange}
-                                        />
-                                    </div>
-                                    
-                                    {errors.password && (
-                                                <div className="text-red-500 text-xs mt-1 text-start">
-                                                    {errors.password}
-                                                </div>
-                                            )}
+                                        <div className="bg-gray-100 p-2 flex items-center rounded-lg">
+                                            <MdLockOutline className="text-gray-400 m-2" />
+                                            <input
+                                                required
+                                                autoComplete="off"
+                                                type="password"
+                                                name="password"
+                                                placeholder="Password"
+                                                className="bg-gray-100 outline-none text-sm flex-1"
+                                                value={formData.password}
+                                                onChange={handleChange}
+                                            />
+                                        </div>
+
+                                        {errors.password && (
+                                            <div className="text-red-500 text-xs mt-1 text-start">
+                                                {errors.password}
+                                            </div>
+                                        )}
                                     </div>
                                     <div className="flex justify-end">
                                         <a
@@ -141,7 +140,7 @@ export default function Login(props) {
                                         Don't have an account yet?{" "}
                                         <a
                                             href="#"
-                                            onClick={handleSignUpClick}
+                                            onClick={handleSignInClick}
                                             className="text-sky-400"
                                         >
                                             Sign Up
@@ -152,9 +151,13 @@ export default function Login(props) {
                         </div>
                     </div>
                     {/* Sign up */}
-                    <SignInCard handleSignInClick={handleSignUpClick} />
+                    <SignUpCard
+                        isLoginPage={isLoginPage}
+                        handleSignInClick={handleSignInClick}
+                    />
                 </div>
             </main>
-        </div>
-    );
+             
+        </div>
+    );
 }
