@@ -8,7 +8,7 @@ Route::get('/', function () {
     return Inertia::render('Home', [
         'data' => 1,
     ]);
-});
+})->middleware('auth');
 
 Route::get('/home', function () {
     return Inertia::render('Home', [
