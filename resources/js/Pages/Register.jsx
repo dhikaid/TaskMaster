@@ -1,12 +1,12 @@
 import React from "react";
 import { usePage, router } from "@inertiajs/react";
 import FormRegister from "../component/Fragments/FormRegister";
-import SignUpCard from "../component/Fragments/SignInCard";
-import useRegisterForm from "../hook/useRegister";
+import SignUpCard from "../component/Fragments/SignUpCard";
+import useRegisterForm from "../hook/useRegisterForm";
 import AuthRegister from "../component/Layouts/AuthRegister";
 
 const Register = ({ csrf }) => {
-    const { errors } = usePage().props;
+    const { errors, isLoginPage } = usePage().props; // Mendapatkan properti isLoginPage
     const { formData, handleChange } = useRegisterForm({
         username: "",
         email: "",
@@ -25,7 +25,8 @@ const Register = ({ csrf }) => {
         }
     };
 
-    const handleSignInClick = (event) => {
+    const handleSignUpClick = (event) => {
+        console.log("1");
         event.preventDefault();
         router.visit("/login");
     };
@@ -46,12 +47,15 @@ const Register = ({ csrf }) => {
                         handleSubmit={handleSubmit}
                         handleChange={handleChange}
                         errors={errors}
-                        handleSignInClick={handleSignInClick}
+                        handleSignUpClick={handleSignUpClick}
                     />
                 </div>
             </div>
             {/* Sign up */}
-            <SignUpCard handleSignInClick={handleSignInClick} />
+            <SignUpCard
+                isLoginPage={isLoginPage}
+                handleSignUpClick={handleSignUpClick}
+            />
         </AuthRegister>
     );
 };
