@@ -2,7 +2,7 @@ import React from "react";
 import { usePage, router } from "@inertiajs/react";
 import FormRegister from "../component/Fragments/FormRegister";
 import SignUpCard from "../component/Fragments/SignUpCard";
-import useRegisterForm from "../hook/useRegister";
+import useRegisterForm from "../hook/useRegisterForm";
 import AuthRegister from "../component/Layouts/AuthRegister";
 
 const Register = ({ csrf }) => {
