@@ -1,8 +1,8 @@
 import React from "react";
 import CardLog from "../components/Layouts/CardLog";
-import FormLogin from "../components/Fragments/FormLogin";
+import FormLogin from "../components/Fragments/FormSignIn";
 
-const Login = () => {
+const SignUp = () => {
     return (
         <CardLog>
             <FormLogin />
@@ -10,4 +10,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default SignUp;

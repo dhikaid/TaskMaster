@@ -3,7 +3,13 @@ import React from "react";
 import LabelInput from "./LabelInput";
 import { MdPersonOutline, MdLockOutline } from "react-icons/md";
 
-const InputForm = ({ username, password, setUsername, setPassword, errors }) => {
+const InputFormSignUp = ({
+    username,
+    password,
+    setUsername,
+    setPassword,
+    errors,
+}) => {
     return (
         <div>
             <LabelInput
@@ -42,4 +48,4 @@ const InputForm = ({ username, password, setUsername, setPassword, errors }) => 
     );
 };
 
-export default InputForm;
+export default InputFormSignUp;
