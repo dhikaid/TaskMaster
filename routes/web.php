@@ -23,7 +23,7 @@ Route::get('/register', function () {
 });
 
 Route::get('/login', function () {
-    return Inertia::render('Login', [
+    return Inertia::render('login', [
         'isLoginPage' => true
     ]);
 })->name('login');

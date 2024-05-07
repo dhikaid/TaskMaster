@@ -1,7 +1,7 @@
 import React from "react";
 import { createInertiaApp } from "@inertiajs/react";
 import { createRoot } from "react-dom/client";
-import "../css/app.css";
+import "./index.css";
 
 createInertiaApp({
     resolve: (name) => {
