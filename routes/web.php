@@ -16,14 +16,14 @@ Route::get('/home', function () {
     ]);
 })->middleware('auth');
 
-Route::get('/register', function () {
-    return Inertia::render('Register', [
+Route::get('/signup', function () {
+    return Inertia::render('signup', [
         'isLoginPage' => false,
     ]);
 });
 
-Route::get('/login', function () {
-    return Inertia::render('login', [
+Route::get('/signin', function () {
+    return Inertia::render('signin', [
         'isLoginPage' => true
     ]);
 })->name('login');
