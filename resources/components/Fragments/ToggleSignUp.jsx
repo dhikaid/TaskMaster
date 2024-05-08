@@ -1,9 +1,10 @@
 import React from "react";
+import { router } from "@inertiajs/react";
 
-const ToggleRegister = () => {
+const ToggleSignUp = () => {
     const handleSignUpClick = (event) => {
         event.preventDefault();
-        router.visit("/register");
+        router.visit("/signup");
     };
     return (
         <div className="w-2/5 bg-sky-300 text-white rounded-r-lg rounded-l-3xl py-36 px-12 hidden xl:block">
@@ -23,4 +24,4 @@ const ToggleRegister = () => {
     );
 };
 
-export default ToggleRegister;
+export default ToggleSignUp;

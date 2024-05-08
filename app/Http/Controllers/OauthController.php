@@ -54,7 +54,7 @@ class OauthController extends Controller
             'message' => "Your account has been created. Please login!"
         ];
 
-        return redirect('/login')->with('message', $data);
+        return redirect('/signin')->with('message', $data);
     }
 
     public function logout(Request $request)
@@ -70,6 +70,6 @@ class OauthController extends Controller
             'message' => "You has been logged out from system!"
         ];
 
-        return redirect('/login')->with('message', $data);
+        return redirect('/signin')->with('message', $data);
     }
 }
