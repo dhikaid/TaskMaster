@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import InputFormSignIn from "../Elements/input/InputFormSignIn";
+import InputFormGeneric from "../Elements/input/InputFormGeneric";
 import Button from "../Elements/button/button";
 import { usePage, router } from "@inertiajs/react";
 import { FaCircleCheck } from "react-icons/fa6";
 import { MdError } from "react-icons/md";
 
-const FormSignIn = ({ csrfToken }) => {
+const FormGeneric = ({ inputs, csrf, formTitle, postRoute, isSignUp }) => {
     const [formData, setFormData] = useState({
-        username: "",
-        password: "",
-        _token: csrfToken,
+        ...inputs,
+        _token: csrf,
     });
+
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
@@ -20,17 +20,24 @@ const FormSignIn = ({ csrfToken }) => {
         event.preventDefault();
 
         try {
-            await router.post("/oauth/login", formData);
+            await router.post(postRoute, formData);
         } catch (error) {
-            console.error("Error during login:", error);
+            console.error(`Error during ${formTitle}:`, error);
         }
     };
+
     const handleSignUpClick = (event) => {
         event.preventDefault();
         router.visit("/signup");
     };
 
+    const handleSignInClick = (event) => {
+        event.preventDefault();
+        router.visit("/signin");
+    };
+
     const { errors, flash } = usePage().props;
+
     return (
         <div>
             {flash.message && (
@@ -72,41 +79,47 @@ const FormSignIn = ({ csrfToken }) => {
                     </div>
                 </div>
             )}
-            <InputFormSignIn
+            <InputFormGeneric
                 required
                 autoComplete="off"
                 username={formData.username}
+                email={formData.email}
                 password={formData.password}
-                setUsername={(value) =>
-                    handleChange({ target: { name: "username", value } })
-                }
-                setPassword={(value) =>
-                    handleChange({ target: { name: "password", value } })
-                }
+                password1={formData.password1}
+                password2={formData.password2}
+                handleChange={handleChange}
                 errors={errors}
+                isSignUp={isSignUp}
             />
-            <div className="flex justify-end">
-                <a
-                    href="#"
-                    className="text-sky-300 text-right text-xs mt-1 mr-2 mb-2"
-                >
-                    Forgot Password?
-                </a>
-            </div>
-            <input type="hidden" name="_token" value={csrfToken} />
-            <Button onClick={handleSubmit}>Sign In</Button>
+            <input type="hidden" name="_token" required value={csrf} />
+            <Button onClick={handleSubmit}>{formTitle}</Button>
             <p className="text-center mt-2 block xl:hidden text-xs my-4 pt-2">
-                Don't have an account yet?{" "}
-                <a
-                    href="#"
-                    onClick={handleSignUpClick}
-                    className="text-sky-400"
-                >
-                    Sign Up
-                </a>
+                {isSignUp ? (
+                    <>
+                        Already have an account?{" "}
+                        <a
+                            href="#"
+                            onClick={handleSignInClick}
+                            className="text-sky-400"
+                        >
+                            Sign In
+                        </a>
+                    </>
+                ) : (
+                    <>
+                        Don't have an account yet?{" "}
+                        <a
+                            href="#"
+                            onClick={handleSignUpClick}
+                            className="text-sky-400"
+                        >
+                            Sign Up
+                        </a>
+                    </>
+                )}
             </p>
         </div>
     );
 };
 
-export default FormSignIn;
+export default FormGeneric;

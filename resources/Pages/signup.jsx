@@ -1,13 +1,28 @@
+// Di halaman Sign Up
 import React from "react";
-import CardSignUp from "../components/Layouts/CardSignUp";
-import FormSignUp from "../components/Fragments/FormSignUp";
-import ToggleSignIn from "../components/Fragments/ToggleSignIn";
+import CardGeneric from "../components/Layouts/CardGeneric";
+import FormGeneric from "../components/Fragments/FormGeneric";
 
 const SignUp = () => {
+    const inputs = {
+        username: "",
+        email: "",
+        password1: "",
+        password2: "",
+    };
+    const handleChange = (event) => {};
+    const csrfToken = "";
     return (
-        <CardSignUp>
-            <FormSignUp />
-        </CardSignUp>
+        <CardGeneric isSignUp={true}>
+            <FormGeneric
+                inputs={inputs}
+                csrfToken={csrfToken}
+                formTitle="Sign Up"
+                postRoute="/oauth/signup"
+                isSignUp={true}
+                handleChange={handleChange}
+            />
+        </CardGeneric>
     );
 };
 

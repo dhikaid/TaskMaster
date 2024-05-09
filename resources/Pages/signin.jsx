@@ -1,13 +1,26 @@
 import React from "react";
-import CardSignIn from "../components/Layouts/CardSignIn";
-import FormSignIn from "../components/Fragments/FormSignIn";
+import CardGeneric from "../components/Layouts/CardGeneric";
+import FormGeneric from "../components/Fragments/FormGeneric";
 
-const SignUp = () => {
+const SignIn = () => {
+    const inputs = {
+        username: "",
+        password: "",
+    };
+    const handleChange = (event) => {};
+    const csrfToken = "";
     return (
-        <CardSignIn>
-            <FormSignIn />
-        </CardSignIn>
+        <CardGeneric isSignUp={false}>
+            <FormGeneric
+                inputs={inputs}
+                csrfToken={csrfToken}
+                formTitle="Sign In"
+                postRoute="/oauth/signin"
+                isSignUp={false}
+                handleChange={handleChange}
+            />
+        </CardGeneric>
     );
 };
 
-export default SignUp;
+export default SignIn;
