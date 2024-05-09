@@ -34,8 +34,8 @@ Route::get('/test', function () {
     return view('home');
 });
 
-// POST REGISTER
-Route::post('/oauth/register', [OauthController::class, 'register'])->middleware('guest');
+// POST SIGNUP
+Route::post('/oauth/signup', [OauthController::class, 'signup'])->middleware('guest');
 
-// POST LOGIN
-Route::post('/oauth/login', [OauthController::class, 'login'])->middleware('guest');
+// POST SIGNIN
+Route::post('/oauth/signin', [OauthController::class, 'signin'])->middleware('guest');

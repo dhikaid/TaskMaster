@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Auth;
 class OauthController extends Controller
 {
 
-    // login
-    public function login(Request $request)
+    // signin
+    public function signin(Request $request)
     {
         $validatedData = $request->validate([
             'username' => "required",
@@ -30,7 +30,8 @@ class OauthController extends Controller
         return  back()->with('message', $data);
     }
 
-    public function register(Request $request)
+    // signup
+    public function signup(Request $request)
     {
         $validatedData = $request->validate([
             'username' => "required|unique:users,username",
@@ -51,12 +52,13 @@ class OauthController extends Controller
 
         $data = [
             'status' => 200,
-            'message' => "Your account has been created. Please login!"
+            'message' => "Your account has been created. Please signin!"
         ];
 
         return redirect('/signin')->with('message', $data);
     }
 
+    // logout
     public function logout(Request $request)
     {
         Auth::logout();
