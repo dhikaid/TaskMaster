@@ -39,3 +39,9 @@ Route::post('/oauth/signup', [OauthController::class, 'signup'])->middleware('gu
 
 // POST SIGNIN
 Route::post('/oauth/signin', [OauthController::class, 'signin'])->middleware('guest');
+
+Route::get('/forgetPassword', function () {
+    return Inertia::render('forgetPassword', [
+        'isLoginPage' => false,
+    ]);
+});
