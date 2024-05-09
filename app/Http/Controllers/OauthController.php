@@ -15,7 +15,7 @@ class OauthController extends Controller
     {
         $validatedData = $request->validate([
             'username' => "required",
-            'password' => "required|min:8"
+            'password' => "required|min:8",
         ]);
 
         if (Auth::attempt($validatedData)) {
@@ -73,5 +73,21 @@ class OauthController extends Controller
         ];
 
         return redirect('/signin')->with('message', $data);
+    }
+
+
+    // forgot
+
+    public function forgot(Request $request)
+    {
+
+        $validatedData = $request->validate([
+            'email' => 'required'
+        ]);
+
+
+        if (User::where($request->email)) {
+            return dd('awikwok');
+        }
     }
 }

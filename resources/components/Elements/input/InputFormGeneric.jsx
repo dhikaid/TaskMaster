@@ -48,7 +48,6 @@ const InputFormGeneric = ({
                         onChange={handleChange}
                         className="bg-gray-100 outline-none text-sm flex-1 text-start"
                     />
-                    <input type="hidden" name="_token" required value={csrf} />
                 </LabelInput>
             )}
             <LabelInput
