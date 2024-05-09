@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import InputForm from "../Elements/input/InputFormSignIn";
+import InputFormSignIn from "../Elements/input/InputFormSignIn";
 import Button from "../Elements/button/button";
 import { usePage, router } from "@inertiajs/react";
 import { FaCircleCheck } from "react-icons/fa6";
 import { MdError } from "react-icons/md";
 
-const FormLogin = ({ csrfToken }) => {
+const FormSignIn = ({ csrfToken }) => {
     const [formData, setFormData] = useState({
         username: "",
         password: "",
@@ -27,7 +27,7 @@ const FormLogin = ({ csrfToken }) => {
     };
     const handleSignUpClick = (event) => {
         event.preventDefault();
-        router.visit("/register");
+        router.visit("/signup");
     };
 
     const { errors, flash } = usePage().props;
@@ -35,9 +35,11 @@ const FormLogin = ({ csrfToken }) => {
         <div>
             {flash.message && (
                 <div
-                    className={`bg-gray-100 border-t-4  max-w-80 border-${
-                        flash.message.status === 200 ? "green" : "red"
-                    }-500 border-1 rounded-lg p-1 mb-4 flex items-center`}
+                    className={`bg-gray-100 border-t-4 max-w-80 ${
+                        flash.message.status === 200
+                            ? "border-green-500"
+                            : "border-red-500"
+                    } border-1 rounded-lg p-1 mb-4 flex items-center`}
                 >
                     <div className="flex items-center justify-center rounded-l-lg mr-2 px-2">
                         {flash.message.status === 200 ? (
@@ -47,18 +49,30 @@ const FormLogin = ({ csrfToken }) => {
                         )}
                     </div>
                     <div>
-                        <h2 className="font-bold text-md text-left text-green-500">
+                        <h2
+                            className={`font-bold text-md text-left ${
+                                flash.message.status === 200
+                                    ? "text-green-500"
+                                    : "text-red-500"
+                            }`}
+                        >
                             {flash.message.status === 200
                                 ? "Success!"
                                 : "Error!"}
                         </h2>
-                        <p className="text-sm text-start text-red-500">
+                        <p
+                            className={`text-sm text-start ${
+                                flash.message.status === 200
+                                    ? "text-green-500"
+                                    : "text-red-500"
+                            }`}
+                        >
                             {flash.message.message}
                         </p>
                     </div>
                 </div>
             )}
-            <InputForm
+            <InputFormSignIn
                 required
                 autoComplete="off"
                 username={formData.username}
@@ -79,7 +93,6 @@ const FormLogin = ({ csrfToken }) => {
                     Forgot Password?
                 </a>
             </div>
-
             <input type="hidden" name="_token" value={csrfToken} />
             <Button onClick={handleSubmit}>Sign In</Button>
             <p className="text-center mt-2 block xl:hidden text-xs my-4 pt-2">
@@ -96,4 +109,4 @@ const FormLogin = ({ csrfToken }) => {
     );
 };
 
-export default FormLogin;
+export default FormSignIn;

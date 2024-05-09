@@ -1,6 +1,6 @@
 import React from "react";
-import RightSide from "../Fragments/RightSide";
-const CardLog = ({ children }) => {
+import ToggleSignUp from "../Fragments/ToggleSignUp";
+const CardSignIn = ({ children }) => {
     return (
         <div className="flex flex-col items-center min-h-screen py-2 bg-gray-100 relative">
             <header>
@@ -21,11 +21,11 @@ const CardLog = ({ children }) => {
                         </div>
                     </div>
                     {/* <RightSide /> */}
-                    <RightSide />
+                    <ToggleSignUp />
                 </div>
             </main>
         </div>
     );
 };
 
-export default CardLog;
+export default CardSignIn;

@@ -1,18 +1,14 @@
-// InputForm.jsx
 import React from "react";
 import LabelInput from "./LabelInput";
-import { FaRegEnvelope } from "react-icons/fa";
 import { MdPersonOutline, MdLockOutline } from "react-icons/md";
+import { FaRegEnvelope } from "react-icons/fa";
 
-const InputFormSignIn = ({
+const InputFormSignUp = ({
     username,
     email,
     password1,
     password2,
-    setUsername,
-    setEmail,
-    setPassword1,
-    setPassword2,
+    handleChange,
     errors,
 }) => {
     return (
@@ -29,7 +25,7 @@ const InputFormSignIn = ({
                     name="username"
                     placeholder="Enter your username"
                     value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    onChange={handleChange}
                     className="bg-gray-100 outline-none text-sm flex-1 text-start"
                 />
             </LabelInput>
@@ -45,7 +41,7 @@ const InputFormSignIn = ({
                     name="email"
                     placeholder="Enter your email"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={handleChange}
                     className="bg-gray-100 outline-none text-sm flex-1 text-start"
                 />
             </LabelInput>
@@ -61,12 +57,12 @@ const InputFormSignIn = ({
                     name="password1"
                     placeholder="Enter your password"
                     value={password1}
-                    onChange={(e) => setPassword1(e.target.value)}
+                    onChange={handleChange}
                     className="bg-gray-100 outline-none text-sm flex-1 text-start"
                 />
             </LabelInput>
             <LabelInput
-                label="Password"
+                label="Confirm Password"
                 icon={<MdLockOutline className="text-gray-400 m-2" />}
                 error={errors.password2}
             >
@@ -77,7 +73,7 @@ const InputFormSignIn = ({
                     name="password2"
                     placeholder="Confirm your password"
                     value={password2}
-                    onChange={(e) => setPassword2(e.target.value)}
+                    onChange={handleChange}
                     className="bg-gray-100 outline-none text-sm flex-1 text-start"
                 />
             </LabelInput>
@@ -85,4 +81,4 @@ const InputFormSignIn = ({
     );
 };
 
-export default InputFormSignIn;
+export default InputFormSignUp;
