@@ -5,10 +5,9 @@ import { usePage, router } from "@inertiajs/react";
 import { FaCircleCheck } from "react-icons/fa6";
 import { MdError } from "react-icons/md";
 
-const FormGeneric = ({ inputs, csrf, formTitle, postRoute, isSignUp }) => {
+const FormGeneric = ({ inputs, formTitle, postRoute, isSignUp }) => {
     const [formData, setFormData] = useState({
         ...inputs,
-        _token: csrf,
     });
 
     const handleChange = (event) => {
@@ -36,8 +35,7 @@ const FormGeneric = ({ inputs, csrf, formTitle, postRoute, isSignUp }) => {
         router.visit("/signin");
     };
 
-    const { errors, flash } = usePage().props;
-
+    const { errors, flash, csrf } = usePage().props;
     return (
         <div>
             {flash.message && (
@@ -92,7 +90,18 @@ const FormGeneric = ({ inputs, csrf, formTitle, postRoute, isSignUp }) => {
                 isSignUp={isSignUp}
             />
             <input type="hidden" name="_token" required value={csrf} />
+            {!isSignUp && (
+                <div className="flex justify-end">
+                    <a
+                        href="/forget"
+                        className="text-sky-300 text-right text-xs mt-1 mr-2 mb-2"
+                    >
+                        Forgot Password?
+                    </a>
+                </div>
+            )}
             <Button onClick={handleSubmit}>{formTitle}</Button>
+
             <p className="text-center mt-2 block xl:hidden text-xs my-4 pt-2">
                 {isSignUp ? (
                     <>

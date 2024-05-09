@@ -16,7 +16,6 @@ const SignUp = () => {
         <CardGeneric isSignUp={true}>
             <FormGeneric
                 inputs={inputs}
-                csrfToken={csrfToken}
                 formTitle="Sign Up"
                 postRoute="/oauth/signup"
                 isSignUp={true}
