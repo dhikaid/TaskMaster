@@ -87,7 +87,13 @@ class OauthController extends Controller
 
 
         if (User::where($request->email)) {
-            return dd('awikwok');
         }
+
+        $data = [
+            'status' => 200,
+            'message' => "If your account is correct, a forget password link will be sent to your email address."
+        ];
+
+        return redirect('/forgot')->with('message', $data);
     }
 }
