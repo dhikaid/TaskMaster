@@ -6,4 +6,9 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+
+    // halaman utama
+    public function index()
+    {
+    }
 }
