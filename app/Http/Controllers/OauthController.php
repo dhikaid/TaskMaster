@@ -6,6 +6,7 @@ use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
 
 class OauthController extends Controller
 {
@@ -87,6 +88,7 @@ class OauthController extends Controller
 
 
         if (User::where($request->email)) {
+            $token = Password::sendResetLink($request->email);
         }
 
         $data = [
