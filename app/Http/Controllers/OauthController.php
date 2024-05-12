@@ -94,6 +94,6 @@ class OauthController extends Controller
             'message' => "If your account is correct, a forget password link will be sent to your email address."
         ];
 
-        return redirect('/forgot')->with('message', $data);
+        return redirect('/resetPassword')->with('message', $data);
     }
 }

@@ -1,11 +1,12 @@
 import React from "react";
+import FormForgot from "../Fragments/FormForgot";
 import ToggleGeneric from "../Fragments/ToggleGeneric";
 
-const CardGeneric = ({ children, isSignUp }) => {
+const CardForgot = ({ children, isSignUp, isForgot }) => {
     return (
         <div className="flex flex-col items-center min-h-screen py-2 bg-gray-100 relative">
             <header>
-                <title>{isSignUp ? "Sign Up" : "Sign In"}</title>
+                <title>{isForgot ? "Forgot Password" : "Reset Password"}</title>
             </header>
             <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
                 <div className="bg-white rounded-2xl shadow-2xl flex flex-col md:flex-row md:w-2/3 max-w-4xl relative">
@@ -15,7 +16,9 @@ const CardGeneric = ({ children, isSignUp }) => {
                         </div>
                         <div className="py-10">
                             <h2 className="text-3xl font-bold text-sky-300 mb-2 text-center">
-                                {isSignUp ? "Sign Up" : "Sign In"}
+                                {isForgot
+                                    ? "Forgot Your Password"
+                                    : "Reset Your Password"}
                             </h2>
                             <div className="border-2 w-20 border-sky-300 inline-block mb-2"></div>
                             <form method="POST">{children}</form>
@@ -28,4 +31,4 @@ const CardGeneric = ({ children, isSignUp }) => {
     );
 };
 
-export default CardGeneric;
+export default CardForgot;
