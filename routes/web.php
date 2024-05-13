@@ -34,12 +34,13 @@ Route::get('/signin', function () {
 })->name('login');
 
 // HALAMAN FORGOT
-Route::get('/forget', function () {
-    return Inertia::render('forgetPassword', [
-        'isLoginPage' => false,
-    ]);
+Route::get('/forgot', function () {
+    return Inertia::render('forgot');
 })->middleware('guest');
 
+Route::get('/resetPassword', function () {
+    return Inertia::render('resetPassword');
+})->middleware('guest');
 // POST SIGNUP
 Route::post('/oauth/signup', [OauthController::class, 'signup'])->middleware('guest');
 

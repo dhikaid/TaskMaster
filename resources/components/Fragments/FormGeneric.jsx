@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import InputFormGeneric from "../Elements/input/InputFormGeneric";
 import Button from "../Elements/button/button";
-import { usePage, router } from "@inertiajs/react";
+import { usePage, router, Link } from "@inertiajs/react";
 import { FaCircleCheck } from "react-icons/fa6";
 import { MdError } from "react-icons/md";
 
@@ -93,7 +93,7 @@ const FormGeneric = ({ inputs, formTitle, postRoute, isSignUp }) => {
             {!isSignUp && (
                 <div className="flex justify-end">
                     <a
-                        href="/forget"
+                        href="/forgot"
                         className="text-sky-300 text-right text-xs mt-1 mr-2 mb-2"
                     >
                         Forgot Password?
@@ -106,24 +106,24 @@ const FormGeneric = ({ inputs, formTitle, postRoute, isSignUp }) => {
                 {isSignUp ? (
                     <>
                         Already have an account?{" "}
-                        <a
+                        <Link
                             href="#"
                             onClick={handleSignInClick}
                             className="text-sky-400"
                         >
                             Sign In
-                        </a>
+                        </Link>
                     </>
                 ) : (
                     <>
                         Don't have an account yet?{" "}
-                        <a
+                        <Link
                             href="#"
                             onClick={handleSignUpClick}
                             className="text-sky-400"
                         >
                             Sign Up
-                        </a>
+                        </Link>
                     </>
                 )}
             </p>
