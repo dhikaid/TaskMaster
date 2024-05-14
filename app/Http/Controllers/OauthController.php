@@ -88,6 +88,7 @@ class OauthController extends Controller
         $validatedData = $request->validate([
             'email' => 'required|exists:users,email'
         ]);
+
     
         // Jika email ada di database, buat token reset password
         $token = Str::random(60);
@@ -104,7 +105,6 @@ class OauthController extends Controller
     
         // Kirim email reset password
         Mail::to($request->email)->send(new ResetPasswordMail($resetUrl));
-    
         $data = [
             'status' => 200,
             'message' => "If your account is correct, a forget password link will be sent to your email address."
