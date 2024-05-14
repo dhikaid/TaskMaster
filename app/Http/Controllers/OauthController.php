@@ -6,7 +6,12 @@ use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use Carbon\Carbon;
+use App\Mail\ResetPasswordMail;
+use Illuminate\Support\Facades\Hash;
 
 class OauthController extends Controller
 {
@@ -78,24 +83,34 @@ class OauthController extends Controller
 
 
     // forgot
-
     public function forgot(Request $request)
     {
-
         $validatedData = $request->validate([
-            'email' => 'required'
+            'email' => 'required|exists:users,email'
         ]);
 
-
-        if (User::where($request->email)) {
-            $token = Password::sendResetLink($request->email);
-        }
-
+    
+        // Jika email ada di database, buat token reset password
+        $token = Str::random(60);
+    
+        // Simpan token di database
+        DB::table('password_reset_tokens')->insert([
+            'email' => $request->email,
+            'token' => Hash::make($token),
+            'created_at' => Carbon::now()
+        ]);
+    
+        // Buat URL reset password
+        $resetUrl = url('/reset-password?token=' . $token);
+    
+        // Kirim email reset password
+        Mail::to($request->email)->send(new ResetPasswordMail($resetUrl));
         $data = [
             'status' => 200,
             'message' => "If your account is correct, a forget password link will be sent to your email address."
         ];
-
+    
         return redirect('/resetPassword')->with('message', $data);
     }
+    
 }

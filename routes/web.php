@@ -52,3 +52,7 @@ Route::post('/oauth/forgot')->middleware('guest');
 
 // POST LOGOUT
 Route::post('/logout', [OauthController::class, 'logout'])->middleware('auth');
+
+Route::post('/oauth/forgot', [OauthController::class, 'forgot'])->middleware('guest');
+
+Route::post('/oauth/resetPassword', [OauthController::class, 'resetPassword'])->middleware('guest');
