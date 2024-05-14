@@ -38,9 +38,10 @@ Route::get('/forgot', function () {
     return Inertia::render('forgot');
 })->middleware('guest');
 
-Route::get('/resetPassword', function () {
+Route::get('/forgot/{token}', function (string $token) {
     return Inertia::render('resetPassword');
-})->middleware('guest');
+})->middleware('guest')->name('password.reset');
+
 // POST SIGNUP
 Route::post('/oauth/signup', [OauthController::class, 'signup'])->middleware('guest');
 
