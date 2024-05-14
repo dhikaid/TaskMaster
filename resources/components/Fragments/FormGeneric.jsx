@@ -117,13 +117,9 @@ const FormGeneric = ({ inputs, formTitle, postRoute, isSignUp }) => {
                 ) : (
                     <>
                         Don't have an account yet?{" "}
-                        <Link
-                            href="#"
-                            onClick={handleSignUpClick}
-                            className="text-sky-400"
-                        >
+                        <a onClick={handleSignUpClick} className="text-sky-400">
                             Sign Up
-                        </Link>
+                        </a>
                     </>
                 )}
             </p>
