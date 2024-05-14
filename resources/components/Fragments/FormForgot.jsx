@@ -89,13 +89,9 @@ const FormForgot = ({
 
             <p className="text-center mt-2 block xl:hidden text-xs my-4 pt-2">
                 Already have an account?{" "}
-                <Link
-                    href="#"
-                    onClick={handleSignInClick}
-                    className="text-sky-400"
-                >
+                <a onClick={handleSignInClick} className="text-sky-400">
                     Sign In
-                </Link>
+                </a>
             </p>
         </div>
     );
