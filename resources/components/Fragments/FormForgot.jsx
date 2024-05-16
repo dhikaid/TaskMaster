@@ -1,7 +1,7 @@
 import React from "react";
 import InputFormForgot from "../Elements/input/InputFormForgot";
 import Button from "../Elements/button/button";
-import { usePage, router, Link } from "@inertiajs/react";
+import { usePage, router } from "@inertiajs/react";
 import { FaCircleCheck } from "react-icons/fa6";
 import { MdError } from "react-icons/md";
 
@@ -24,17 +24,19 @@ const FormForgot = ({
             console.error("Error during password reset:", error);
         }
     };
+
     const handleSignInClick = (event) => {
         event.preventDefault();
         router.visit("/signin");
     };
 
     const { errors, csrf, flash } = usePage().props;
+
     return (
-        <div className="mt-10">
+        <div>
             {flash.message && (
                 <div
-                    className={`bg-gray-100 border-t-4 max-w-80 ${
+                    className={`bg-gray-100 border-t-4 max-w-80 mx-auto ${
                         flash.message.status === 200
                             ? "border-green-500"
                             : "border-red-500"
@@ -70,6 +72,13 @@ const FormForgot = ({
                         </p>
                     </div>
                 </div>
+            )}
+            {!flash.message && (
+                <p className="text-sm mb-5 text-slate-400  text-center">
+                    {isForgot
+                        ? "Please enter the email address you'd like your password reset information sent to."
+                        : "Enter the new password, now you can change it"}
+                </p>
             )}
             <InputFormForgot
                 required
