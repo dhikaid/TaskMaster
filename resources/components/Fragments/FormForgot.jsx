@@ -25,11 +25,6 @@ const FormForgot = ({
         }
     };
 
-    const handleSignInClick = (event) => {
-        event.preventDefault();
-        router.visit("/signin");
-    };
-
     const { errors, csrf, flash } = usePage().props;
 
     return (
@@ -98,7 +93,7 @@ const FormForgot = ({
 
             <p className="text-center mt-2 block xl:hidden text-xs my-4 pt-2">
                 Already have an account?{" "}
-                <a onClick={handleSignInClick} className="text-sky-400">
+                <a onClick={handleSubmit} className="text-sky-400">
                     Sign In
                 </a>
             </p>

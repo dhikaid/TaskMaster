@@ -8,29 +8,28 @@ const InputFormForgot = ({
     password2,
     handleChange,
     errors,
-    csrf,
+    csrfToken,
     isForgot,
 }) => {
     return (
         <div>
-            {isForgot && (
-                <LabelInput
-                    label="Email"
-                    icon={<FaRegEnvelope className="text-gray-400 m-2" />}
-                    error={errors.email}
-                >
-                    <input
-                        required
-                        autoComplete="off"
-                        type="email"
-                        name="email"
-                        placeholder="Enter your email"
-                        value={email}
-                        onChange={handleChange}
-                        className="bg-gray-100 outline-none text-sm flex-1 text-start"
-                    />
-                </LabelInput>
-            )}
+            <LabelInput
+                label="Email"
+                icon={<FaRegEnvelope className="text-gray-400 m-2" />}
+                error={errors.email}
+            >
+                <input
+                    required
+                    autoComplete="off"
+                    type="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={handleChange}
+                    className="bg-gray-100 outline-none text-sm flex-1 text-start"
+                />
+            </LabelInput>
+
             {!isForgot && (
                 <>
                     <LabelInput
@@ -67,7 +66,7 @@ const InputFormForgot = ({
                     </LabelInput>
                 </>
             )}
-            <input type="hidden" name="_token" required value={csrf} />
+            <input type="hidden" name="_token" required value={csrfToken} />
         </div>
     );
 };
