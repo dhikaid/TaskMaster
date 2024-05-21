@@ -10,6 +10,7 @@ const InputFormForgot = ({
     errors,
     csrfToken,
     isForgot,
+    tokenReset,
 }) => {
     return (
         <div>
@@ -27,6 +28,7 @@ const InputFormForgot = ({
                     value={email}
                     onChange={handleChange}
                     className="bg-gray-100 outline-none text-sm flex-1 text-start"
+                    disabled
                 />
             </LabelInput>
 
@@ -67,6 +69,7 @@ const InputFormForgot = ({
                 </>
             )}
             <input type="hidden" name="_token" required value={csrfToken} />
+            <input type="hidden" name="token" required value={tokenReset} />
         </div>
     );
 };

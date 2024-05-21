@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import FormForgot from "../components/Fragments/FormForgot";
 import CardForgot from "../components/Layouts/CardForgot";
 
-const ResetPassword = () => {
+const ResetPassword = ({ email, tokenReset }) => {
     const [password1, setPassword1] = useState("");
     const [password2, setPassword2] = useState("");
     const handleChange = (event) => {
@@ -14,6 +14,8 @@ const ResetPassword = () => {
     return (
         <CardForgot isSignUp={true} isForgot={false}>
             <FormForgot
+                tokenReset={tokenReset}
+                email={email}
                 password1={password1}
                 password2={password2}
                 handleChange={handleChange}

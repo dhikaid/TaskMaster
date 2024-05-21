@@ -11,6 +11,7 @@ const FormForgot = ({
     password2,
     handleChange,
     isForgot,
+    tokenReset,
 }) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -83,8 +84,9 @@ const FormForgot = ({
                 password2={password2}
                 handleChange={handleChange}
                 errors={errors}
-                csrf={csrf}
+                csrfToken={csrf}
                 isForgot={isForgot}
+                tokenReset={tokenReset}
             />
             <div className="mt-16"></div>
             <Button onClick={handleSubmit}>
