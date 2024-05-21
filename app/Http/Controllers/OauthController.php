@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Auth\Events\PasswordReset;
 
 class OauthController extends Controller
 {
@@ -98,5 +101,69 @@ class OauthController extends Controller
     }
 
     // forgot token
+    public function forgetPassword(Request $request, string $token)
+    {
 
+        if ($request->email && $user = User::where('email', $request->email)->first()) {
+            if (Password::tokenExists($user, $token)) {
+                $data = [
+                    "email" => $request->email,
+                    'tokenReset' => $token,
+                ];
+                return Inertia::render('resetPassword', $data);
+            }
+        }
+
+        return redirect('/forgot');
+    }
+
+    // forgot reset
+
+    public function resetPassword(Request $request)
+    {
+        if ($request->email && $user = User::where('email', $request->email)->first()) {
+            $validatedData = $request->validate([
+                'token' => 'required',
+                'email' => "email:rfc,dns|required|exists:users,email",
+                'password1' => "required|min:8",
+                'password2' => "required|min:8|same:password1",
+            ]);
+            if (Password::tokenExists($user, $validatedData['token'])) {
+                $data = [
+                    "email" => $request->email,
+                ];
+                $validasi = [
+                    'token' => $validatedData['token'],
+                    'email' => $request->email,
+                    'password' => $validatedData['password1'],
+                    'password_confirmation' => $validatedData['password2'],
+                ];
+                $status = Password::reset(
+                    $validasi,
+                    function (User $user, string $password) {
+                        $user->forceFill([
+                            'password' => Hash::make($password)
+                        ])->setRememberToken(Str::random(60));
+
+                        $user->save();
+
+                        event(new PasswordReset($user));
+                    }
+                );
+
+                $data = [
+                    'status' => 200,
+                    'message' => "Your account has been reset! Please login",
+                ];
+                return redirect('signin')->with('message', $data);
+            }
+        }
+
+
+        $data = [
+            'status' => 419,
+            'message' => "Token or something must be valid",
+        ];
+        return redirect()->back()->with('message', $data);
+    }
 }
