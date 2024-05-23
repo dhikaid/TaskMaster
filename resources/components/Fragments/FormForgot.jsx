@@ -95,7 +95,7 @@ const FormForgot = ({
 
             <p className="text-center mt-2 block xl:hidden text-xs my-4 pt-2">
                 Already have an account?{" "}
-                <a onClick={handleSubmit} className="text-sky-400">
+                <a onClick={handleSubmit} className="text-blue-500">
                     Sign In
                 </a>
             </p>

@@ -21,7 +21,7 @@ const SideBar = ({ selectedGroup, onSelectGroup }) => {
     ];
 
     return (
-        <aside className="w-64 bg-blue-700 text-white p-4">
+        <aside className="w-64 bg-blue-500 text-white p-4">
             <h3 className="text-2xl font-semibold my-2">Task Master</h3>
             <div className="border-2 w-28 border-white inline-block mb-6 ml-5"></div>
             <ul>
@@ -30,7 +30,7 @@ const SideBar = ({ selectedGroup, onSelectGroup }) => {
                         <button
                             className={`flex items-center px-4 py-2 rounded ${
                                 selectedGroup === group.name
-                                    ? "bg-blue-500"
+                                    ? "bg-blue-600"
                                     : ""
                             }`}
                             onClick={() => onSelectGroup(group.name)}

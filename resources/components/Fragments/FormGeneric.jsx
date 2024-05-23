@@ -94,7 +94,7 @@ const FormGeneric = ({ inputs, formTitle, postRoute, isSignUp }) => {
                 <div className="flex justify-end">
                     <a
                         href="/forgot"
-                        className="text-sky-300 text-right text-xs mt-1 mr-2 mb-2"
+                        className="text-blue-500 text-right text-xs mt-1 mr-2 mb-2"
                     >
                         Forgot Password?
                     </a>
