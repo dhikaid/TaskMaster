@@ -8,7 +8,6 @@ const InputFormForgot = ({
     password2,
     handleChange,
     errors,
-    csrfToken,
     isForgot,
     tokenReset,
 }) => {
@@ -28,7 +27,7 @@ const InputFormForgot = ({
                     value={email}
                     onChange={handleChange}
                     className="bg-gray-100 outline-none text-sm flex-1 text-start"
-                    disabled
+                    disabled={!isForgot}
                 />
             </LabelInput>
 
@@ -68,8 +67,7 @@ const InputFormForgot = ({
                     </LabelInput>
                 </>
             )}
-            <input type="hidden" name="_token" required value={csrfToken} />
-            <input type="hidden" name="token" required value={tokenReset} />
+            <input type="text" name="token" required value={tokenReset} />
         </div>
     );
 };

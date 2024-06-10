@@ -109,7 +109,7 @@ const FormGeneric = ({ inputs, formTitle, postRoute, isSignUp }) => {
                         <Link
                             href="#"
                             onClick={handleSignInClick}
-                            className="text-sky-400"
+                            className="text-blue-500"
                         >
                             Sign In
                         </Link>
@@ -117,7 +117,11 @@ const FormGeneric = ({ inputs, formTitle, postRoute, isSignUp }) => {
                 ) : (
                     <>
                         Don't have an account yet?{" "}
-                        <a onClick={handleSignUpClick} className="text-sky-400">
+                        <a
+                            href="#"
+                            onClick={handleSignUpClick}
+                            className="text-blue-500"
+                        >
                             Sign Up
                         </a>
                     </>
