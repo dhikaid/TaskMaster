@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { usePage } from "@inertiajs/react";
 import FormForgot from "../components/Fragments/FormForgot";
 import CardForgot from "../components/Layouts/CardForgot";
 
-const ResetPassword = ({ email, tokenReset }) => {
+const ResetPassword = ({ tokenReset }) => {
+    const { email } = usePage().props;
     const [password1, setPassword1] = useState("");
     const [password2, setPassword2] = useState("");
     const handleChange = (event) => {

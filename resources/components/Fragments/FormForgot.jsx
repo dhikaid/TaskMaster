@@ -11,7 +11,6 @@ const FormForgot = ({
     password2,
     handleChange,
     isForgot,
-    tokenReset,
 }) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -26,8 +25,12 @@ const FormForgot = ({
         }
     };
 
-    const { errors, csrf, flash } = usePage().props;
-
+    const { errors, csrf, flash, tokenReset } = usePage().props;
+    const handleSignInClick = (event) => {
+        event.preventDefault();
+        router.visit("/signin");
+    };
+    console.log(tokenReset);
     return (
         <div>
             {flash.message && (
@@ -95,7 +98,11 @@ const FormForgot = ({
 
             <p className="text-center mt-2 block xl:hidden text-xs my-4 pt-2">
                 Already have an account?{" "}
-                <a onClick={handleSubmit} className="text-blue-500">
+                <a
+                    href="#"
+                    onClick={handleSignInClick}
+                    className="text-blue-500"
+                >
                     Sign In
                 </a>
             </p>

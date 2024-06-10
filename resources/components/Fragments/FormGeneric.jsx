@@ -118,6 +118,7 @@ const FormGeneric = ({ inputs, formTitle, postRoute, isSignUp }) => {
                     <>
                         Don't have an account yet?{" "}
                         <a
+                            href="#"
                             onClick={handleSignUpClick}
                             className="text-blue-500"
                         >
