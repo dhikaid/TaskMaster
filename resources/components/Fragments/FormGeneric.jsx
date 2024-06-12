@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import InputFormGeneric from "../Elements/input/InputFormGeneric";
-import Button from "../Elements/button/button";
+import Button from "../Elements/button/Button";
 import { usePage, router, Link } from "@inertiajs/react";
 import { FaCircleCheck } from "react-icons/fa6";
 import { MdError } from "react-icons/md";
