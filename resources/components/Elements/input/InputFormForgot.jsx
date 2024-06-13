@@ -9,7 +9,6 @@ const InputFormForgot = ({
     handleChange,
     errors,
     isForgot,
-    tokenReset,
 }) => {
     return (
         <div>
@@ -67,7 +66,6 @@ const InputFormForgot = ({
                     </LabelInput>
                 </>
             )}
-            <input type="text" name="token" required value={tokenReset} />
         </div>
     );
 };

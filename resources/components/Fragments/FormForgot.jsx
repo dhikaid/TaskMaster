@@ -1,6 +1,6 @@
 import React from "react";
 import InputFormForgot from "../Elements/input/InputFormForgot";
-import Button from "../Elements/button/button";
+import Button from "../Elements/button/Button";
 import { usePage, router } from "@inertiajs/react";
 import { FaCircleCheck } from "react-icons/fa6";
 import { MdError } from "react-icons/md";
@@ -30,7 +30,7 @@ const FormForgot = ({
         event.preventDefault();
         router.visit("/signin");
     };
-    console.log(tokenReset);
+
     return (
         <div>
             {flash.message && (
