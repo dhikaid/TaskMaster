@@ -12,9 +12,8 @@ const Navbar = () => {
         router.post("/logout");
     };
     return (
-        <nav className="p-4 flex justify-between text-slate-700 items-center fixed w-full z-10 border-b-2 border-b-slate-200 border-white">
+        <nav className="p-4 flex justify-between text-slate-700 items-center fixed w-full border-b-2 border-b-slate-200 bg-white z-10 shadow-md">
             <div className="text-xl font-semibold ml-4">Task Master</div>
-            <div className="text-xl font-semibold">Task</div>
             <div className="relative">
                 <button
                     className="flex items-center focus:outline-none mr-4"
@@ -27,31 +26,31 @@ const Navbar = () => {
                     <div className="absolute right-0 mt-2 w-48 bg-white text-slate-800 rounded-lg shadow-lg z-20">
                         <a
                             href="#"
-                            className="block px-4 py-2 hover:bg-gray-200"
+                            className="block px-4 py-2 hover:bg-neutral-100"
                         >
                             Profile & Visibility
                         </a>
                         <a
                             href="#"
-                            className="block px-4 py-2 hover:bg-gray-200"
+                            className="block px-4 py-2 hover:bg-neutral-100"
                         >
                             Activity
                         </a>
                         <a
                             href="#"
-                            className="block px-4 py-2 hover:bg-gray-200"
+                            className="block px-4 py-2 hover:bg-neutral-100"
                         >
                             Cards
                         </a>
                         <a
                             href="#"
-                            className="block px-4 py-2 hover:bg-gray-200"
+                            className="block px-4 py-2 hover:bg-neutral-100"
                         >
                             Settings
                         </a>
                         <a
                             href="#"
-                            className="block px-4 py-2 hover:bg-gray-200"
+                            className="block px-4 py-2 hover:bg-neutral-100"
                         >
                             Help
                         </a>
@@ -59,7 +58,7 @@ const Navbar = () => {
                         <a
                             href="#"
                             onClick={handleLogOut}
-                            className="block px-4 py-2 hover:bg-gray-200"
+                            className="block px-4 py-2 hover:bg-neutral-100"
                         >
                             Logout
                         </a>

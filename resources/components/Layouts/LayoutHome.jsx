@@ -1,18 +1,17 @@
 import React from "react";
 import SideBarHome from "../Fragments/SideBarHome";
-
 import Navbar from "../Fragments/Navbar";
+import HeaderTask from "../Fragments/HeaderTask";
+import TaskList from "./CardTask";
 
 const LayoutHome = () => {
     return (
-        <div className="flex h-screen ">
+        <div className="flex h-screen">
             <Navbar />
-            <div className="flex">
-                <div className="flex-1 flex flex-col mt-16 p-6">
-                    <main className="flex-1">
-                        {/* Your main content goes here */}
-                    </main>
-                </div>
+            <SideBarHome />
+            <div className="flex-grow p-4 pl-64 mt-16 relative">
+                <HeaderTask />
+                <TaskList />
             </div>
         </div>
     );

@@ -106,7 +106,7 @@ function App(props) {
     return (
         <>
             <input type="hidden" name="csrf_token" value={csrf} />
-            <div className="flex h-screen bg-gray-100">
+            <div className="flex fixed h-screen w-screen bg-gray-100">
                 {/* Sidebar */}
                 <aside className="w-64 bg-blue-500 text-white p-4">
                     <h3 className="text-2xl font-semibold my-2">Task Master</h3>
