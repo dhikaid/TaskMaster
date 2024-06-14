@@ -51,6 +51,7 @@ class OauthController extends Controller
         ]);
 
         $validatedData['password'] = $validatedData['password2'];
+        $validatedData['uuid'] = fake()->uuid();
 
         $user = User::create($validatedData);
 
@@ -129,12 +130,9 @@ class OauthController extends Controller
                 'password2' => "required|min:8|same:password1",
             ]);
             if (Password::tokenExists($user, $validatedData['token'])) {
-                $data = [
-                    "email" => $request->email,
-                ];
                 $validasi = [
                     'token' => $validatedData['token'],
-                    'email' => $request->email,
+                    'email' => $validatedData['email'],
                     'password' => $validatedData['password1'],
                     'password_confirmation' => $validatedData['password2'],
                 ];

@@ -10,9 +10,11 @@ const InputFormForgot = ({
     errors,
     isForgot,
     tokenReset,
+    csrfToken,
 }) => {
     return (
         <div>
+            <input type="hidden" name="_token" required value={csrfToken} />
             <LabelInput
                 label="Email"
                 icon={<FaRegEnvelope className="text-gray-400 m-2" />}
@@ -65,7 +67,12 @@ const InputFormForgot = ({
                             className="bg-gray-100 outline-none text-sm flex-1 text-start"
                         />
                     </LabelInput>
-                    <input type="hidden" name="token" value={tokenReset} />
+                    <input
+                        type="hidden"
+                        name="token"
+                        value={tokenReset}
+                        required
+                    />
                 </>
             )}
         </div>

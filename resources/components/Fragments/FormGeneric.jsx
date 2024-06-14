@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import InputFormGeneric from "../Elements/input/InputFormGeneric";
-import Button from "../Elements/button/Button";
+import Button from "../Elements/button/button";
 import { usePage, router, Link } from "@inertiajs/react";
 import { FaCircleCheck } from "react-icons/fa6";
 import { MdError } from "react-icons/md";
@@ -88,8 +88,8 @@ const FormGeneric = ({ inputs, formTitle, postRoute, isSignUp }) => {
                 handleChange={handleChange}
                 errors={errors}
                 isSignUp={isSignUp}
+                csrfToken={csrf}
             />
-            <input type="hidden" name="_token" required value={csrf} />
             {!isSignUp && (
                 <div className="flex justify-end">
                     <a

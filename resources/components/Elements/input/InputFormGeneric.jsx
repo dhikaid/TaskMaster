@@ -12,10 +12,11 @@ const InputFormGeneric = ({
     handleChange,
     errors,
     isSignUp,
-    csrf,
+    csrfToken,
 }) => {
     return (
         <div>
+            <input type="hidden" name="_token" required value={csrfToken} />
             <LabelInput
                 label="Username"
                 icon={<MdPersonOutline className="text-gray-400 m-2" />}
