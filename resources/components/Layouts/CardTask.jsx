@@ -23,6 +23,13 @@ const tasks = [
         status: "Pending",
         statusClass: "bg-green-400",
     },
+    {
+        id: 4,
+        title: "Front End: Vue JS Part:1",
+        assignedTo: "Max R.",
+        status: "Pending",
+        statusClass: "bg-green-400",
+    },
 ];
 
 const getTaskStatusClass = (status) => {
@@ -40,7 +47,7 @@ const getTaskStatusClass = (status) => {
 
 const CardTask = ({ task }) => {
     return (
-        <div className="bg-white rounded-lg shadow-md p-4 flex flex-col">
+        <div className="bg-white rounded-lg shadow-md p-4 flex flex-col border-2 border-neutral-200 h-44">
             <div className="flex justify-between items-center mb-2">
                 <div className="flex items-center">
                     <span
@@ -53,24 +60,9 @@ const CardTask = ({ task }) => {
             </div>
             <p className="text-gray-600 text-sm mb-4">- {task.assignedTo}</p>
             <div className="flex justify-end mt-auto">
-                <button className="bg-blue-500 text-white rounded px-4 py-2 mr-2 hover:bg-blue-600 focus:outline-none">
-                    <MdVisibility className="w-4 h-4" />
-                    <span className="sr-only">View</span>
-                </button>
-                <button
-                    className={`bg-${
-                        task.status === "Pending" ? "green" : "gray"
-                    }-500 text-white rounded px-4 py-2 hover:bg-${
-                        task.status === "Pending" ? "green" : "gray"
-                    }-600 focus:outline-none`}
-                >
-                    {task.status === "Pending" ? (
-                        <>
-                            <MdVisibility className="w-4 h-4 mr-1" /> Start
-                        </>
-                    ) : (
-                        task.status
-                    )}
+                <button className="bg-blue-500 text-white flex items-center rounded px-4 py-2 mr-2 hover:bg-blue-600 focus:outline-none">
+                    <MdVisibility className="w-4 h-4 mr-1" />
+                    <span>View</span>
                 </button>
             </div>
         </div>
@@ -79,7 +71,7 @@ const CardTask = ({ task }) => {
 
 const TaskList = () => {
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 -100 h-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 border-t-2  border-neutral-200 ">
             {tasks.map((task) => (
                 <CardTask key={task.id} task={task} />
             ))}

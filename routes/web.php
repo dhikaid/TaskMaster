@@ -60,6 +60,6 @@ Route::post('/oauth/forgot', [OauthController::class, 'forgot'])->middleware('gu
 Route::post('/oauth/resetPassword', [OauthController::class, 'resetPassword'])->middleware('guest');
 
 //halaman gabut
-Route::get('/homefull', function () {
-    return Inertia::render('homefull');
+Route::get('/profile', function () {
+    return Inertia::render('profile');
 });

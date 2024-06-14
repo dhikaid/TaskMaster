@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { MdOutlineAccountCircle } from "react-icons/md";
-import { router } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 
 const Navbar = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -11,9 +11,19 @@ const Navbar = () => {
     const handleLogOut = () => {
         router.post("/logout");
     };
+
+    const handleProfile = () => {
+        router.get("/profile");
+    };
+
+    const handleHome = () => {
+        router.visit("/home");
+    };
     return (
         <nav className="p-4 flex justify-between text-slate-700 items-center fixed w-full border-b-2 border-b-slate-200 bg-white z-10 shadow-md">
-            <div className="text-xl font-semibold ml-4">Task Master</div>
+            <Link href="/home" className="text-xl font-semibold ml-4">
+                Task Master
+            </Link>
             <div className="relative">
                 <button
                     className="flex items-center focus:outline-none mr-4"
@@ -27,6 +37,7 @@ const Navbar = () => {
                         <a
                             href="#"
                             className="block px-4 py-2 hover:bg-neutral-100"
+                            onClick={handleProfile}
                         >
                             Profile & Visibility
                         </a>

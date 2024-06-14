@@ -5,12 +5,21 @@ import {
     MdGroup,
     MdOutlineFolder,
     MdSettings,
+    MdHome,
 } from "react-icons/md";
 
 const SideBarHome = () => {
     return (
         <div className="w-64 text-neutral-800 p-4 h-full border-r-2 bg-white fixed top-0 mt-16 pt-6">
             <ul>
+                <li className="mb-2">
+                    <ButtonHome>
+                        <span className="flex items-center">
+                            <MdHome className="w-5 h-5 mr-2" />
+                            Home
+                        </span>
+                    </ButtonHome>
+                </li>
                 <li className="mb-2">
                     <ButtonHome>
                         <span className="flex items-center">
