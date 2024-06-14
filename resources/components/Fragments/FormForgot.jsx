@@ -11,6 +11,7 @@ const FormForgot = ({
     password2,
     handleChange,
     isForgot,
+    tokenReset,
 }) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -19,13 +20,14 @@ const FormForgot = ({
                 email,
                 password1,
                 password2,
+                token: tokenReset,
             });
         } catch (error) {
             console.error("Error during password reset:", error);
         }
     };
 
-    const { errors, csrf, flash, tokenReset } = usePage().props;
+    const { errors, csrf, flash } = usePage().props;
     const handleSignInClick = (event) => {
         event.preventDefault();
         router.visit("/signin");

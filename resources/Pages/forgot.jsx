@@ -10,7 +10,6 @@ const Forgot = ({ tokenReset }) => {
     console.log(tokenReset);
     const handleSubmit = async (event) => {
         event.preventDefault();
-        // Logic for resetting password...
         console.log(
             "Password reset successful for email:",
             email,
