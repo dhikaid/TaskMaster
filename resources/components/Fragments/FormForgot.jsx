@@ -1,6 +1,6 @@
 import React from "react";
 import InputFormForgot from "../Elements/input/InputFormForgot";
-import Button from "../Elements/button/Button";
+import Button from "../Elements/button/button";
 import { usePage, router } from "@inertiajs/react";
 import { FaCircleCheck } from "react-icons/fa6";
 import { MdError } from "react-icons/md";
@@ -11,6 +11,7 @@ const FormForgot = ({
     password2,
     handleChange,
     isForgot,
+    tokenReset,
 }) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -19,13 +20,15 @@ const FormForgot = ({
                 email,
                 password1,
                 password2,
+                token: tokenReset,
+                _token: csrf,
             });
         } catch (error) {
             console.error("Error during password reset:", error);
         }
     };
 
-    const { errors, csrf, flash, tokenReset } = usePage().props;
+    const { errors, csrf, flash } = usePage().props;
     const handleSignInClick = (event) => {
         event.preventDefault();
         router.visit("/signin");
@@ -91,6 +94,7 @@ const FormForgot = ({
                 isForgot={isForgot}
                 tokenReset={tokenReset}
             />
+
             <div className="mt-16"></div>
             <Button onClick={handleSubmit}>
                 {isForgot ? "Reset Password" : "Change Password"}
