@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import InputFormGeneric from "../Elements/input/InputFormGeneric";
 import Button from "../Elements/button/button";
 import { usePage, router, Link } from "@inertiajs/react";
@@ -6,6 +6,8 @@ import { FaCircleCheck } from "react-icons/fa6";
 import { MdError } from "react-icons/md";
 
 const FormGeneric = ({ inputs, formTitle, postRoute, isSignUp }) => {
+    const { errors, flash, csrf } = usePage().props;
+    const csrfRef = useRef(null);
     const [formData, setFormData] = useState({
         ...inputs,
     });
@@ -17,9 +19,9 @@ const FormGeneric = ({ inputs, formTitle, postRoute, isSignUp }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+        const csrfToken = csrfRef.current.value;
         try {
-            await router.post(postRoute, formData);
+            await router.post(postRoute, { ...formData, _token: csrfToken });
         } catch (error) {
             console.error(`Error during ${formTitle}:`, error);
         }
@@ -35,7 +37,6 @@ const FormGeneric = ({ inputs, formTitle, postRoute, isSignUp }) => {
         router.visit("/signin");
     };
 
-    const { errors, flash, csrf } = usePage().props;
     return (
         <div>
             {flash.message && (
@@ -77,6 +78,13 @@ const FormGeneric = ({ inputs, formTitle, postRoute, isSignUp }) => {
                     </div>
                 </div>
             )}
+            <input
+                type="hidden"
+                name="_token"
+                value={usePage().props.csrf}
+                ref={csrfRef} // Tambahkan ref di sini
+                onChange={handleChange}
+            />
             <InputFormGeneric
                 required
                 autoComplete="off"

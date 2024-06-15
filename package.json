@@ -6,6 +6,7 @@
         "build": "vite build ",
         "install": "concurrently  \"git pull origin main\"  \"composer install\" \"npm install\"",
         "start": "concurrently  \"php artisan config:cache\"  \"php artisan migrate --force\" \"php artisan serve\" \"npm run dev \"  ",
+        "public": "concurrently \"npm run build\" \"php artisan serve --host=10.80.50.47\"",
         "startbackup": "concurrently  \"php artisan config:cache\"  \"php artisan migrate:fresh --force\" \"php artisan serve\" \"npm run dev \"  "
     },
     "devDependencies": {
