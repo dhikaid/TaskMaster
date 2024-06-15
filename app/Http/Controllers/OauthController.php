@@ -50,6 +50,7 @@ class OauthController extends Controller
             "password2.same" => "The password must be same.",
         ]);
 
+        $validatedData['fullname'] = $validatedData['username'];
         $validatedData['password'] = $validatedData['password2'];
         $validatedData['uuid'] = fake()->uuid();
 
