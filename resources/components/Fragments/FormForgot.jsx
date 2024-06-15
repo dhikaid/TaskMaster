@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import InputFormForgot from "../Elements/input/InputFormForgot";
 import Button from "../Elements/button/button";
 import { usePage, router } from "@inertiajs/react";
@@ -13,22 +13,25 @@ const FormForgot = ({
     isForgot,
     tokenReset,
 }) => {
+    const { errors, flash } = usePage().props;
+    const csrfRef = useRef(null);
+
     const handleSubmit = async (event) => {
         event.preventDefault();
+        const csrfToken = csrfRef.current.value; // Ambil nilai _token dari input hidden
         try {
             await router.post(isForgot ? "/oauth/forgot" : "/oauth/reset", {
                 email,
                 password1,
                 password2,
                 token: tokenReset,
-                _token: csrf,
+                _token: csrfToken,
             });
         } catch (error) {
             console.error("Error during password reset:", error);
         }
     };
 
-    const { errors, csrf, flash } = usePage().props;
     const handleSignInClick = (event) => {
         event.preventDefault();
         router.visit("/signin");
@@ -82,15 +85,19 @@ const FormForgot = ({
                         : "Enter the new password, now you can change it"}
                 </p>
             )}
+            <input
+                type="hidden"
+                name="_token"
+                value={usePage().props.csrf}
+                ref={csrfRef} // Tambahkan ref di sini
+                onChange={handleChange}
+            />
             <InputFormForgot
-                required
-                autoComplete="off"
                 email={email}
                 password1={password1}
                 password2={password2}
                 handleChange={handleChange}
                 errors={errors}
-                csrfToken={csrf}
                 isForgot={isForgot}
                 tokenReset={tokenReset}
             />

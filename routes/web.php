@@ -1,10 +1,11 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OauthController;
-
+use App\Http\Controllers\ProfileController;
 
 // HALAMAN UTAMA
 Route::get('/', function () {
@@ -14,12 +15,7 @@ Route::get('/', function () {
 })->middleware('auth');
 
 // HALAMAN HOME
-Route::get('/home', function () {
-    $user = User::find(auth()->user()->id);
-    return Inertia::render('Home', [
-        'users' => $user,
-    ]);
-})->middleware('auth');
+Route::get('/home', [HomeController::class, 'index'])->middleware('auth');
 
 // HALAMAN SIGNUP
 Route::get('/signup', function () {
@@ -60,6 +56,4 @@ Route::post('/oauth/forgot', [OauthController::class, 'forgot'])->middleware('gu
 Route::post('/oauth/resetPassword', [OauthController::class, 'resetPassword'])->middleware('guest');
 
 //halaman gabut
-Route::get('/profile', function () {
-    return Inertia::render('profile');
-});
+Route::get('/profile', [ProfileController::class, 'index'])->middleware('auth');
