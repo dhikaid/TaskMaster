@@ -12,7 +12,6 @@ const InputFormGeneric = ({
     handleChange,
     errors,
     isSignUp,
-    csrfToken,
 }) => {
     return (
         <div>

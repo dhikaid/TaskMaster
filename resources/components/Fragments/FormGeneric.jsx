@@ -82,7 +82,7 @@ const FormGeneric = ({ inputs, formTitle, postRoute, isSignUp }) => {
                 type="hidden"
                 name="_token"
                 value={usePage().props.csrf}
-                ref={csrfRef} // Tambahkan ref di sini
+                ref={csrfRef}
                 onChange={handleChange}
             />
             <InputFormGeneric
