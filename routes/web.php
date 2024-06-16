@@ -56,5 +56,6 @@ Route::post('/oauth/forgot', [OauthController::class, 'forgot'])->middleware('gu
 Route::post('/oauth/resetPassword', [OauthController::class, 'resetPassword'])->middleware('guest');
 
 //PROFILE
+//PROFILE
 Route::get('/profile', [ProfileController::class, 'index'])->middleware('auth');
 Route::put('/profile/{user:uuid}', [ProfileController::class, 'update'])->middleware('auth');
