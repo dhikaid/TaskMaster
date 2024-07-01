@@ -1,14 +1,24 @@
 import React from "react";
 
-const InputPassword = ({ name, value, onChange, className, autoComplete }) => (
-    <input
-        type="password"
-        name={name}
-        value={value}
-        onChange={onChange}
-        className={className}
-        autoComplete={autoComplete}
-    />
-);
+const InputPassword = ({
+    autoComplete,
+    name,
+    value,
+    onChange,
+    className,
+    placeholder,
+}) => {
+    return (
+        <input
+            type="password"
+            autoComplete={autoComplete}
+            name={name}
+            value={value}
+            onChange={onChange}
+            className={className}
+            placeholder={placeholder}
+        />
+    );
+};
 
 export default InputPassword;

@@ -1,14 +1,12 @@
 import React from "react";
 
-const InputProfile = ({ label, error, children }) => (
+const InputProfile2 = ({ label, error, children }) => (
     <div className="formgroup w-80 max-auto mx-auto">
         <div className="mb-3">
-            <label className="block text-sm font-medium text-slate-700 text-start pl-2">
+            <label className="block text-sm font-semibold text-slate-900 text-start pl-2">
                 {label}
             </label>
-            <div className="bg-gray-100 p-2 flex items-center rounded-lg">
-                {children}
-            </div>
+            <div className=" flex items-center pl-2">{children}</div>
             {error && (
                 <div className="text-red-500 text-xs mt-1 text-start">
                     {error}
@@ -18,4 +16,4 @@ const InputProfile = ({ label, error, children }) => (
     </div>
 );
 
-export default InputProfile;
+export default InputProfile2;
