@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class ProfileController extends Controller
 {
@@ -24,13 +25,11 @@ class ProfileController extends Controller
     public function update(User $user, Request $request)
     {
         //cek dlu
-        if (auth()->user()->id !== $user->id) {
-            abort(403);
-        }
+        Gate::authorize('update-myprofile');
 
         $rules = [
             'fullname' => 'required',
-            'bio' => 'nullable|string|size:100'
+            'bio' => 'nullable|string|max:100'
         ];
 
         if ($request->username !== $user->username) {

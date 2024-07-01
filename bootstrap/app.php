@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Foundation\Application;
-use Illuminate\Foundation\Configuration\Exceptions;
-use Illuminate\Foundation\Configuration\Middleware;
 use App\Http\Middleware\HandleInertiaRequests;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Foundation\Configuration\Exceptions;
+use Illuminate\Foundation\Configuration\Middleware;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -18,13 +18,27 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        $exceptions->respond(function (Response $response) {
-            if ($response->getStatusCode() === 419) {
-                return back()->with([
-                    'message' => [
-                        'status' => 419,
-                        'message' => 'The page expired, please try again.'
-                    ],
+        $exceptions->respond(function (Response $response, Throwable $exception) {
+            $environment = app()->environment();
+            if (in_array($response->getStatusCode(), [500, 503, 404, 403])) {
+                if ($environment === 'production') {
+                    return back(303)->with([
+                        'message' => [
+                            'status' => $response->getStatusCode(),
+                            'message' => "Something went wrong!"
+                        ],
+                    ]);
+                } else {
+                    return back(303)->with([
+                        'message' => [
+                            'status' => $response->getStatusCode(),
+                            'message' => $exception->getMessage()
+                        ],
+                    ]);
+                }
+            } elseif ($response->getStatusCode() === 419) {
+                return back(303)->with([
+                    'message' => 'The page expired, please try again.',
                 ]);
             }
             return $response;

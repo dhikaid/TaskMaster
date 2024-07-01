@@ -91,7 +91,7 @@ const FormProfile = ({ user, isEditing }) => {
                         </div>
                     </div>
                     <div className="w-full h-[1px] bg-neutral-300 mt-4"></div>
-                    <div className="flex flex-col sm:flex-row items-center sm:space-x-4">
+                    <div className="flex flex-col sm:flex-row items-center sm:space-x-4 mt-3">
                         <div className="flex flex-col items-center sm:mb-0 my-4">
                             <div className="relative w-52 h-52 -mr-4 sm:ml-10">
                                 <CiUser className="w-full h-full border-2 rounded-lg border-neutral-300 shadow-sm mx-auto pt-4 px-4 text-neutral-800 text-lg bg-neutral-100" />
@@ -99,36 +99,36 @@ const FormProfile = ({ user, isEditing }) => {
                         </div>
                         <div className="flex flex-col w-full mt-4">
                             <InputProfile2 label="Full Name :">
-                                <div className="outline-none text-sm flex-1 text-start pl-1">
+                                <div className="outline-none flex-1 text-start ">
                                     {user.fullname}
                                 </div>
                             </InputProfile2>
                             <InputProfile2 label="Username :">
-                                <div className=" outline-none text-sm flex-1 text-start pl-1">
+                                <div className=" outline-none flex-1 text-start ">
                                     {user.username}
                                 </div>
                             </InputProfile2>
                             <InputProfile2 label="Email :">
-                                <div className=" outline-none text-sm flex-1 text-start pl-1">
+                                <div className=" outline-none flex-1 text-start ">
                                     {user.email}
                                 </div>
                             </InputProfile2>
                             <InputProfile2 label="Bio :">
-                                <div className="outline-none text-sm flex-1 text-start pl-1 border border-neutral-200  rounded-md p-2 h-28">
+                                <div className="outline-none flex-1 text-start ">
                                     {user.bio}
                                 </div>
                             </InputProfile2>
+                            <div className="flex flex-col sm:flex-row mb-3 sm:ml-12 space-y-2 sm:space-x-2 sm:justify-start justify-center">
+                                <button
+                                    className="flex items-center justify-center rounded-lg bg-blue-500 text-white border-2 border-blue-500 px-4 py-2 hover:bg-blue-600 hover:text-white text-sm my-3"
+                                    type="button"
+                                    onClick={() => router.get(`/profile/edit`)}
+                                >
+                                    <IoPencilOutline className="text-white w-5 h-5 " />
+                                    <span className="ml-1 ">Edit Profile</span>
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <div className="flex justify-end mt-4 mr-24">
-                        <button
-                            className="flex items-center justify-center rounded-lg bg-blue-500 text-white border-2 border-blue-500 px-4 py-2 hover:bg-blue-600 hover:text-white"
-                            type="button"
-                            onClick={() => router.get(`/profile/edit`)}
-                        >
-                            <IoPencilOutline className="text-white w-5 h-5 " />
-                            <span className="ml-1">Edit Profile</span>
-                        </button>
                     </div>
                 </div>
             ) : (
@@ -173,7 +173,7 @@ const FormProfile = ({ user, isEditing }) => {
                                     type="text"
                                     value={formData.fullname}
                                     onChange={handleChange}
-                                    className="bg-gray-100 outline-none text-sm flex-1 text-start pl-1"
+                                    className="bg-gray-100 outline-none  flex-1 text-start pl-1"
                                 />
                             </InputProfile>
                             <InputProfile
@@ -187,7 +187,7 @@ const FormProfile = ({ user, isEditing }) => {
                                     type="text"
                                     value={formData.username}
                                     onChange={handleChange}
-                                    className="bg-gray-100 outline-none text-sm flex-1 text-start pl-1"
+                                    className="bg-gray-100 outline-none  flex-1 text-start pl-1"
                                 />
                             </InputProfile>
                             <InputProfile label="Email" error={errors.email}>
@@ -198,7 +198,7 @@ const FormProfile = ({ user, isEditing }) => {
                                     type="email"
                                     value={formData.email}
                                     onChange={handleChange}
-                                    className="bg-gray-100 outline-none text-sm flex-1 text-start pl-1"
+                                    className="bg-gray-100 outline-none  flex-1 text-start pl-1"
                                 />
                             </InputProfile>
                             <InputProfile label="Bio" error={errors.bio}>
@@ -207,28 +207,28 @@ const FormProfile = ({ user, isEditing }) => {
                                     name="bio"
                                     value={formData.bio}
                                     onChange={handleChange}
-                                    className="bg-gray-100 outline-none text-sm flex-1 text-start pl-1"
+                                    className="bg-gray-100 outline-none  flex-1 text-start pl-1 resize-none"
                                 />
                             </InputProfile>
+                            <div className="flex flex-col sm:flex-row mb-3 sm:ml-11 space-y-2 sm:space-x-2 sm:justify-start justify-center">
+                                <ButtonProfile
+                                    className="flex items-center justify-center text-sm"
+                                    type="submit"
+                                    disabled={!isChanged}
+                                >
+                                    Save Profile
+                                </ButtonProfile>
+                                <button
+                                    className="flex items-center justify-center text-blue-500 bg-white border-2 border-blue-500 rounded-lg px-4 font-semibold hover:bg-blue-500 hover:text-white  text-sm p-2"
+                                    type="button"
+                                    onClick={() =>
+                                        changePasswordModalRef.current.openModal()
+                                    }
+                                >
+                                    Change Password
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <div className="flex flex-col sm:flex-row justify-end mt-4 space-y-2 sm:space-x-2 mr-14">
-                        <ButtonProfile
-                            className="flex items-center justify-center"
-                            type="submit"
-                            disabled={!isChanged}
-                        >
-                            Save Profile
-                        </ButtonProfile>
-                        <button
-                            className="flex items-center justify-center text-blue-500 bg-white border-2 border-blue-500 rounded-lg px-4 font-semibold hover:bg-blue-500 hover:text-white"
-                            type="button"
-                            onClick={() =>
-                                changePasswordModalRef.current.openModal()
-                            }
-                        >
-                            Change Password
-                        </button>
                     </div>
                 </form>
             )}

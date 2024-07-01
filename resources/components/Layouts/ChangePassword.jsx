@@ -97,7 +97,7 @@ const ChangePassword = forwardRef(({ user }, ref) => {
                 <ButtonProfile
                     type="submit"
                     disabled={isLoading}
-                    className="my-4 max-w-4"
+                    className="my-8 mb-5 w-full sm:w-10/12 m-auto"
                 >
                     {isLoading ? "Saving..." : "Change Password"}
                 </ButtonProfile>

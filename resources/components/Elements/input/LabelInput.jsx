@@ -3,7 +3,7 @@ import React from "react";
 
 const LabelInput = ({ label, icon, error, children }) => {
     return (
-        <div className="formgroup w-80 max-auto mx-auto">
+        <div className="formgroup w-full sm:w-10/12  max-auto mx-auto">
             <div className="mb-3">
                 <label className="block text-sm font-medium text-slate-500 text-start">
                     {label}
