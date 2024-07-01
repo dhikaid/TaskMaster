@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { MdOutlineAccountCircle } from "react-icons/md";
 import { Link, router } from "@inertiajs/react";
+import { BiLogOut } from "react-icons/bi";
 
 const Navbar = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -39,39 +40,16 @@ const Navbar = () => {
                             className="block px-4 py-2 hover:bg-neutral-100"
                             onClick={handleProfile}
                         >
-                            Profile & Visibility
-                        </a>
-                        <a
-                            href="#"
-                            className="block px-4 py-2 hover:bg-neutral-100"
-                        >
-                            Activity
-                        </a>
-                        <a
-                            href="#"
-                            className="block px-4 py-2 hover:bg-neutral-100"
-                        >
-                            Cards
-                        </a>
-                        <a
-                            href="#"
-                            className="block px-4 py-2 hover:bg-neutral-100"
-                        >
-                            Settings
-                        </a>
-                        <a
-                            href="#"
-                            className="block px-4 py-2 hover:bg-neutral-100"
-                        >
-                            Help
+                            Profile
                         </a>
                         <hr />
                         <a
                             href="#"
                             onClick={handleLogOut}
-                            className="block px-4 py-2 hover:bg-neutral-100"
+                            className=" px-4 py-2 flex items-center hover:bg-neutral-100"
                         >
-                            Logout
+                            <BiLogOut />
+                            <span className="ml-2">Logout</span>
                         </a>
                     </div>
                 )}

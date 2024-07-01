@@ -10,16 +10,10 @@ const OldPasswordForm = ({ oldPassword, onChange, onSubmit, error }) => (
                 name="oldPassword"
                 value={oldPassword}
                 onChange={onChange}
-                className="bg-gray-100 outline-none text-sm flex-1 text-start"
+                className="bg-gray-100 outline-none text-sm flex-1 text-start text-slate-900"
                 placeholder="Enter your old password"
             />
         </LabelInput>
-        <ButtonProfile
-            className="flex items-center justify-center mx-auto"
-            type="submit"
-        >
-            Verify Password
-        </ButtonProfile>
     </form>
 );
 

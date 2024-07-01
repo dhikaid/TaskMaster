@@ -16,7 +16,7 @@ const ResetPasswordForm = ({
                 name="newPassword"
                 value={newPassword}
                 onChange={onChange}
-                className="bg-gray-100 outline-none text-sm flex-1 text-start"
+                className="bg-gray-100 outline-none text-sm flex-1 text-start text-slate-900"
             />
         </LabelInput>
         <LabelInput label="Confirm Password" error={errors.confirmPassword}>
@@ -28,12 +28,6 @@ const ResetPasswordForm = ({
                 className="bg-gray-100 outline-none text-sm flex-1 text-start"
             />
         </LabelInput>
-        <ButtonProfile
-            className="flex items-center justify-center mx-auto"
-            type="submit"
-        >
-            Reset Password
-        </ButtonProfile>
     </form>
 );
 

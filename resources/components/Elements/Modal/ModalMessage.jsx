@@ -2,7 +2,9 @@ import React from "react";
 import { FaCircleCheck } from "react-icons/fa6";
 import { MdError } from "react-icons/md";
 
-const MessageError = ({ message, onClose }) => {
+const ModalMessage = ({ isOpen, message, onClose }) => {
+    if (!isOpen) return null;
+
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50">
             <div
@@ -10,7 +12,7 @@ const MessageError = ({ message, onClose }) => {
                 onClick={onClose}
             ></div>
             <div
-                className={`relative bg-gray-100 border-2 max-w-lg w-full mx-4 ${
+                className={`relative bg-gray-100 border-t-4 max-w-lg w-full mx-4 ${
                     message.status === 200
                         ? "border-green-500"
                         : "border-red-500"
@@ -42,16 +44,16 @@ const MessageError = ({ message, onClose }) => {
                     >
                         {message.message}
                     </p>
+                    <button
+                        className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-3xl"
+                        onClick={onClose}
+                    >
+                        OK
+                    </button>
                 </div>
-                <button
-                    onClick={onClose}
-                    className="mt-4 bg-blue-500 text-white rounded-full px-4 py-2"
-                >
-                    OK
-                </button>
             </div>
         </div>
     );
 };
 
-export default MessageError;
+export default ModalMessage;
