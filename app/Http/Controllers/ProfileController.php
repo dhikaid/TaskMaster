@@ -52,4 +52,13 @@ class ProfileController extends Controller
 
         return redirect('/profile')->with('message', $data);
     }
+    public function edit()
+    {
+        $user = User::find(auth()->user()->id);
+        //data yang dikirim
+        $data = [
+            'user' => $user,
+        ];
+        return Inertia::render('editProfile', $data);
+    }
 }

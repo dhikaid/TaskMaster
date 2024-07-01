@@ -59,3 +59,5 @@ Route::post('/oauth/resetPassword', [OauthController::class, 'resetPassword'])->
 //PROFILE
 Route::get('/profile', [ProfileController::class, 'index'])->middleware('auth');
 Route::put('/profile/{user:uuid}', [ProfileController::class, 'update'])->middleware('auth');
+Route::get('/profile/edit', [ProfileController::class, 'edit'])->middleware('auth');
+

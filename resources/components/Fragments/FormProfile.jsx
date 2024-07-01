@@ -1,32 +1,44 @@
 import React, { useState, useRef, useEffect } from "react";
-import { usePage } from "@inertiajs/react";
+import { usePage, router } from "@inertiajs/react";
 import InputProfile from "../Elements/input/InputProfile";
-import Button from "../Elements/button/Button";
-import { router } from "@inertiajs/react";
-import { FaCircleCheck } from "react-icons/fa6";
-import { MdError } from "react-icons/md";
+import ButtonProfile from "../Elements/button/ButtonProfile";
+import Input from "../Elements/input/Input";
+import Textarea from "../Elements/input/InputTextArea";
+import ModalMessage from "../Elements/Modal/ModalMessage";
+import { CiUser } from "react-icons/ci";
+import { MdCameraAlt } from "react-icons/md";
+import ChangePassword from "../Layouts/ChangePassword";
+import { IoChevronBackCircle, IoPencilOutline } from "react-icons/io5";
+import InputProfile2 from "../Elements/input/InputProfile2";
 
-const FormProfile = ({ user }) => {
-    const { errors, flash, csrf } = usePage().props;
+const FormProfile = ({ user, isEditing }) => {
+    const { errors, csrf, flash } = usePage().props;
     const csrfRef = useRef(null);
 
-    const [formData, setFormData] = useState({
+    const initialFormData = {
         fullname: user.fullname || "",
         username: user.username || "",
         email: user.email || "",
         bio: user.bio || "",
         _method: "PUT",
-        _token: csrfRef,
-    });
+        _token: csrf,
+    };
+
+    const [formData, setFormData] = useState(initialFormData);
+    const [isChanged, setIsChanged] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [message, setMessage] = useState({ status: null, message: "" });
+    const changePasswordModalRef = useRef(null);
 
     useEffect(() => {
-        setFormData({
-            fullname: user.fullname || "",
-            username: user.username || "",
-            email: user.email || "",
-            bio: user.bio || "",
-        });
-    }, [user]);
+        const formHasChanged =
+            formData.fullname !== initialFormData.fullname ||
+            formData.username !== initialFormData.username ||
+            formData.email !== initialFormData.email ||
+            formData.bio !== initialFormData.bio;
+
+        setIsChanged(formHasChanged);
+    }, [formData, initialFormData]);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -41,117 +53,186 @@ const FormProfile = ({ user }) => {
                 ...formData,
                 _token: csrfToken,
             });
+            setMessage({
+                status: 200,
+                message: "Profile updated successfully!",
+            });
         } catch (error) {
-            console.error("Error during profile update:", error);
+            setMessage({
+                status: 400,
+                message: "Error updating profile. Please try again.",
+            });
         }
+        setModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setModalOpen(false);
     };
 
     return (
-        <div>
-            <form method="POST" onSubmit={handleSubmit}>
-                {flash.message && (
-                    <div
-                        className={`bg-gray-100 border-t-4 max-w-80 ${
-                            flash.message.status === 200
-                                ? "border-green-500"
-                                : "border-red-500"
-                        } border-1 rounded-lg p-1 mb-4 flex items-center`}
-                    >
-                        <div className="flex items-center justify-center rounded-l-lg mr-2 px-2">
-                            {flash.message.status === 200 ? (
-                                <FaCircleCheck className="text-3xl text-green-500" />
-                            ) : (
-                                <MdError className="text-4xl text-red-500" />
-                            )}
-                        </div>
-                        <div>
-                            <h2
-                                className={`font-bold text-md text-left ${
-                                    flash.message.status === 200
-                                        ? "text-green-500"
-                                        : "text-red-500"
-                                }`}
-                            >
-                                {flash.message.status === 200
-                                    ? "Success!"
-                                    : "Error!"}
-                            </h2>
-                            <p
-                                className={`text-sm text-start ${
-                                    flash.message.status === 200
-                                        ? "text-green-500"
-                                        : "text-red-500"
-                                }`}
-                            >
-                                {flash.message.message}
-                            </p>
+        <div className="w-full flex flex-col items-center">
+            <ModalMessage
+                isOpen={modalOpen}
+                message={message}
+                onClose={handleCloseModal}
+            />
+            {!isEditing ? (
+                <div className="flex flex-col w-full">
+                    <div className="flex items-center ml-2">
+                        <button
+                            type="button"
+                            onClick={() => router.get(`/home`)}
+                        >
+                            <IoChevronBackCircle className="text-slate-800 rounded-lg w-7 h-7 mt-2 hover:text-slate-900" />
+                        </button>
+                        <div className="text-xl font-bold text-neutral-800 ml-2 mt-2">
+                            Profile
                         </div>
                     </div>
-                )}
-                <input
-                    type="hidden"
-                    name="_token"
-                    value={csrf}
-                    ref={csrfRef}
-                    onChange={handleChange}
-                />
-                <InputProfile label="Full Name" error={errors.fullname}>
-                    <input
-                        autoComplete="off"
-                        name="fullname"
-                        type="text"
-                        value={formData.fullname}
-                        onChange={handleChange}
-                        className="bg-gray-100 outline-none text-sm flex-1 text-start"
-                    />
-                </InputProfile>
-                <InputProfile label="Username" error={errors.username}>
-                    <input
-                        required
-                        autoComplete="off"
-                        name="username"
-                        type="text"
-                        value={formData.username}
-                        onChange={handleChange}
-                        className="bg-gray-100 outline-none text-sm flex-1 text-start"
-                    />
-                </InputProfile>
-                <InputProfile label="Email" error={errors.email}>
-                    <input
-                        required
-                        autoComplete="off"
-                        name="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        className="bg-gray-100 outline-none text-sm flex-1 text-start"
-                    />
-                </InputProfile>
-                <InputProfile label="Bio" error={errors.bio}>
-                    <textarea
-                        autoComplete="off"
-                        name="bio"
-                        value={formData.bio}
-                        onChange={handleChange}
-                        className="bg-gray-100 outline-none text-sm flex-1 text-start"
-                    />
-                </InputProfile>
-                <div className="flex flex-col sm:flex-row justify-between mt-4">
-                    <Button
-                        onClick={() => router.visit("/reset-password")}
-                        className="flex items-center justify-center mx-auto mb-2 sm:mb-0 sm:mr-2"
-                        type="button"
-                    >
-                        Reset Password
-                    </Button>
-                    <Button
-                        className="flex items-center justify-center mx-auto sm:ml-2"
-                        type="submit"
-                    >
-                        Save Profile
-                    </Button>
+                    <div className="w-full h-[1px] bg-neutral-300 mt-4"></div>
+                    <div className="flex flex-col sm:flex-row items-center sm:space-x-4 mt-3">
+                        <div className="flex flex-col items-center sm:mb-0 my-4">
+                            <div className="relative w-52 h-52 -mr-4 sm:ml-10">
+                                <CiUser className="w-full h-full border-2 rounded-lg border-neutral-300 shadow-sm mx-auto pt-4 px-4 text-neutral-800 text-lg bg-neutral-100" />
+                            </div>
+                        </div>
+                        <div className="flex flex-col w-full mt-4">
+                            <InputProfile2 label="Full Name :">
+                                <div className="outline-none flex-1 text-start ">
+                                    {user.fullname}
+                                </div>
+                            </InputProfile2>
+                            <InputProfile2 label="Username :">
+                                <div className=" outline-none flex-1 text-start ">
+                                    {user.username}
+                                </div>
+                            </InputProfile2>
+                            <InputProfile2 label="Email :">
+                                <div className=" outline-none flex-1 text-start ">
+                                    {user.email}
+                                </div>
+                            </InputProfile2>
+                            <InputProfile2 label="Bio :">
+                                <div className="outline-none flex-1 text-start ">
+                                    {user.bio}
+                                </div>
+                            </InputProfile2>
+                            <div className="flex flex-col sm:flex-row mb-3 sm:ml-12 space-y-2 sm:space-x-2 sm:justify-start justify-center">
+                                <button
+                                    className="flex items-center justify-center rounded-lg bg-blue-500 text-white border-2 border-blue-500 px-4 py-2 hover:bg-blue-600 hover:text-white text-sm my-3"
+                                    type="button"
+                                    onClick={() => router.get(`/profile/edit`)}
+                                >
+                                    <IoPencilOutline className="text-white w-5 h-5 " />
+                                    <span className="ml-1 ">Edit Profile</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </form>
+            ) : (
+                <form
+                    onSubmit={handleSubmit}
+                    method="POST"
+                    className="flex flex-col w-full"
+                >
+                    <input
+                        type="hidden"
+                        name="_token"
+                        value={csrf}
+                        ref={csrfRef}
+                    />
+                    <div className="flex items-center ml-2">
+                        <button
+                            type="button"
+                            onClick={() => router.get(`/profile`)}
+                        >
+                            <IoChevronBackCircle className="text-slate-800 rounded-lg w-7 h-7 mt-2 hover:text-slate-900" />
+                        </button>
+                        <div className="text-xl font-bold text-neutral-800 ml-2 mt-2">
+                            Edit Profile
+                        </div>
+                    </div>
+                    <div className="w-full h-[1px] bg-neutral-300 mt-4"></div>
+                    <div className="flex flex-col sm:flex-row items-center sm:space-x-4">
+                        <div className="flex flex-col items-center sm:mb-0 my-4 mt-6">
+                            <div className="relative w-52 h-52 -mr-4 sm:ml-10">
+                                <CiUser className="w-full h-full border-2 rounded-lg border-neutral-300 shadow-sm mx-auto pt-4 px-4 text-neutral-800 text-lg bg-neutral-100" />
+                                <MdCameraAlt className="absolute top-3 left-3 w-7 h-7 text-neutral-800" />
+                            </div>
+                        </div>
+                        <div className="flex flex-col w-full mt-4">
+                            <InputProfile
+                                label="Full Name"
+                                error={errors.fullname}
+                            >
+                                <Input
+                                    autoComplete="off"
+                                    name="fullname"
+                                    type="text"
+                                    value={formData.fullname}
+                                    onChange={handleChange}
+                                    className="bg-gray-100 outline-none  flex-1 text-start pl-1"
+                                />
+                            </InputProfile>
+                            <InputProfile
+                                label="Username"
+                                error={errors.username}
+                            >
+                                <Input
+                                    required
+                                    autoComplete="off"
+                                    name="username"
+                                    type="text"
+                                    value={formData.username}
+                                    onChange={handleChange}
+                                    className="bg-gray-100 outline-none  flex-1 text-start pl-1"
+                                />
+                            </InputProfile>
+                            <InputProfile label="Email" error={errors.email}>
+                                <Input
+                                    required
+                                    autoComplete="off"
+                                    name="email"
+                                    type="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    className="bg-gray-100 outline-none  flex-1 text-start pl-1"
+                                />
+                            </InputProfile>
+                            <InputProfile label="Bio" error={errors.bio}>
+                                <Textarea
+                                    autoComplete="off"
+                                    name="bio"
+                                    value={formData.bio}
+                                    onChange={handleChange}
+                                    className="bg-gray-100 outline-none  flex-1 text-start pl-1 resize-none"
+                                />
+                            </InputProfile>
+                            <div className="flex flex-col sm:flex-row mb-3 sm:ml-11 space-y-2 sm:space-x-2 sm:justify-start justify-center">
+                                <ButtonProfile
+                                    className="flex items-center justify-center text-sm"
+                                    type="submit"
+                                    disabled={!isChanged}
+                                >
+                                    Save Profile
+                                </ButtonProfile>
+                                <button
+                                    className="flex items-center justify-center text-blue-500 bg-white border-2 border-blue-500 rounded-lg px-4 font-semibold hover:bg-blue-500 hover:text-white  text-sm p-2"
+                                    type="button"
+                                    onClick={() =>
+                                        changePasswordModalRef.current.openModal()
+                                    }
+                                >
+                                    Change Password
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            )}
+            <ChangePassword user={user} ref={changePasswordModalRef} />
         </div>
     );
 };
