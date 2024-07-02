@@ -54,11 +54,38 @@ class ProfileController extends Controller
     }
     public function edit()
     {
+        //cek dlu
+        Gate::authorize('update-myprofile');
+
         $user = User::find(auth()->user()->id);
         //data yang dikirim
         $data = [
             'user' => $user,
         ];
         return Inertia::render('editProfile', $data);
+    }
+
+    public function changePassword(User $user, Request $request)
+    {
+        //cek dlu
+        Gate::authorize('update-myprofile');
+
+        $validatedData = $request->validate([
+            'old_password' => 'required|min:8',
+            'password1' => "required|min:8",
+            'password2' => "required|min:8|same:password1",
+        ]);
+
+        if (password_verify($validatedData['old_password'], $user['password'])) {
+            $password = $validatedData['password1'];
+            User::where('id', $user->id)->update(['password' => $password]);
+
+            $data = [
+                'status' => 200,
+                'message' => "Your password has been updated!"
+            ];
+
+            return redirect('/profile')->with('message', $data);
+        }
     }
 }

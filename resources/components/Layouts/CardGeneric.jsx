@@ -13,7 +13,7 @@ const CardGeneric = ({ children, isSignUp }) => {
                         <div className="text-left font-bold absolute top-0 left-0 ml-5 mt-5">
                             <span className="text-blue-500">Task</span> Master
                         </div>
-                        <div className="py-10">
+                        <div className="w-11/12">
                             <h2 className="text-3xl font-bold text-blue-500 mb-2 text-center">
                                 {isSignUp ? "Sign Up" : "Sign In"}
                             </h2>
