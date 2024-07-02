@@ -51,7 +51,7 @@ class ProfileController extends Controller
             'message' => "Your account has been updated!"
         ];
 
-        return redirect('/profile')->with('message', $data);
+        return redirect('/profile/edit')->with('message', $data);
     }
     public function edit()
     {
@@ -85,9 +85,13 @@ class ProfileController extends Controller
                 'status' => 200,
                 'message' => "Your password has been updated!"
             ];
+        } else {
+            $data = [
+                'status' => 401,
+                'message' => "Your current password is not same!"
+            ];
+        }
 
-            return redirect('/profile')->with('message', $data);
-    }
+        return redirect('/profile/edit')->with('message', $data);
     }
 }
-

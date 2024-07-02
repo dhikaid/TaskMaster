@@ -16,14 +16,14 @@ const FormProfile = ({ user, isEditing }) => {
     const csrfRef = useRef(null);
 
     // Initialize useForm with initial form data
-    const { data, setData, post, processing, clearErrors } = useForm({
+    const { data, setData, put, processing, clearErrors } = useForm({
         fullname: user.fullname || "",
         username: user.username || "",
         email: user.email || "",
         bio: user.bio || "",
         image: user.image || "",
         _method: "PUT",
-        _token: csrf,
+        _token: "",
     });
 
     const [isChanged, setIsChanged] = useState(false);
@@ -32,15 +32,22 @@ const FormProfile = ({ user, isEditing }) => {
     const changePasswordModalRef = useRef(null);
     const [imagePreview, setImagePreview] = useState(user.image_url || "");
 
+    //SET TOKEN
     useEffect(() => {
-        const formHasChanged =
-            data.fullname !== user.fullname ||
-            data.username !== user.username ||
-            data.email !== user.email ||
-            data.bio !== user.bio ||
-            data.image !== user.image ||
-            setIsChanged(formHasChanged);
-    }, [data, user]);
+        if (csrfRef.current) {
+            setData("_token", csrfRef.current.value);
+        }
+    }, [csrfRef.current]);
+
+    // useEffect(() => {
+    //     const formHasChanged =
+    //         data.fullname !== user.fullname ||
+    //         data.username !== user.username ||
+    //         data.email !== user.email ||
+    //         data.bio !== user.bio ||
+    //         data.image !== user.image ||
+    //         setIsChanged(formHasChanged);
+    // }, [data, user]);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -63,7 +70,7 @@ const FormProfile = ({ user, isEditing }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        post(`/profile/${user.uuid}`, {
+        put(`/profile/${user.uuid}`, {
             onSuccess: () => {
                 setMessage({
                     status: 200,

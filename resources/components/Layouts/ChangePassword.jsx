@@ -33,9 +33,8 @@ const ChangePassword = forwardRef(({ user }, ref) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         setIsLoading(true);
-
         try {
-            await router.put(`/profile/${user.uuid}`, {
+            await router.post(`/profile/${user.uuid}`, {
                 old_password,
                 password1,
                 password2,
