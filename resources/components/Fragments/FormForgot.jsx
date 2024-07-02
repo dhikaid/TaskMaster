@@ -18,7 +18,7 @@ const FormForgot = ({
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const csrfToken = csrfRef.current.value; // Ambil nilai _token dari input hidden
+        const csrfToken = csrfRef.current.value;
         try {
             await router.post(isForgot ? "/oauth/forgot" : "/oauth/reset", {
                 email,
@@ -89,7 +89,7 @@ const FormForgot = ({
                 type="hidden"
                 name="_token"
                 value={usePage().props.csrf}
-                ref={csrfRef} // Tambahkan ref di sini
+                ref={csrfRef}
                 onChange={handleChange}
             />
             <InputFormForgot

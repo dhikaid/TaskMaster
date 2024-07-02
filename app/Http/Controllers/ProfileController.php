@@ -6,6 +6,7 @@ use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
@@ -78,7 +79,7 @@ class ProfileController extends Controller
 
         if (password_verify($validatedData['old_password'], $user['password'])) {
             $password = $validatedData['password1'];
-            User::where('id', $user->id)->update(['password' => $password]);
+            User::where('id', $user->id)->update(['password' => Hash::make($password)]);
 
             $data = [
                 'status' => 200,
@@ -86,6 +87,7 @@ class ProfileController extends Controller
             ];
 
             return redirect('/profile')->with('message', $data);
-        }
+    }
     }
 }
+

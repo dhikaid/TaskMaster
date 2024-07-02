@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { usePage, router } from "@inertiajs/react";
+import { useForm, usePage, router } from "@inertiajs/react";
 import InputProfile from "../Elements/input/InputProfile";
 import ButtonProfile from "../Elements/button/ButtonProfile";
 import Input from "../Elements/input/Input";
@@ -12,58 +12,73 @@ import { IoChevronBackCircle, IoPencilOutline } from "react-icons/io5";
 import InputProfile2 from "../Elements/input/InputProfile2";
 
 const FormProfile = ({ user, isEditing }) => {
-    const { errors, csrf, flash } = usePage().props;
+    const { errors, csrf } = usePage().props;
     const csrfRef = useRef(null);
 
-    const initialFormData = {
+    // Initialize useForm with initial form data
+    const { data, setData, post, processing, clearErrors } = useForm({
         fullname: user.fullname || "",
         username: user.username || "",
         email: user.email || "",
         bio: user.bio || "",
+        image: user.image || "",
         _method: "PUT",
         _token: csrf,
-    };
+    });
 
-    const [formData, setFormData] = useState(initialFormData);
     const [isChanged, setIsChanged] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [message, setMessage] = useState({ status: null, message: "" });
     const changePasswordModalRef = useRef(null);
+    const [imagePreview, setImagePreview] = useState(user.image_url || "");
 
     useEffect(() => {
         const formHasChanged =
-            formData.fullname !== initialFormData.fullname ||
-            formData.username !== initialFormData.username ||
-            formData.email !== initialFormData.email ||
-            formData.bio !== initialFormData.bio;
-
-        setIsChanged(formHasChanged);
-    }, [formData, initialFormData]);
+            data.fullname !== user.fullname ||
+            data.username !== user.username ||
+            data.email !== user.email ||
+            data.bio !== user.bio ||
+            data.image !== user.image ||
+            setIsChanged(formHasChanged);
+    }, [data, user]);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setFormData({ ...formData, [name]: value });
+        setData(name, value);
+        clearErrors(name);
+    };
+
+    const handleImageChange = (event) => {
+        const file = event.target.files[0];
+        setData("image", file);
+
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setImagePreview(reader.result);
+        };
+        if (file) {
+            reader.readAsDataURL(file);
+        }
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const csrfToken = csrfRef.current.value;
-        try {
-            await router.put(`/profile/${user.uuid}`, {
-                ...formData,
-                _token: csrfToken,
-            });
-            setMessage({
-                status: 200,
-                message: "Profile updated successfully!",
-            });
-        } catch (error) {
-            setMessage({
-                status: 400,
-                message: "Error updating profile. Please try again.",
-            });
-        }
-        setModalOpen(true);
+        post(`/profile/${user.uuid}`, {
+            onSuccess: () => {
+                setMessage({
+                    status: 200,
+                    message: "Profile updated successfully!",
+                });
+                setModalOpen(true);
+            },
+            onError: () => {
+                setMessage({
+                    status: 400,
+                    message: "Error updating profile. Please try again.",
+                });
+                setModalOpen(true);
+            },
+        });
     };
 
     const handleCloseModal = () => {
@@ -94,7 +109,30 @@ const FormProfile = ({ user, isEditing }) => {
                     <div className="flex flex-col sm:flex-row items-center sm:space-x-4 mt-3">
                         <div className="flex flex-col items-center sm:mb-0 my-4">
                             <div className="relative w-52 h-52 -mr-4 sm:ml-10">
-                                <CiUser className="w-full h-full border-2 rounded-lg border-neutral-300 shadow-sm mx-auto pt-4 px-4 text-neutral-800 text-lg bg-neutral-100" />
+                                {imagePreview ? (
+                                    <img
+                                        src={imagePreview}
+                                        alt="Profile Preview"
+                                        className="w-full h-full border-2 rounded-lg border-neutral-300 shadow-sm mx-auto pt-4 px-4 text-neutral-800 text-lg bg-neutral-100"
+                                    />
+                                ) : (
+                                    <CiUser
+                                        className="w-full h-full border-2 rounded-lg border-neutral-300 shadow-sm mx-auto pt-4 px-4 text-neutral-800 text-lg bg-neutral-100 cursor-pointer"
+                                        onClick={() =>
+                                            document
+                                                .getElementById("image-upload")
+                                                .click()
+                                        }
+                                    />
+                                )}
+                                <MdCameraAlt
+                                    className="absolute top-3 left-3 w-7 h-7 text-neutral-800 cursor-pointer"
+                                    onClick={() =>
+                                        document
+                                            .getElementById("image-upload")
+                                            .click()
+                                    }
+                                />
                             </div>
                         </div>
                         <div className="flex flex-col w-full mt-4">
@@ -136,6 +174,7 @@ const FormProfile = ({ user, isEditing }) => {
                     onSubmit={handleSubmit}
                     method="POST"
                     className="flex flex-col w-full"
+                    encType="multipart/form-data"
                 >
                     <input
                         type="hidden"
@@ -158,8 +197,34 @@ const FormProfile = ({ user, isEditing }) => {
                     <div className="flex flex-col sm:flex-row items-center sm:space-x-4">
                         <div className="flex flex-col items-center sm:mb-0 my-4 mt-6">
                             <div className="relative w-52 h-52 -mr-4 sm:ml-10">
-                                <CiUser className="w-full h-full border-2 rounded-lg border-neutral-300 shadow-sm mx-auto pt-4 px-4 text-neutral-800 text-lg bg-neutral-100" />
-                                <MdCameraAlt className="absolute top-3 left-3 w-7 h-7 text-neutral-800" />
+                                {imagePreview ? (
+                                    <img
+                                        src={imagePreview}
+                                        alt="Profile Preview"
+                                        className="w-full h-full border-2 rounded-lg border-neutral-300 shadow-sm mx-auto pt-4 px-4 text-neutral-800 text-lg bg-neutral-100"
+                                    />
+                                ) : (
+                                    <CiUser
+                                        className="w-full h-full border-2 rounded-lg border-neutral-300 shadow-sm mx-auto pt-4 px-4 text-neutral-800 text-lg bg-neutral-100 cursor-pointer"
+                                        onClick={() =>
+                                            document
+                                                .getElementById("image-upload")
+                                                .click()
+                                        }
+                                    />
+                                )}
+                                <label
+                                    htmlFor="image-upload"
+                                    className="absolute top-3 left-3 w-7 h-7 text-neutral-800 cursor-pointer"
+                                >
+                                    <MdCameraAlt />
+                                    <input
+                                        id="image-upload"
+                                        type="file"
+                                        className="hidden"
+                                        onChange={handleImageChange}
+                                    />
+                                </label>
                             </div>
                         </div>
                         <div className="flex flex-col w-full mt-4">
@@ -171,7 +236,7 @@ const FormProfile = ({ user, isEditing }) => {
                                     autoComplete="off"
                                     name="fullname"
                                     type="text"
-                                    value={formData.fullname}
+                                    value={data.fullname}
                                     onChange={handleChange}
                                     className="bg-gray-100 outline-none  flex-1 text-start pl-1"
                                 />
@@ -185,7 +250,7 @@ const FormProfile = ({ user, isEditing }) => {
                                     autoComplete="off"
                                     name="username"
                                     type="text"
-                                    value={formData.username}
+                                    value={data.username}
                                     onChange={handleChange}
                                     className="bg-gray-100 outline-none  flex-1 text-start pl-1"
                                 />
@@ -196,7 +261,7 @@ const FormProfile = ({ user, isEditing }) => {
                                     autoComplete="off"
                                     name="email"
                                     type="email"
-                                    value={formData.email}
+                                    value={data.email}
                                     onChange={handleChange}
                                     className="bg-gray-100 outline-none  flex-1 text-start pl-1"
                                 />
@@ -205,7 +270,7 @@ const FormProfile = ({ user, isEditing }) => {
                                 <Textarea
                                     autoComplete="off"
                                     name="bio"
-                                    value={formData.bio}
+                                    value={data.bio}
                                     onChange={handleChange}
                                     className="bg-gray-100 outline-none  flex-1 text-start pl-1 resize-none"
                                 />
@@ -214,7 +279,7 @@ const FormProfile = ({ user, isEditing }) => {
                                 <ButtonProfile
                                     className="flex items-center justify-center text-sm"
                                     type="submit"
-                                    disabled={!isChanged}
+                                    disabled={processing || !isChanged}
                                 >
                                     Save Profile
                                 </ButtonProfile>
