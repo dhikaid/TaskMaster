@@ -41,7 +41,7 @@ const FormGeneric = ({ inputs, formTitle, postRoute, isSignUp }) => {
         <div>
             {flash.message && (
                 <div
-                    className={`bg-gray-100 border-t-4 max-w-80 ${
+                    className={`bg-gray-100 border-t-4 w-full mt-4 ${
                         flash.message.status === 200
                             ? "border-green-500"
                             : "border-red-500"

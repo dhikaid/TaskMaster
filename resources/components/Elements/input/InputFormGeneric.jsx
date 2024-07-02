@@ -28,7 +28,7 @@ const InputFormGeneric = ({
                     placeholder="Enter your username"
                     value={username}
                     onChange={handleChange}
-                    className="bg-gray-100 outline-none text-sm flex-1 text-start"
+                    className="bg-gray-100 outline-none text-sm flex-1 text-start w-4/5"
                 />
             </LabelInput>
             {isSignUp && (
