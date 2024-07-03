@@ -2,17 +2,15 @@ import React, { useState, useRef, useEffect } from "react";
 import { useForm, usePage, router } from "@inertiajs/react";
 import InputProfile from "../Elements/input/InputProfile";
 import ButtonProfile from "../Elements/button/ButtonProfile";
-import Input from "../Elements/input/Input";
 import Textarea from "../Elements/input/InputTextArea";
 import ModalMessage from "../Elements/Modal/ModalMessage";
 import { CiUser } from "react-icons/ci";
 import { MdCameraAlt } from "react-icons/md";
 import ChangePassword from "../Layouts/ChangePassword";
 import { IoChevronBackCircle, IoPencilOutline } from "react-icons/io5";
-import InputProfile2 from "../Elements/input/InputProfile2";
 
 const FormProfile = ({ user, isEditing }) => {
-    const { errors, csrf } = usePage().props;
+    const { errors } = usePage().props;
     const csrfRef = useRef(null);
 
     // Initialize useForm with initial form data
@@ -21,7 +19,7 @@ const FormProfile = ({ user, isEditing }) => {
         username: user.username || "",
         email: user.email || "",
         bio: user.bio || "",
-        image: user.image || "",
+        image: null,
         _method: "PUT",
         _token: "",
     });
@@ -32,22 +30,22 @@ const FormProfile = ({ user, isEditing }) => {
     const changePasswordModalRef = useRef(null);
     const [imagePreview, setImagePreview] = useState(user.image_url || "");
 
-    //SET TOKEN
     useEffect(() => {
         if (csrfRef.current) {
             setData("_token", csrfRef.current.value);
         }
     }, [csrfRef.current]);
 
-    // useEffect(() => {
-    //     const formHasChanged =
-    //         data.fullname !== user.fullname ||
-    //         data.username !== user.username ||
-    //         data.email !== user.email ||
-    //         data.bio !== user.bio ||
-    //         data.image !== user.image ||
-    //         setIsChanged(formHasChanged);
-    // }, [data, user]);
+    useEffect(() => {
+        console.log(data);
+        const formHasChanged =
+            data.fullname !== user.fullname ||
+            data.username !== user.username ||
+            data.email !== user.email ||
+            data.bio !== user.bio ||
+            (data.image && data.image !== user.image);
+        setIsChanged(formHasChanged);
+    }, [data, user]);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -55,6 +53,7 @@ const FormProfile = ({ user, isEditing }) => {
         clearErrors(name);
     };
 
+    // Handle image file selection
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         setData("image", file);
@@ -70,6 +69,7 @@ const FormProfile = ({ user, isEditing }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
         put(`/profile/${user.uuid}`, {
             onSuccess: () => {
                 setMessage({
@@ -88,6 +88,7 @@ const FormProfile = ({ user, isEditing }) => {
         });
     };
 
+    // Close modal handler
     const handleCloseModal = () => {
         setModalOpen(false);
     };
@@ -104,7 +105,7 @@ const FormProfile = ({ user, isEditing }) => {
                     <div className="flex items-center ml-2">
                         <button
                             type="button"
-                            onClick={() => router.get(`/home`)}
+                            onClick={() => router.get("/home")}
                         >
                             <IoChevronBackCircle className="text-slate-800 rounded-lg w-7 h-7 mt-2 hover:text-slate-900" />
                         </button>
@@ -127,7 +128,7 @@ const FormProfile = ({ user, isEditing }) => {
                                         className="w-full h-full border-2 rounded-lg border-neutral-300 shadow-sm mx-auto pt-4 px-4 text-neutral-800 text-lg bg-neutral-100 cursor-pointer"
                                         onClick={() =>
                                             document
-                                                .getElementById("image-upload")
+                                                .getElementById("imageUpload")
                                                 .click()
                                         }
                                     />
@@ -136,38 +137,52 @@ const FormProfile = ({ user, isEditing }) => {
                                     className="absolute top-3 left-3 w-7 h-7 text-neutral-800 cursor-pointer"
                                     onClick={() =>
                                         document
-                                            .getElementById("image-upload")
+                                            .getElementById("imageUpload")
                                             .click()
                                     }
                                 />
                             </div>
                         </div>
                         <div className="flex flex-col w-full mt-4">
-                            <InputProfile2 label="Full Name :">
-                                <div className="outline-none flex-1 text-start ">
-                                    {user.fullname}
-                                </div>
-                            </InputProfile2>
-                            <InputProfile2 label="Username :">
-                                <div className=" outline-none flex-1 text-start ">
-                                    {user.username}
-                                </div>
-                            </InputProfile2>
-                            <InputProfile2 label="Email :">
-                                <div className=" outline-none flex-1 text-start ">
-                                    {user.email}
-                                </div>
-                            </InputProfile2>
-                            <InputProfile2 label="Bio :">
-                                <div className="outline-none flex-1 text-start ">
-                                    {user.bio}
-                                </div>
-                            </InputProfile2>
+                            <input
+                                type="hidden"
+                                name="_token"
+                                value={usePage().props.csrf}
+                                ref={csrfRef}
+                            />
+                            <div className="flex items-start">
+                                <InputProfile label="Full Name :">
+                                    <div className="outline-none flex-1 text-start">
+                                        {user.fullname}
+                                    </div>
+                                </InputProfile>
+                            </div>
+                            <div className="flex items-start">
+                                <InputProfile label="Username :">
+                                    <div className=" outline-none flex-1 text-start ">
+                                        {user.username}
+                                    </div>
+                                </InputProfile>
+                            </div>
+                            <div className="flex items-start">
+                                <InputProfile label="Email :">
+                                    <div className=" outline-none flex-1 text-start ">
+                                        {user.email}
+                                    </div>
+                                </InputProfile>
+                            </div>
+                            <div className="flex items-start">
+                                <InputProfile label="Bio :">
+                                    <div className="outline-none flex-1 text-start ">
+                                        {user.bio}
+                                    </div>
+                                </InputProfile>
+                            </div>
                             <div className="flex flex-col sm:flex-row mb-3 sm:ml-12 space-y-2 sm:space-x-2 sm:justify-start justify-center">
                                 <button
                                     className="flex items-center justify-center rounded-lg bg-blue-500 text-white border-2 border-blue-500 px-4 py-2 hover:bg-blue-600 hover:text-white text-sm my-3"
                                     type="button"
-                                    onClick={() => router.get(`/profile/edit`)}
+                                    onClick={() => router.get("/profile/edit")}
                                 >
                                     <IoPencilOutline className="text-white w-5 h-5 " />
                                     <span className="ml-1 ">Edit Profile</span>
@@ -186,13 +201,13 @@ const FormProfile = ({ user, isEditing }) => {
                     <input
                         type="hidden"
                         name="_token"
-                        value={csrf}
+                        value={usePage().props.csrf}
                         ref={csrfRef}
                     />
                     <div className="flex items-center ml-2">
                         <button
                             type="button"
-                            onClick={() => router.get(`/profile`)}
+                            onClick={() => router.get("/profile")}
                         >
                             <IoChevronBackCircle className="text-slate-800 rounded-lg w-7 h-7 mt-2 hover:text-slate-900" />
                         </button>
@@ -206,6 +221,7 @@ const FormProfile = ({ user, isEditing }) => {
                             <div className="relative w-52 h-52 -mr-4 sm:ml-10">
                                 {imagePreview ? (
                                     <img
+                                        // di src jangan lupa arahkan ke folder public
                                         src={imagePreview}
                                         alt="Profile Preview"
                                         className="w-full h-full border-2 rounded-lg border-neutral-300 shadow-sm mx-auto pt-4 px-4 text-neutral-800 text-lg bg-neutral-100"
@@ -215,21 +231,23 @@ const FormProfile = ({ user, isEditing }) => {
                                         className="w-full h-full border-2 rounded-lg border-neutral-300 shadow-sm mx-auto pt-4 px-4 text-neutral-800 text-lg bg-neutral-100 cursor-pointer"
                                         onClick={() =>
                                             document
-                                                .getElementById("image-upload")
+                                                .getElementById("imageUpload")
                                                 .click()
                                         }
                                     />
                                 )}
                                 <label
-                                    htmlFor="image-upload"
+                                    htmlFor="imageUpload"
                                     className="absolute top-3 left-3 w-7 h-7 text-neutral-800 cursor-pointer"
                                 >
                                     <MdCameraAlt />
                                     <input
-                                        id="image-upload"
+                                        id="imageUpload"
                                         type="file"
                                         className="hidden"
                                         onChange={handleImageChange}
+                                        name="image"
+                                        accept="image/png, image/jpg, image/jpeg"
                                     />
                                 </label>
                             </div>
@@ -239,7 +257,7 @@ const FormProfile = ({ user, isEditing }) => {
                                 label="Full Name"
                                 error={errors.fullname}
                             >
-                                <Input
+                                <input
                                     autoComplete="off"
                                     name="fullname"
                                     type="text"
@@ -252,7 +270,7 @@ const FormProfile = ({ user, isEditing }) => {
                                 label="Username"
                                 error={errors.username}
                             >
-                                <Input
+                                <input
                                     required
                                     autoComplete="off"
                                     name="username"
@@ -263,7 +281,7 @@ const FormProfile = ({ user, isEditing }) => {
                                 />
                             </InputProfile>
                             <InputProfile label="Email" error={errors.email}>
-                                <Input
+                                <input
                                     required
                                     autoComplete="off"
                                     name="email"

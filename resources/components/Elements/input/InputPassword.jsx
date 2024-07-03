@@ -7,17 +7,26 @@ const InputPassword = ({
     onChange,
     className,
     placeholder,
+    errors,
 }) => {
     return (
-        <input
-            type="password"
-            autoComplete={autoComplete}
-            name={name}
-            value={value}
-            onChange={onChange}
-            className={className}
-            placeholder={placeholder}
-        />
+        <div className="w-full">
+            <input
+                type="password"
+                autoComplete={autoComplete}
+                name={name}
+                value={value}
+                onChange={onChange}
+                className={`${className} ${errors ? "border-red-500" : ""}`}
+                placeholder={placeholder}
+                required
+            />
+            {errors && (
+                <div className="text-red-500 text-xs mt-1 text-start">
+                    {errors}
+                </div>
+            )}
+        </div>
     );
 };
 
