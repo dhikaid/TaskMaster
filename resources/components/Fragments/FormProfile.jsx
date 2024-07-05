@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useForm, usePage, router } from "@inertiajs/react";
 import InputProfile from "../Elements/input/InputProfile";
+import InputProfile2 from "../Elements/input/InputProfile2";
 import ButtonProfile from "../Elements/button/ButtonProfile";
+import ButtonForm from "../Elements/button/ButtonForm";
 import Textarea from "../Elements/input/InputTextArea";
 import ModalMessage from "../Elements/Modal/ModalMessage";
 import { CiUser } from "react-icons/ci";
@@ -10,42 +12,28 @@ import ChangePassword from "../Layouts/ChangePassword";
 import { IoChevronBackCircle, IoPencilOutline } from "react-icons/io5";
 
 const FormProfile = ({ user, isEditing }) => {
-    const { errors } = usePage().props;
-    const csrfRef = useRef(null);
+    const { errors, csrf } = usePage().props;
+    const csrfRef = useRef(csrf);
 
     // Initialize useForm with initial form data
-    const { data, setData, put, processing, clearErrors } = useForm({
+    const { data, setData, progress, processing, clearErrors } = useForm({
         fullname: user.fullname || "",
         username: user.username || "",
         email: user.email || "",
         bio: user.bio || "",
         image: null,
         _method: "PUT",
-        _token: "",
+        _token: csrf,
     });
-
+    console.log(progress);
     const [isChanged, setIsChanged] = useState(false);
+    const [isLoading, setisLoading] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [message, setMessage] = useState({ status: null, message: "" });
     const changePasswordModalRef = useRef(null);
-    const [imagePreview, setImagePreview] = useState(user.image_url || "");
-
-    useEffect(() => {
-        if (csrfRef.current) {
-            setData("_token", csrfRef.current.value);
-        }
-    }, [csrfRef.current]);
-
-    useEffect(() => {
-        console.log(data);
-        const formHasChanged =
-            data.fullname !== user.fullname ||
-            data.username !== user.username ||
-            data.email !== user.email ||
-            data.bio !== user.bio ||
-            (data.image && data.image !== user.image);
-        setIsChanged(formHasChanged);
-    }, [data, user]);
+    const [imagePreview, setImagePreview] = useState(
+        `/storage/${user.image}` || ""
+    );
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -69,23 +57,42 @@ const FormProfile = ({ user, isEditing }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
-        put(`/profile/${user.uuid}`, {
-            onSuccess: () => {
-                setMessage({
-                    status: 200,
-                    message: "Profile updated successfully!",
-                });
-                setModalOpen(true);
+        const csrfToken = csrfRef.current.value;
+        setisLoading(true);
+        await router.post(
+            `/profile/${user.uuid}`,
+            {
+                fullname: data.fullname,
+                username: data.username,
+                email: data.email,
+                bio: data.bio,
+                image: data.image,
+                _method: "PUT",
+                _token: csrfToken,
             },
-            onError: () => {
-                setMessage({
-                    status: 400,
-                    message: "Error updating profile. Please try again.",
-                });
-                setModalOpen(true);
-            },
-        });
+            {
+                onProgress: (page) => {
+                    setisLoading(true);
+                },
+                onSuccess: (page) => {
+                    setisLoading(false);
+                    console.log(page.props.flash.message);
+                    setMessage({
+                        status: page.props.flash.message.status,
+                        message: page.props.flash.message.message,
+                    });
+                    setModalOpen(true);
+                },
+                onError: (page) => {
+                    setisLoading(false);
+                    setMessage({
+                        status: 400,
+                        message: "Error updating profile. Please try again.",
+                    });
+                    setModalOpen(true);
+                },
+            }
+        );
     };
 
     // Close modal handler
@@ -144,39 +151,33 @@ const FormProfile = ({ user, isEditing }) => {
                             </div>
                         </div>
                         <div className="flex flex-col w-full mt-4">
-                            <input
-                                type="hidden"
-                                name="_token"
-                                value={usePage().props.csrf}
-                                ref={csrfRef}
-                            />
                             <div className="flex items-start">
-                                <InputProfile label="Full Name :">
+                                <InputProfile2 label="Full Name :">
                                     <div className="outline-none flex-1 text-start">
                                         {user.fullname}
                                     </div>
-                                </InputProfile>
+                                </InputProfile2>
                             </div>
                             <div className="flex items-start">
-                                <InputProfile label="Username :">
+                                <InputProfile2 label="Username :">
                                     <div className=" outline-none flex-1 text-start ">
                                         {user.username}
                                     </div>
-                                </InputProfile>
+                                </InputProfile2>
                             </div>
                             <div className="flex items-start">
-                                <InputProfile label="Email :">
+                                <InputProfile2 label="Email :">
                                     <div className=" outline-none flex-1 text-start ">
                                         {user.email}
                                     </div>
-                                </InputProfile>
+                                </InputProfile2>
                             </div>
                             <div className="flex items-start">
-                                <InputProfile label="Bio :">
+                                <InputProfile2 label="Bio :">
                                     <div className="outline-none flex-1 text-start ">
                                         {user.bio}
                                     </div>
-                                </InputProfile>
+                                </InputProfile2>
                             </div>
                             <div className="flex flex-col sm:flex-row mb-3 sm:ml-12 space-y-2 sm:space-x-2 sm:justify-start justify-center">
                                 <button
@@ -301,13 +302,14 @@ const FormProfile = ({ user, isEditing }) => {
                                 />
                             </InputProfile>
                             <div className="flex flex-col sm:flex-row mb-3 sm:ml-11 space-y-2 sm:space-x-2 sm:justify-start justify-center">
-                                <ButtonProfile
+                                <ButtonForm
                                     className="flex items-center justify-center text-sm"
                                     type="submit"
-                                    disabled={processing || !isChanged}
+                                    disabled={isLoading}
+                                    isloading={isLoading}
                                 >
-                                    Save Profile
-                                </ButtonProfile>
+                                    {isLoading ? `Saving...` : "Save Profile"}
+                                </ButtonForm>
                                 <button
                                     className="flex items-center justify-center text-blue-500 bg-white border-2 border-blue-500 rounded-lg px-4 font-semibold hover:bg-blue-500 hover:text-white  text-sm p-2"
                                     type="button"
@@ -322,7 +324,11 @@ const FormProfile = ({ user, isEditing }) => {
                     </div>
                 </form>
             )}
-            <ChangePassword user={user} ref={changePasswordModalRef} />
+            <ChangePassword
+                user={user}
+                ref={changePasswordModalRef}
+                isPassword="false"
+            />
         </div>
     );
 };

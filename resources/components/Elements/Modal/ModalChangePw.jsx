@@ -5,9 +5,7 @@ const ModalChangePw = ({ isOpen, onClose, children, hasError }) => {
     if (!isOpen) return null;
 
     const handleClose = () => {
-        if (!hasError) {
-            onClose();
-        }
+        onClose();
     };
 
     return (

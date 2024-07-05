@@ -7,12 +7,13 @@ import React, {
 import { usePage, router } from "@inertiajs/react";
 import InputPassword from "../Elements/input/InputPassword";
 import ButtonProfile from "../Elements/button/ButtonProfile";
+import ButtonForm from "../Elements/button/ButtonForm";
 import LabelInput from "../Elements/input/LabelInput";
 import ModalChangePw from "../Elements/Modal/ModalChangePw";
 import { FaCircleCheck } from "react-icons/fa6";
 import { MdError } from "react-icons/md";
 
-const ChangePassword = forwardRef(({ user }, ref) => {
+const ChangePassword = forwardRef(({ user, isPassword }, ref) => {
     const { errors, csrf, flash } = usePage().props;
     const csrfRef = useRef(csrf);
 
@@ -22,6 +23,7 @@ const ChangePassword = forwardRef(({ user }, ref) => {
     const [isLoading, setIsLoading] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+    const [isAlert, setIsAlert] = useState({});
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -34,12 +36,37 @@ const ChangePassword = forwardRef(({ user }, ref) => {
         event.preventDefault();
         setIsLoading(true);
         try {
-            await router.post(`/profile/${user.uuid}`, {
-                old_password,
-                password1,
-                password2,
-                _token: csrfRef.current,
-            });
+            await router.post(
+                `/profile/${user.uuid}`,
+                {
+                    old_password,
+                    password1,
+                    password2,
+                    _token: csrfRef.current.value,
+                },
+                {
+                    onProgress: (page) => {
+                        setIsLoading(true);
+                    },
+                    onSuccess: (page) => {
+                        setIsAlert(page.props.flash);
+                        setIsLoading(false);
+                        console.log(isLoading);
+                        if (page.props.flash.message.status == 200) {
+                            setOldPassword("");
+                            setPassword1("");
+                            setPassword2("");
+                            setTimeout(function () {
+                                setIsAlert({});
+                            }, 2000);
+                        }
+                    },
+                    onError: (page) => {
+                        // setIsAlert(page.props.flash);
+                        setIsLoading(false);
+                    },
+                }
+            );
 
             if (
                 !errors.old_password &&
@@ -52,8 +79,6 @@ const ChangePassword = forwardRef(({ user }, ref) => {
             }
         } catch (error) {
             console.error("Error during password change:", error);
-        } finally {
-            setIsLoading(false);
         }
     };
 
@@ -81,38 +106,17 @@ const ChangePassword = forwardRef(({ user }, ref) => {
                 <div className="text-xl font-bold my-4 text-center text-neutral-700 mb-6">
                     Change Password
                 </div>
-                {showSuccessMessage && (
-                    <div className="bg-gray-100 border-t-4 max-w-lg mx-auto border-green-500 border-1 rounded-lg p-1 mb-4 flex items-center">
-                        <div className="flex items-center justify-center rounded-l-lg mr-2 px-2">
-                            <FaCircleCheck className="text-3xl text-green-500" />
-                        </div>
-                        <div>
-                            <h2 className="font-bold text-md text-left text-green-500">
-                                Success!
-                            </h2>
-                            <p className="text-sm text-start text-green-500">
-                                Password changed successfully.
-                            </p>
-                            <ButtonProfile
-                                onClick={closeSuccessMessage}
-                                className="my-4 w-full"
-                            >
-                                Ok
-                            </ButtonProfile>
-                        </div>
-                    </div>
-                )}
 
-                {flash.message && !showSuccessMessage && (
+                {isAlert.message && (
                     <div
                         className={`bg-gray-100 border-t-4 max-w-lg mx-auto ${
-                            flash.message.status === 200
+                            isAlert.message.status === 200
                                 ? "border-green-500"
                                 : "border-red-500"
                         } border-1 rounded-lg p-1 mb-4 flex items-center`}
                     >
                         <div className="flex items-center justify-center rounded-l-lg mr-2 px-2">
-                            {flash.message.status === 200 ? (
+                            {isAlert.message.status === 200 ? (
                                 <FaCircleCheck className="text-3xl text-green-500" />
                             ) : (
                                 <MdError className="text-4xl text-red-500" />
@@ -121,81 +125,82 @@ const ChangePassword = forwardRef(({ user }, ref) => {
                         <div>
                             <h2
                                 className={`font-bold text-md text-left ${
-                                    flash.message.status === 200
+                                    isAlert.message.status === 200
                                         ? "text-green-500"
                                         : "text-red-500"
                                 }`}
                             >
-                                {flash.message.status === 200
+                                {isAlert.message.status === 200
                                     ? "Success!"
                                     : "Error!"}
                             </h2>
                             <p
                                 className={`text-sm text-start ${
-                                    flash.message.status === 200
+                                    isAlert.message.status === 200
                                         ? "text-green-500"
                                         : "text-red-500"
                                 }`}
                             >
-                                {flash.message.message}
+                                {isAlert.message.message}
                             </p>
                         </div>
                     </div>
                 )}
 
-                {!showSuccessMessage && (
-                    <form
-                        onSubmit={handleSubmit}
-                        className="flex flex-col w-full"
+                {/* {!showSuccessMessage && ( */}
+                <form onSubmit={handleSubmit} className="flex flex-col w-full">
+                    <input
+                        type="hidden"
+                        name="_token"
+                        value={usePage().props.csrf}
+                        ref={csrfRef}
+                    />
+                    <LabelInput
+                        label="Old Password"
+                        error={errors.old_password}
                     >
-                        <LabelInput
-                            label="Old Password"
-                            error={errors.old_password}
-                        >
-                            <InputPassword
-                                autoComplete="off"
-                                name="old_password"
-                                value={old_password}
-                                onChange={handleChange}
-                                className="bg-gray-100 outline-none text-sm flex-1 text-start"
-                                placeholder="Enter your old password"
-                            />
-                        </LabelInput>
-                        <LabelInput
-                            label="New Password"
-                            error={errors.password1}
-                        >
-                            <InputPassword
-                                autoComplete="off"
-                                name="password1"
-                                value={password1}
-                                onChange={handleChange}
-                                className="bg-gray-100 outline-none text-sm flex-1 text-start"
-                                placeholder="Enter your new password"
-                            />
-                        </LabelInput>
-                        <LabelInput
-                            label="Confirm Password"
-                            error={errors.password2}
-                        >
-                            <InputPassword
-                                autoComplete="off"
-                                name="password2"
-                                value={password2}
-                                onChange={handleChange}
-                                className="bg-gray-100 outline-none text-sm flex-1 text-start"
-                                placeholder="Confirm your new password"
-                            />
-                        </LabelInput>
-                        <ButtonProfile
-                            type="submit"
-                            disabled={isLoading}
-                            className="my-8 mb-5 w-full sm:w-10/12 m-auto"
-                        >
-                            {isLoading ? "Saving..." : "Change Password"}
-                        </ButtonProfile>
-                    </form>
-                )}
+                        <InputPassword
+                            autoComplete="off"
+                            name="old_password"
+                            value={old_password}
+                            onChange={handleChange}
+                            className="bg-gray-100 outline-none text-sm flex-1 text-start"
+                            placeholder="Enter your old password"
+                        />
+                    </LabelInput>
+                    <LabelInput label="New Password" error={errors.password1}>
+                        <InputPassword
+                            autoComplete="off"
+                            name="password1"
+                            value={password1}
+                            onChange={handleChange}
+                            className="bg-gray-100 outline-none text-sm flex-1 text-start"
+                            placeholder="Enter your new password"
+                        />
+                    </LabelInput>
+                    <LabelInput
+                        label="Confirm Password"
+                        error={errors.password2}
+                    >
+                        <InputPassword
+                            autoComplete="off"
+                            name="password2"
+                            value={password2}
+                            onChange={handleChange}
+                            className="bg-gray-100 outline-none text-sm flex-1 text-start"
+                            placeholder="Confirm your new password"
+                        />
+                    </LabelInput>
+                    <ButtonForm
+                        type="submit"
+                        disabled={isLoading}
+                        isloading={isLoading}
+                        className={`my-8 mb-5 w-full  m-auto`}
+                    >
+                        {isLoading ? `Saving...` : "Change Password"}
+                    </ButtonForm>
+                </form>
+                {/* )} */}
             </ModalChangePw>
         </>
     );
