@@ -1,9 +1,9 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import InputFormForgot from "../Elements/input/InputFormForgot";
-import Button from "../Elements/button/Button";
 import { usePage, router } from "@inertiajs/react";
 import { FaCircleCheck } from "react-icons/fa6";
 import { MdError } from "react-icons/md";
+import ButtonForm from "../Elements/button/ButtonForm";
 
 const FormForgot = ({
     email,
@@ -15,10 +15,12 @@ const FormForgot = ({
 }) => {
     const { errors, flash } = usePage().props;
     const csrfRef = useRef(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         const csrfToken = csrfRef.current.value;
+        setIsLoading(true);
         try {
             await router.post(isForgot ? "/oauth/forgot" : "/oauth/reset", {
                 email,
@@ -29,6 +31,8 @@ const FormForgot = ({
             });
         } catch (error) {
             console.error("Error during password reset:", error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -79,7 +83,7 @@ const FormForgot = ({
                 </div>
             )}
             {!flash.message && (
-                <p className="text-sm mb-5 text-slate-400  text-center">
+                <p className="text-sm mb-5 text-slate-400 text-center">
                     {isForgot
                         ? "Please enter the email address you'd like your password reset information sent to."
                         : "Enter the new password, now you can change it"}
@@ -101,12 +105,20 @@ const FormForgot = ({
                 isForgot={isForgot}
                 tokenReset={tokenReset}
             />
-
             <div className="mt-16"></div>
-            <Button onClick={handleSubmit}>
-                {isForgot ? "Reset Password" : "Change Password"}
-            </Button>
-
+            <ButtonForm
+                onClick={handleSubmit}
+                disabled={isLoading}
+                isloading={isLoading}
+            >
+                {isLoading
+                    ? isForgot
+                        ? "Sending..."
+                        : "Saving..."
+                    : isForgot
+                    ? "Reset Password"
+                    : "Change Password"}
+            </ButtonForm>
             <p className="text-center mt-2 block xl:hidden text-xs my-4 pt-2">
                 Already have an account?{" "}
                 <a

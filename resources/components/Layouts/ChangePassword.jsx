@@ -6,9 +6,8 @@ import React, {
 } from "react";
 import { usePage, router } from "@inertiajs/react";
 import InputPassword from "../Elements/input/InputPassword";
-import ButtonProfile from "../Elements/button/ButtonProfile";
 import ButtonForm from "../Elements/button/ButtonForm";
-import LabelInput from "../Elements/input/LabelInput";
+import LabelPassword from "../Elements/input/LabelPassword";
 import ModalChangePw from "../Elements/Modal/ModalChangePw";
 import { FaCircleCheck } from "react-icons/fa6";
 import { MdError } from "react-icons/md";
@@ -51,18 +50,16 @@ const ChangePassword = forwardRef(({ user, isPassword }, ref) => {
                     onSuccess: (page) => {
                         setIsAlert(page.props.flash);
                         setIsLoading(false);
-                        console.log(isLoading);
-                        if (page.props.flash.message.status == 200) {
+                        if (page.props.flash.message.status === 200) {
                             setOldPassword("");
                             setPassword1("");
                             setPassword2("");
-                            setTimeout(function () {
+                            setTimeout(() => {
                                 setIsAlert({});
                             }, 2000);
                         }
                     },
-                    onError: (page) => {
-                        // setIsAlert(page.props.flash);
+                    onError: () => {
                         setIsLoading(false);
                     },
                 }
@@ -147,15 +144,14 @@ const ChangePassword = forwardRef(({ user, isPassword }, ref) => {
                     </div>
                 )}
 
-                {/* {!showSuccessMessage && ( */}
                 <form onSubmit={handleSubmit} className="flex flex-col w-full">
                     <input
                         type="hidden"
                         name="_token"
-                        value={usePage().props.csrf}
+                        value={csrf}
                         ref={csrfRef}
                     />
-                    <LabelInput
+                    <LabelPassword
                         label="Old Password"
                         error={errors.old_password}
                     >
@@ -164,21 +160,24 @@ const ChangePassword = forwardRef(({ user, isPassword }, ref) => {
                             name="old_password"
                             value={old_password}
                             onChange={handleChange}
-                            className="bg-gray-100 outline-none text-sm flex-1 text-start"
+                            className="bg-gray-100 outline-none text-sm flex-1 text-start w-full"
                             placeholder="Enter your old password"
                         />
-                    </LabelInput>
-                    <LabelInput label="New Password" error={errors.password1}>
+                    </LabelPassword>
+                    <LabelPassword
+                        label="New Password"
+                        error={errors.password1}
+                    >
                         <InputPassword
                             autoComplete="off"
                             name="password1"
                             value={password1}
                             onChange={handleChange}
-                            className="bg-gray-100 outline-none text-sm flex-1 text-start"
+                            className="bg-gray-100 outline-none text-sm flex-1 text-start w-full"
                             placeholder="Enter your new password"
                         />
-                    </LabelInput>
-                    <LabelInput
+                    </LabelPassword>
+                    <LabelPassword
                         label="Confirm Password"
                         error={errors.password2}
                     >
@@ -187,20 +186,19 @@ const ChangePassword = forwardRef(({ user, isPassword }, ref) => {
                             name="password2"
                             value={password2}
                             onChange={handleChange}
-                            className="bg-gray-100 outline-none text-sm flex-1 text-start"
+                            className="bg-gray-100 outline-none text-sm flex-1 text-start w-full"
                             placeholder="Confirm your new password"
                         />
-                    </LabelInput>
+                    </LabelPassword>
                     <ButtonForm
                         type="submit"
                         disabled={isLoading}
                         isloading={isLoading}
-                        className={`my-8 mb-5 w-full  m-auto`}
+                        className="my-8 mb-5 w-full m-auto"
                     >
-                        {isLoading ? `Saving...` : "Change Password"}
+                        {isLoading ? `Saving...` : "Save Profile"}
                     </ButtonForm>
                 </form>
-                {/* )} */}
             </ModalChangePw>
         </>
     );

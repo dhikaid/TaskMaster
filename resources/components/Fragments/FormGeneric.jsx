@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import InputFormGeneric from "../Elements/input/InputFormGeneric";
-import Button from "../Elements/button/Button";
+import ButtonForm from "../Elements/button/ButtonForm";
 import { usePage, router, Link } from "@inertiajs/react";
 import { FaCircleCheck } from "react-icons/fa6";
 import { MdError } from "react-icons/md";
@@ -11,6 +11,7 @@ const FormGeneric = ({ inputs, formTitle, postRoute, isSignUp }) => {
     const [formData, setFormData] = useState({
         ...inputs,
     });
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -20,10 +21,13 @@ const FormGeneric = ({ inputs, formTitle, postRoute, isSignUp }) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const csrfToken = csrfRef.current.value;
+        setIsLoading(true);
         try {
             await router.post(postRoute, { ...formData, _token: csrfToken });
+            setIsLoading(false);
         } catch (error) {
             console.error(`Error during ${formTitle}:`, error);
+            setIsLoading(false);
         }
     };
 
@@ -81,7 +85,7 @@ const FormGeneric = ({ inputs, formTitle, postRoute, isSignUp }) => {
             <input
                 type="hidden"
                 name="_token"
-                value={usePage().props.csrf}
+                value={csrf}
                 ref={csrfRef}
                 onChange={handleChange}
             />
@@ -108,7 +112,9 @@ const FormGeneric = ({ inputs, formTitle, postRoute, isSignUp }) => {
                     </a>
                 </div>
             )}
-            <Button onClick={handleSubmit}>{formTitle}</Button>
+            <ButtonForm onClick={handleSubmit} disabled={isLoading}>
+                {isLoading ? `Saving...` : formTitle}
+            </ButtonForm>
 
             <p className="text-center mt-2 block xl:hidden text-xs my-4 pt-2">
                 {isSignUp ? (

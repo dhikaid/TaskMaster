@@ -172,13 +172,13 @@ const FormProfile = ({ user, isEditing }) => {
                                     </div>
                                 </InputProfile2>
                             </div>
-                            <div className="flex items-start">
-                                <InputProfile2 label="Bio :">
-                                    <div className="outline-none flex-1 text-start ">
-                                        {user.bio}
-                                    </div>
-                                </InputProfile2>
-                            </div>
+                            <InputProfile2 label="Bio :">
+                                <textarea
+                                    className="border-1 border border-gray-200 outline-none flex-1 text-start p-2 resize-none h-[84px] rounded-lg"
+                                    value={user.bio}
+                                    readOnly
+                                />
+                            </InputProfile2>
                             <div className="flex flex-col sm:flex-row mb-3 sm:ml-12 space-y-2 sm:space-x-2 sm:justify-start justify-center">
                                 <button
                                     className="flex items-center justify-center rounded-lg bg-blue-500 text-white border-2 border-blue-500 px-4 py-2 hover:bg-blue-600 hover:text-white text-sm my-3"
@@ -241,7 +241,7 @@ const FormProfile = ({ user, isEditing }) => {
                                     htmlFor="imageUpload"
                                     className="absolute top-3 left-3 w-7 h-7 text-neutral-800 cursor-pointer"
                                 >
-                                    <MdCameraAlt />
+                                    <MdCameraAlt className="w-7 h-7" />
                                     <input
                                         id="imageUpload"
                                         type="file"

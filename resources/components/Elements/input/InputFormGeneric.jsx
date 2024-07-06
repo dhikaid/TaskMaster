@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import LabelInput from "./LabelInput";
-import { MdPersonOutline, MdLockOutline } from "react-icons/md";
+import {
+    MdPersonOutline,
+    MdLockOutline,
+    MdVisibility,
+    MdVisibilityOff,
+} from "react-icons/md";
 import { FaRegEnvelope } from "react-icons/fa";
 
 const InputFormGeneric = ({
@@ -13,11 +18,18 @@ const InputFormGeneric = ({
     errors,
     isSignUp,
 }) => {
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    const togglePasswordVisibility = () => setShowPassword(!showPassword);
+    const toggleConfirmPasswordVisibility = () =>
+        setShowConfirmPassword(!showConfirmPassword);
+
     return (
         <div>
             <LabelInput
                 label="Username"
-                icon={<MdPersonOutline className="text-gray-400 m-2" />}
+                icon={<MdPersonOutline className="text-gray-400 mr-2" />}
                 error={errors.username}
             >
                 <input
@@ -34,7 +46,7 @@ const InputFormGeneric = ({
             {isSignUp && (
                 <LabelInput
                     label="Email"
-                    icon={<FaRegEnvelope className="text-gray-400 m-2" />}
+                    icon={<FaRegEnvelope className="text-gray-400 mr-2" />}
                     error={errors.email}
                 >
                     <input
@@ -51,36 +63,58 @@ const InputFormGeneric = ({
             )}
             <LabelInput
                 label="Password"
-                icon={<MdLockOutline className="text-gray-400 m-2" />}
+                icon={<MdLockOutline className="text-gray-400 mr-2" />}
                 error={isSignUp ? errors.password1 : errors.password}
             >
                 <input
                     required
                     autoComplete="off"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     name={isSignUp ? "password1" : "password"}
                     placeholder="Enter your password"
                     value={isSignUp ? password1 : password}
                     onChange={handleChange}
                     className="bg-gray-100 outline-none text-sm flex-1 text-start"
                 />
+                <button
+                    type="button"
+                    onClick={togglePasswordVisibility}
+                    className="focus:outline-none ml-2"
+                >
+                    {showPassword ? (
+                        <MdVisibility className="text-gray-400 mr-2" />
+                    ) : (
+                        <MdVisibilityOff className="text-gray-400" />
+                    )}
+                </button>
             </LabelInput>
             {isSignUp && (
                 <LabelInput
                     label="Confirm Password"
-                    icon={<MdLockOutline className="text-gray-400 m-2" />}
+                    icon={<MdLockOutline className="text-gray-400 mr-2" />}
                     error={errors.password2}
                 >
                     <input
                         required
                         autoComplete="off"
-                        type="password"
+                        type={showConfirmPassword ? "text" : "password"}
                         name="password2"
                         placeholder="Confirm your password"
                         value={password2}
                         onChange={handleChange}
                         className="bg-gray-100 outline-none text-sm flex-1 text-start"
                     />
+                    <button
+                        type="button"
+                        onClick={toggleConfirmPasswordVisibility}
+                        className="focus:outline-none ml-2"
+                    >
+                        {showConfirmPassword ? (
+                            <MdVisibility className="text-gray-400" />
+                        ) : (
+                            <MdVisibilityOff className="text-gray-400 ml-2" />
+                        )}
+                    </button>
                 </LabelInput>
             )}
         </div>

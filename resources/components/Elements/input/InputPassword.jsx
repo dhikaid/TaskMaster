@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 
 const InputPassword = ({
     autoComplete,
@@ -7,25 +8,37 @@ const InputPassword = ({
     onChange,
     className,
     placeholder,
-    errors,
+    error,
 }) => {
+    const [showPassword, setShowPassword] = useState(false);
+
+    const togglePassVisibility = () => setShowPassword(!showPassword);
+
     return (
-        <div className="w-full">
+        <div className="relative w-full flex items-center">
             <input
-                type="password"
                 autoComplete={autoComplete}
+                type={showPassword ? "text" : "password"}
                 name={name}
                 value={value}
                 onChange={onChange}
-                className={`${className} ${errors ? "border-red-500" : ""}`}
+                className={`${className} ${
+                    error ? "border-red-500" : ""
+                } bg-gray-100 outline-none text-sm flex-1 text-start pr-10 p-2`}
                 placeholder={placeholder}
                 required
             />
-            {errors && (
-                <div className="text-red-500 text-xs mt-1 text-start">
-                    {errors}
-                </div>
-            )}
+            <button
+                type="button"
+                onClick={togglePassVisibility}
+                className="absolute right-6 focus:outline-none"
+            >
+                {showPassword ? (
+                    <MdVisibility className="text-gray-400" />
+                ) : (
+                    <MdVisibilityOff className="text-gray-400" />
+                )}
+            </button>
         </div>
     );
 };
