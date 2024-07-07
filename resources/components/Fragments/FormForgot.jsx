@@ -20,18 +20,31 @@ const FormForgot = ({
     const handleSubmit = async (event) => {
         event.preventDefault();
         const csrfToken = csrfRef.current.value;
-        setIsLoading(true);
         try {
-            await router.post(isForgot ? "/oauth/forgot" : "/oauth/reset", {
-                email,
-                password1,
-                password2,
-                token: tokenReset,
-                _token: csrfToken,
-            });
+            setIsLoading(true);
+            await router.post(
+                isForgot ? "/oauth/forgot" : "/oauth/reset",
+                {
+                    email,
+                    password1,
+                    password2,
+                    token: tokenReset,
+                    _token: csrfToken,
+                },
+                {
+                    onProgress: (page) => {
+                        setIsLoading(true);
+                    },
+                    onSuccess: (page) => {
+                        setIsLoading(false);
+                    },
+                    onError: () => {
+                        setIsLoading(false);
+                    },
+                }
+            );
         } catch (error) {
             console.error("Error during password reset:", error);
-        } finally {
             setIsLoading(false);
         }
     };

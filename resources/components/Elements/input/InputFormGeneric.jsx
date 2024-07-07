@@ -84,7 +84,7 @@ const InputFormGeneric = ({
                     {showPassword ? (
                         <MdVisibility className="text-gray-400 mr-2" />
                     ) : (
-                        <MdVisibilityOff className="text-gray-400" />
+                        <MdVisibilityOff className="text-gray-400 mr-2" />
                     )}
                 </button>
             </LabelInput>
@@ -110,9 +110,9 @@ const InputFormGeneric = ({
                         className="focus:outline-none ml-2"
                     >
                         {showConfirmPassword ? (
-                            <MdVisibility className="text-gray-400" />
+                            <MdVisibility className="text-gray-400 mr-2" />
                         ) : (
-                            <MdVisibilityOff className="text-gray-400 ml-2" />
+                            <MdVisibilityOff className="text-gray-400 mr-2" />
                         )}
                     </button>
                 </LabelInput>

@@ -21,10 +21,23 @@ const FormGeneric = ({ inputs, formTitle, postRoute, isSignUp }) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const csrfToken = csrfRef.current.value;
-        setIsLoading(true);
         try {
-            await router.post(postRoute, { ...formData, _token: csrfToken });
-            setIsLoading(false);
+            setIsLoading(true);
+            await router.post(
+                postRoute,
+                { ...formData, _token: csrfToken },
+                {
+                    onProgress: (page) => {
+                        setIsLoading(true);
+                    },
+                    onSuccess: (page) => {
+                        setIsLoading(false);
+                    },
+                    onError: () => {
+                        setIsLoading(false);
+                    },
+                }
+            );
         } catch (error) {
             console.error(`Error during ${formTitle}:`, error);
             setIsLoading(false);
@@ -112,8 +125,12 @@ const FormGeneric = ({ inputs, formTitle, postRoute, isSignUp }) => {
                     </a>
                 </div>
             )}
-            <ButtonForm onClick={handleSubmit} disabled={isLoading}>
-                {isLoading ? `Saving...` : formTitle}
+            <ButtonForm
+                onClick={handleSubmit}
+                disabled={isLoading}
+                isloading={isLoading}
+            >
+                {isLoading ? `Processing...` : formTitle}
             </ButtonForm>
 
             <p className="text-center mt-2 block xl:hidden text-xs my-4 pt-2">
