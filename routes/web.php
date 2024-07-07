@@ -1,9 +1,8 @@
 <?php
 
-use App\Http\Controllers\HomeController;
-use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OauthController;
 use App\Http\Controllers\ProfileController;
 
@@ -56,8 +55,12 @@ Route::post('/oauth/forgot', [OauthController::class, 'forgot'])->middleware('gu
 Route::post('/oauth/resetPassword', [OauthController::class, 'resetPassword'])->middleware('guest');
 
 //PROFILE
-//PROFILE
 Route::get('/profile', [ProfileController::class, 'index'])->middleware('auth');
 Route::put('/profile/{user:uuid}', [ProfileController::class, 'update'])->middleware('auth');
+Route::post('/profile/{user:uuid}', [ProfileController::class, 'changePassword'])->middleware('auth');
 Route::get('/profile/edit', [ProfileController::class, 'edit'])->middleware('auth');
 
+// DEBUG
+Route::get('/image', function () {
+    return fake()->image(storage_path('app/public/avatar'), 300, 300, null, false, false, 'A', true, 'png');
+});

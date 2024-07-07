@@ -53,6 +53,7 @@ class OauthController extends Controller
         $validatedData['fullname'] = $validatedData['username'];
         $validatedData['password'] = $validatedData['password2'];
         $validatedData['uuid'] = fake()->uuid();
+        $validatedData['image'] = 'avatar/' . fake()->image(storage_path('app/public/avatar'), 300, 300, null, false, false, strtoupper(substr($validatedData['username'], 0, 1)), true, 'png');
 
         $user = User::create($validatedData);
 

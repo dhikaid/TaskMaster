@@ -1,71 +1,101 @@
 import React, { useState, useRef, useEffect } from "react";
-import { usePage, router } from "@inertiajs/react";
+import { useForm, usePage, router } from "@inertiajs/react";
 import InputProfile from "../Elements/input/InputProfile";
+import InputProfile2 from "../Elements/input/InputProfile2";
 import ButtonProfile from "../Elements/button/ButtonProfile";
-import Input from "../Elements/input/Input";
+import ButtonForm from "../Elements/button/ButtonForm";
 import Textarea from "../Elements/input/InputTextArea";
 import ModalMessage from "../Elements/Modal/ModalMessage";
 import { CiUser } from "react-icons/ci";
 import { MdCameraAlt } from "react-icons/md";
 import ChangePassword from "../Layouts/ChangePassword";
 import { IoChevronBackCircle, IoPencilOutline } from "react-icons/io5";
-import InputProfile2 from "../Elements/input/InputProfile2";
 
 const FormProfile = ({ user, isEditing }) => {
-    const { errors, csrf, flash } = usePage().props;
-    const csrfRef = useRef(null);
+    const { errors, csrf } = usePage().props;
+    const csrfRef = useRef(csrf);
 
-    const initialFormData = {
+    // Initialize useForm with initial form data
+    const { data, setData, progress, processing, clearErrors } = useForm({
         fullname: user.fullname || "",
         username: user.username || "",
         email: user.email || "",
         bio: user.bio || "",
+        image: null,
         _method: "PUT",
         _token: csrf,
-    };
-
-    const [formData, setFormData] = useState(initialFormData);
+    });
+    console.log(progress);
     const [isChanged, setIsChanged] = useState(false);
+    const [isLoading, setisLoading] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [message, setMessage] = useState({ status: null, message: "" });
     const changePasswordModalRef = useRef(null);
-
-    useEffect(() => {
-        const formHasChanged =
-            formData.fullname !== initialFormData.fullname ||
-            formData.username !== initialFormData.username ||
-            formData.email !== initialFormData.email ||
-            formData.bio !== initialFormData.bio;
-
-        setIsChanged(formHasChanged);
-    }, [formData, initialFormData]);
+    const [imagePreview, setImagePreview] = useState(
+        `/storage/${user.image}` || ""
+    );
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setFormData({ ...formData, [name]: value });
+        setData(name, value);
+        clearErrors(name);
+    };
+
+    // Handle image file selection
+    const handleImageChange = (event) => {
+        const file = event.target.files[0];
+        setData("image", file);
+
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setImagePreview(reader.result);
+        };
+        if (file) {
+            reader.readAsDataURL(file);
+        }
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         const csrfToken = csrfRef.current.value;
-        try {
-            await router.put(`/profile/${user.uuid}`, {
-                ...formData,
+        setisLoading(true);
+        await router.post(
+            `/profile/${user.uuid}`,
+            {
+                fullname: data.fullname,
+                username: data.username,
+                email: data.email,
+                bio: data.bio,
+                image: data.image,
+                _method: "PUT",
                 _token: csrfToken,
-            });
-            setMessage({
-                status: 200,
-                message: "Profile updated successfully!",
-            });
-        } catch (error) {
-            setMessage({
-                status: 400,
-                message: "Error updating profile. Please try again.",
-            });
-        }
-        setModalOpen(true);
+            },
+            {
+                onProgress: (page) => {
+                    setisLoading(true);
+                },
+                onSuccess: (page) => {
+                    setisLoading(false);
+                    console.log(page.props.flash.message);
+                    setMessage({
+                        status: page.props.flash.message.status,
+                        message: page.props.flash.message.message,
+                    });
+                    setModalOpen(true);
+                },
+                onError: (page) => {
+                    setisLoading(false);
+                    setMessage({
+                        status: 400,
+                        message: "Error updating profile. Please try again.",
+                    });
+                    setModalOpen(true);
+                },
+            }
+        );
     };
 
+    // Close modal handler
     const handleCloseModal = () => {
         setModalOpen(false);
     };
@@ -82,7 +112,7 @@ const FormProfile = ({ user, isEditing }) => {
                     <div className="flex items-center ml-2">
                         <button
                             type="button"
-                            onClick={() => router.get(`/home`)}
+                            onClick={() => router.get("/home")}
                         >
                             <IoChevronBackCircle className="text-slate-800 rounded-lg w-7 h-7 mt-2 hover:text-slate-900" />
                         </button>
@@ -94,35 +124,66 @@ const FormProfile = ({ user, isEditing }) => {
                     <div className="flex flex-col sm:flex-row items-center sm:space-x-4 mt-3">
                         <div className="flex flex-col items-center sm:mb-0 my-4">
                             <div className="relative w-52 h-52 -mr-4 sm:ml-10">
-                                <CiUser className="w-full h-full border-2 rounded-lg border-neutral-300 shadow-sm mx-auto pt-4 px-4 text-neutral-800 text-lg bg-neutral-100" />
+                                {imagePreview ? (
+                                    <img
+                                        src={imagePreview}
+                                        alt="Profile Preview"
+                                        className="w-full h-full border-2 rounded-lg border-neutral-300 shadow-sm mx-auto pt-4 px-4 text-neutral-800 text-lg bg-neutral-100"
+                                    />
+                                ) : (
+                                    <CiUser
+                                        className="w-full h-full border-2 rounded-lg border-neutral-300 shadow-sm mx-auto pt-4 px-4 text-neutral-800 text-lg bg-neutral-100 cursor-pointer"
+                                        onClick={() =>
+                                            document
+                                                .getElementById("imageUpload")
+                                                .click()
+                                        }
+                                    />
+                                )}
+                                <MdCameraAlt
+                                    className="absolute top-3 left-3 w-7 h-7 text-neutral-800 cursor-pointer"
+                                    onClick={() =>
+                                        document
+                                            .getElementById("imageUpload")
+                                            .click()
+                                    }
+                                />
                             </div>
                         </div>
                         <div className="flex flex-col w-full mt-4">
-                            <InputProfile2 label="Full Name :">
-                                <div className="outline-none flex-1 text-start ">
-                                    {user.fullname}
-                                </div>
-                            </InputProfile2>
-                            <InputProfile2 label="Username :">
-                                <div className=" outline-none flex-1 text-start ">
-                                    {user.username}
-                                </div>
-                            </InputProfile2>
-                            <InputProfile2 label="Email :">
-                                <div className=" outline-none flex-1 text-start ">
-                                    {user.email}
-                                </div>
-                            </InputProfile2>
+                            <div className="flex items-start">
+                                <InputProfile2 label="Full Name :">
+                                    <div className="outline-none flex-1 text-start">
+                                        {user.fullname}
+                                    </div>
+                                </InputProfile2>
+                            </div>
+                            <div className="flex items-start">
+                                <InputProfile2 label="Username :">
+                                    <div className=" outline-none flex-1 text-start ">
+                                        {user.username}
+                                    </div>
+                                </InputProfile2>
+                            </div>
+                            <div className="flex items-start">
+                                <InputProfile2 label="Email :">
+                                    <div className=" outline-none flex-1 text-start ">
+                                        {user.email}
+                                    </div>
+                                </InputProfile2>
+                            </div>
                             <InputProfile2 label="Bio :">
-                                <div className="outline-none flex-1 text-start ">
-                                    {user.bio}
-                                </div>
+                                <textarea
+                                    className="border-1 border border-gray-200 outline-none flex-1 text-start p-2 resize-none h-[84px] rounded-lg"
+                                    value={user.bio}
+                                    readOnly
+                                />
                             </InputProfile2>
                             <div className="flex flex-col sm:flex-row mb-3 sm:ml-12 space-y-2 sm:space-x-2 sm:justify-start justify-center">
                                 <button
                                     className="flex items-center justify-center rounded-lg bg-blue-500 text-white border-2 border-blue-500 px-4 py-2 hover:bg-blue-600 hover:text-white text-sm my-3"
                                     type="button"
-                                    onClick={() => router.get(`/profile/edit`)}
+                                    onClick={() => router.get("/profile/edit")}
                                 >
                                     <IoPencilOutline className="text-white w-5 h-5 " />
                                     <span className="ml-1 ">Edit Profile</span>
@@ -136,17 +197,18 @@ const FormProfile = ({ user, isEditing }) => {
                     onSubmit={handleSubmit}
                     method="POST"
                     className="flex flex-col w-full"
+                    encType="multipart/form-data"
                 >
                     <input
                         type="hidden"
                         name="_token"
-                        value={csrf}
+                        value={usePage().props.csrf}
                         ref={csrfRef}
                     />
                     <div className="flex items-center ml-2">
                         <button
                             type="button"
-                            onClick={() => router.get(`/profile`)}
+                            onClick={() => router.get("/profile")}
                         >
                             <IoChevronBackCircle className="text-slate-800 rounded-lg w-7 h-7 mt-2 hover:text-slate-900" />
                         </button>
@@ -158,8 +220,37 @@ const FormProfile = ({ user, isEditing }) => {
                     <div className="flex flex-col sm:flex-row items-center sm:space-x-4">
                         <div className="flex flex-col items-center sm:mb-0 my-4 mt-6">
                             <div className="relative w-52 h-52 -mr-4 sm:ml-10">
-                                <CiUser className="w-full h-full border-2 rounded-lg border-neutral-300 shadow-sm mx-auto pt-4 px-4 text-neutral-800 text-lg bg-neutral-100" />
-                                <MdCameraAlt className="absolute top-3 left-3 w-7 h-7 text-neutral-800" />
+                                {imagePreview ? (
+                                    <img
+                                        // di src jangan lupa arahkan ke folder public
+                                        src={imagePreview}
+                                        alt="Profile Preview"
+                                        className="w-full h-full border-2 rounded-lg border-neutral-300 shadow-sm mx-auto pt-4 px-4 text-neutral-800 text-lg bg-neutral-100"
+                                    />
+                                ) : (
+                                    <CiUser
+                                        className="w-full h-full border-2 rounded-lg border-neutral-300 shadow-sm mx-auto pt-4 px-4 text-neutral-800 text-lg bg-neutral-100 cursor-pointer"
+                                        onClick={() =>
+                                            document
+                                                .getElementById("imageUpload")
+                                                .click()
+                                        }
+                                    />
+                                )}
+                                <label
+                                    htmlFor="imageUpload"
+                                    className="absolute top-3 left-3 w-7 h-7 text-neutral-800 cursor-pointer"
+                                >
+                                    <MdCameraAlt className="w-7 h-7" />
+                                    <input
+                                        id="imageUpload"
+                                        type="file"
+                                        className="hidden"
+                                        onChange={handleImageChange}
+                                        name="image"
+                                        accept="image/png, image/jpg, image/jpeg"
+                                    />
+                                </label>
                             </div>
                         </div>
                         <div className="flex flex-col w-full mt-4">
@@ -167,11 +258,11 @@ const FormProfile = ({ user, isEditing }) => {
                                 label="Full Name"
                                 error={errors.fullname}
                             >
-                                <Input
+                                <input
                                     autoComplete="off"
                                     name="fullname"
                                     type="text"
-                                    value={formData.fullname}
+                                    value={data.fullname}
                                     onChange={handleChange}
                                     className="bg-gray-100 outline-none  flex-1 text-start pl-1"
                                 />
@@ -180,23 +271,23 @@ const FormProfile = ({ user, isEditing }) => {
                                 label="Username"
                                 error={errors.username}
                             >
-                                <Input
+                                <input
                                     required
                                     autoComplete="off"
                                     name="username"
                                     type="text"
-                                    value={formData.username}
+                                    value={data.username}
                                     onChange={handleChange}
                                     className="bg-gray-100 outline-none  flex-1 text-start pl-1"
                                 />
                             </InputProfile>
                             <InputProfile label="Email" error={errors.email}>
-                                <Input
+                                <input
                                     required
                                     autoComplete="off"
                                     name="email"
                                     type="email"
-                                    value={formData.email}
+                                    value={data.email}
                                     onChange={handleChange}
                                     className="bg-gray-100 outline-none  flex-1 text-start pl-1"
                                 />
@@ -205,19 +296,20 @@ const FormProfile = ({ user, isEditing }) => {
                                 <Textarea
                                     autoComplete="off"
                                     name="bio"
-                                    value={formData.bio}
+                                    value={data.bio}
                                     onChange={handleChange}
                                     className="bg-gray-100 outline-none  flex-1 text-start pl-1 resize-none"
                                 />
                             </InputProfile>
                             <div className="flex flex-col sm:flex-row mb-3 sm:ml-11 space-y-2 sm:space-x-2 sm:justify-start justify-center">
-                                <ButtonProfile
+                                <ButtonForm
                                     className="flex items-center justify-center text-sm"
                                     type="submit"
-                                    disabled={!isChanged}
+                                    disabled={isLoading}
+                                    isloading={isLoading}
                                 >
-                                    Save Profile
-                                </ButtonProfile>
+                                    {isLoading ? `Saving...` : "Save Profile"}
+                                </ButtonForm>
                                 <button
                                     className="flex items-center justify-center text-blue-500 bg-white border-2 border-blue-500 rounded-lg px-4 font-semibold hover:bg-blue-500 hover:text-white  text-sm p-2"
                                     type="button"
@@ -232,7 +324,11 @@ const FormProfile = ({ user, isEditing }) => {
                     </div>
                 </form>
             )}
-            <ChangePassword user={user} ref={changePasswordModalRef} />
+            <ChangePassword
+                user={user}
+                ref={changePasswordModalRef}
+                isPassword="false"
+            />
         </div>
     );
 };

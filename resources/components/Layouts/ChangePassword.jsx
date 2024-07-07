@@ -1,108 +1,206 @@
-import React, { useState, useImperativeHandle, forwardRef } from "react";
+import React, {
+    useState,
+    useImperativeHandle,
+    forwardRef,
+    useRef,
+} from "react";
 import { usePage, router } from "@inertiajs/react";
 import InputPassword from "../Elements/input/InputPassword";
-import ButtonProfile from "../Elements/button/ButtonProfile";
-import LabelInput from "../Elements/input/LabelInput";
+import ButtonForm from "../Elements/button/ButtonForm";
+import LabelPassword from "../Elements/input/LabelPassword";
 import ModalChangePw from "../Elements/Modal/ModalChangePw";
+import { FaCircleCheck } from "react-icons/fa6";
+import { MdError } from "react-icons/md";
 
-const ChangePassword = forwardRef(({ user }, ref) => {
-    const { errors, csrf } = usePage().props;
-    const csrfRef = React.useRef(null);
+const ChangePassword = forwardRef(({ user, isPassword }, ref) => {
+    const { errors, csrf, flash } = usePage().props;
+    const csrfRef = useRef(csrf);
 
-    const [oldPassword, setOldPassword] = useState("");
-    const [newPassword, setNewPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const [old_password, setOldPassword] = useState("");
+    const [password1, setPassword1] = useState("");
+    const [password2, setPassword2] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+    const [isAlert, setIsAlert] = useState({});
 
-    // Logic to handle input changes
     const handleChange = (event) => {
         const { name, value } = event.target;
-        if (name === "oldPassword") setOldPassword(value);
-        if (name === "newPassword") setNewPassword(value);
-        if (name === "confirmPassword") setConfirmPassword(value);
+        if (name === "old_password") setOldPassword(value);
+        if (name === "password1") setPassword1(value);
+        if (name === "password2") setPassword2(value);
     };
 
-    // Logic to handle form submission
     const handleSubmit = async (event) => {
         event.preventDefault();
         setIsLoading(true);
-
         try {
-            await router.put(`/profile/${user.uuid}/changePassword`, {
-                oldPassword,
-                newPassword,
-                confirmPassword,
-                _token: csrfRef.current.value,
-            });
+            await router.post(
+                `/profile/${user.uuid}`,
+                {
+                    old_password,
+                    password1,
+                    password2,
+                    _token: csrfRef.current.value,
+                },
+                {
+                    onProgress: (page) => {
+                        setIsLoading(true);
+                    },
+                    onSuccess: (page) => {
+                        setIsAlert(page.props.flash);
+                        setIsLoading(false);
+                        if (page.props.flash.message.status === 200) {
+                            setOldPassword("");
+                            setPassword1("");
+                            setPassword2("");
+                            setTimeout(() => {
+                                setIsAlert({});
+                            }, 2000);
+                        }
+                    },
+                    onError: () => {
+                        setIsLoading(false);
+                    },
+                }
+            );
 
-            setIsModalOpen(false);
-            setOldPassword("");
-            setNewPassword("");
-            setConfirmPassword("");
+            if (
+                !errors.old_password &&
+                !errors.password1 &&
+                !errors.password2 &&
+                flash.message?.status === 200
+            ) {
+                setShowSuccessMessage(true);
+                setIsModalOpen(false);
+            }
         } catch (error) {
             console.error("Error during password change:", error);
-        } finally {
-            setIsLoading(false);
         }
     };
 
-    // Functions to open and close the modal
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
+    const closeSuccessMessage = () => setShowSuccessMessage(false);
+
+    const hasError = !!(
+        errors.old_password ||
+        errors.password1 ||
+        errors.password2
+    );
 
     useImperativeHandle(ref, () => ({
         openModal,
     }));
 
     return (
-        <ModalChangePw isOpen={isModalOpen} onClose={closeModal}>
-            <form onSubmit={handleSubmit} className="flex flex-col w-full">
-                <div className="text-xl font-bold my-4 text-center text-neutral-700 mb-8">
+        <>
+            <ModalChangePw
+                isOpen={isModalOpen}
+                onClose={closeModal}
+                hasError={hasError}
+            >
+                <div className="text-xl font-bold my-4 text-center text-neutral-700 mb-6">
                     Change Password
                 </div>
-                <LabelInput label="Old Password" error={errors.oldPassword}>
-                    <InputPassword
-                        autoComplete="off"
-                        name="oldPassword"
-                        value={oldPassword}
-                        onChange={handleChange}
-                        className="bg-gray-100 outline-none text-sm flex-1 text-start"
-                        placeholder="Enter your old password"
+
+                {isAlert.message && (
+                    <div
+                        className={`bg-gray-100 border-t-4 max-w-lg mx-auto ${
+                            isAlert.message.status === 200
+                                ? "border-green-500"
+                                : "border-red-500"
+                        } border-1 rounded-lg p-1 mb-4 flex items-center`}
+                    >
+                        <div className="flex items-center justify-center rounded-l-lg mr-2 px-2">
+                            {isAlert.message.status === 200 ? (
+                                <FaCircleCheck className="text-3xl text-green-500" />
+                            ) : (
+                                <MdError className="text-4xl text-red-500" />
+                            )}
+                        </div>
+                        <div>
+                            <h2
+                                className={`font-bold text-md text-left ${
+                                    isAlert.message.status === 200
+                                        ? "text-green-500"
+                                        : "text-red-500"
+                                }`}
+                            >
+                                {isAlert.message.status === 200
+                                    ? "Success!"
+                                    : "Error!"}
+                            </h2>
+                            <p
+                                className={`text-sm text-start ${
+                                    isAlert.message.status === 200
+                                        ? "text-green-500"
+                                        : "text-red-500"
+                                }`}
+                            >
+                                {isAlert.message.message}
+                            </p>
+                        </div>
+                    </div>
+                )}
+
+                <form onSubmit={handleSubmit} className="flex flex-col w-full">
+                    <input
+                        type="hidden"
+                        name="_token"
+                        value={csrf}
+                        ref={csrfRef}
                     />
-                </LabelInput>
-                <LabelInput label="New Password" error={errors.newPassword}>
-                    <InputPassword
-                        autoComplete="off"
-                        name="newPassword"
-                        value={newPassword}
-                        onChange={handleChange}
-                        className="bg-gray-100 outline-none text-sm flex-1 text-start"
-                        placeholder="Enter your new password"
-                    />
-                </LabelInput>
-                <LabelInput
-                    label="Confirm Password"
-                    error={errors.confirmPassword}
-                >
-                    <InputPassword
-                        autoComplete="off"
-                        name="confirmPassword"
-                        value={confirmPassword}
-                        onChange={handleChange}
-                        className="bg-gray-100 outline-none text-sm flex-1 text-start"
-                        placeholder="Confirm your new password"
-                    />
-                </LabelInput>
-                <ButtonProfile
-                    type="submit"
-                    disabled={isLoading}
-                    className="my-8 mb-5 w-full sm:w-10/12 m-auto"
-                >
-                    {isLoading ? "Saving..." : "Change Password"}
-                </ButtonProfile>
-            </form>
-        </ModalChangePw>
+                    <LabelPassword
+                        label="Old Password"
+                        error={errors.old_password}
+                    >
+                        <InputPassword
+                            autoComplete="off"
+                            name="old_password"
+                            value={old_password}
+                            onChange={handleChange}
+                            className="bg-gray-100 outline-none text-sm flex-1 text-start w-full"
+                            placeholder="Enter your old password"
+                        />
+                    </LabelPassword>
+                    <LabelPassword
+                        label="New Password"
+                        error={errors.password1}
+                    >
+                        <InputPassword
+                            autoComplete="off"
+                            name="password1"
+                            value={password1}
+                            onChange={handleChange}
+                            className="bg-gray-100 outline-none text-sm flex-1 text-start w-full"
+                            placeholder="Enter your new password"
+                        />
+                    </LabelPassword>
+                    <LabelPassword
+                        label="Confirm Password"
+                        error={errors.password2}
+                    >
+                        <InputPassword
+                            autoComplete="off"
+                            name="password2"
+                            value={password2}
+                            onChange={handleChange}
+                            className="bg-gray-100 outline-none text-sm flex-1 text-start w-full"
+                            placeholder="Confirm your new password"
+                        />
+                    </LabelPassword>
+                    <ButtonForm
+                        type="submit"
+                        disabled={isLoading}
+                        isloading={isLoading}
+                        className="my-8 mb-5 w-full m-auto"
+                    >
+                        {isLoading ? `Saving...` : "Save Profile"}
+                    </ButtonForm>
+                </form>
+            </ModalChangePw>
+        </>
     );
 });
 
