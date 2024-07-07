@@ -122,31 +122,12 @@ const FormProfile = ({ user, isEditing }) => {
                     </div>
                     <div className="w-full h-[1px] bg-neutral-300 mt-4"></div>
                     <div className="flex flex-col sm:flex-row items-center sm:space-x-4 mt-3">
-                        <div className="flex flex-col items-center sm:mb-0 my-4">
-                            <div className="relative w-52 h-52 -mr-4 sm:ml-10">
-                                {imagePreview ? (
-                                    <img
-                                        src={imagePreview}
-                                        alt="Profile Preview"
-                                        className="w-full h-full border-2 rounded-lg border-neutral-300 shadow-sm mx-auto pt-4 px-4 text-neutral-800 text-lg bg-neutral-100"
-                                    />
-                                ) : (
-                                    <CiUser
-                                        className="w-full h-full border-2 rounded-lg border-neutral-300 shadow-sm mx-auto pt-4 px-4 text-neutral-800 text-lg bg-neutral-100 cursor-pointer"
-                                        onClick={() =>
-                                            document
-                                                .getElementById("imageUpload")
-                                                .click()
-                                        }
-                                    />
-                                )}
-                                <MdCameraAlt
-                                    className="absolute top-3 left-3 w-7 h-7 text-neutral-800 cursor-pointer"
-                                    onClick={() =>
-                                        document
-                                            .getElementById("imageUpload")
-                                            .click()
-                                    }
+                        <div className="flex flex-col items-center sm:mt-2 ">
+                            <div className="relative w-52 h-52 -mr-4 sm:ml-10 mb-1 ">
+                                <img
+                                    src={imagePreview}
+                                    alt="Profile Preview"
+                                    className="h-52 w-52 pb-4 border-2 rounded-lg border-neutral-300 shadow-sm mx-auto pt-4 px-4 text-neutral-800 text-lg bg-neutral-100 "
                                 />
                             </div>
                         </div>
@@ -218,18 +199,17 @@ const FormProfile = ({ user, isEditing }) => {
                     </div>
                     <div className="w-full h-[1px] bg-neutral-300 mt-4"></div>
                     <div className="flex flex-col sm:flex-row items-center sm:space-x-4">
-                        <div className="flex flex-col items-center sm:mb-0 my-4 mt-6">
+                        <div className="flex flex-col items-center sm:mb-0 my-4 mt-4">
                             <div className="relative w-52 h-52 -mr-4 sm:ml-10">
                                 {imagePreview ? (
                                     <img
-                                        // di src jangan lupa arahkan ke folder public
                                         src={imagePreview}
                                         alt="Profile Preview"
-                                        className="w-full h-full border-2 rounded-lg border-neutral-300 shadow-sm mx-auto pt-4 px-4 text-neutral-800 text-lg bg-neutral-100"
+                                        className="w-full h-52 pb-4 border-2 rounded-lg border-neutral-300 shadow-sm mx-auto pt-4 px-4 text-neutral-800 text-lg bg-neutral-100"
                                     />
                                 ) : (
                                     <CiUser
-                                        className="w-full h-full border-2 rounded-lg border-neutral-300 shadow-sm mx-auto pt-4 px-4 text-neutral-800 text-lg bg-neutral-100 cursor-pointer"
+                                        className="w-full h-52 border-2 rounded-lg border-neutral-300 shadow-sm mx-auto pt-4 px-4 text-neutral-800 text-lg bg-neutral-100 cursor-pointer"
                                         onClick={() =>
                                             document
                                                 .getElementById("imageUpload")
@@ -239,9 +219,9 @@ const FormProfile = ({ user, isEditing }) => {
                                 )}
                                 <label
                                     htmlFor="imageUpload"
-                                    className="absolute top-3 left-3 w-7 h-7 text-neutral-800 cursor-pointer"
+                                    className=" cursor-pointer"
                                 >
-                                    <MdCameraAlt className="w-7 h-7" />
+                                    <MdCameraAlt className="absolute top-2 left-2 w-8 h-8 text-neutral-800 cursor-pointer bg-white rounded-full p-2 hover:bg-neutral-100" />
                                     <input
                                         id="imageUpload"
                                         type="file"
@@ -253,6 +233,7 @@ const FormProfile = ({ user, isEditing }) => {
                                 </label>
                             </div>
                         </div>
+
                         <div className="flex flex-col w-full mt-4">
                             <InputProfile
                                 label="Full Name"
