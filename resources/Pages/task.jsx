@@ -1,10 +1,11 @@
 import React from "react";
+import LayoutHome from "../components/Layouts/LayoutHome";
 
 const Task = () => {
     return (
-        <div>
-            <h1>Task</h1>
-        </div>
+        <>
+            <LayoutHome />
+        </>
     );
 };
 

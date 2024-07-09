@@ -1,15 +1,15 @@
-import React from "react";
+import React, { Children } from "react";
 
-function ButtonHome(props) {
-    const { children, onClick } = props;
+const ButtonHome = ({ children, onClick }) => {
     return (
         <button
-            className="px-6 py-2 rounded-lg inline-block font-semibold text-slate-700 hover:bg-neutral-300"
             onClick={onClick}
+            type="button"
+            className="inline-block text text-slate-800 hover:text-slate-900"
         >
             {children}
         </button>
     );
-}
+};
 
 export default ButtonHome;

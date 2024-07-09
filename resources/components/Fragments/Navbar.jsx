@@ -20,8 +20,9 @@ const Navbar = () => {
     const handleHome = () => {
         router.visit("/home");
     };
+
     return (
-        <nav className="p-4 flex justify-between text-slate-700 items-center fixed w-full border-b-2 border-b-slate-200 bg-white z-10 shadow-md">
+        <nav className="fixed p-4 flex justify-between text-slate-700 items-center w-full border-b-2 border-b-slate-200 bg-white z-50 shadow-md">
             <Link href="/home" className="text-xl font-semibold ml-4">
                 Task Master
             </Link>
