@@ -10,12 +10,13 @@ import { CiUser } from "react-icons/ci";
 import { MdCameraAlt } from "react-icons/md";
 import ChangePassword from "../Layouts/ChangePassword";
 import { IoChevronBackCircle, IoPencilOutline } from "react-icons/io5";
+import { IoMdArrowRoundBack } from "react-icons/io";
+import { BiArrowBack } from "react-icons/bi";
 
 const FormProfile = ({ user, isEditing }) => {
     const { errors, csrf } = usePage().props;
     const csrfRef = useRef(csrf);
 
-    // Initialize useForm with initial form data
     const { data, setData, progress, processing, clearErrors } = useForm({
         fullname: user.fullname || "",
         username: user.username || "",
@@ -113,21 +114,19 @@ const FormProfile = ({ user, isEditing }) => {
                         <button
                             type="button"
                             onClick={() => router.get("/home")}
+                            className="flex"
                         >
-                            <IoChevronBackCircle className="text-slate-800 rounded-lg w-7 h-7 mt-2 hover:text-slate-900" />
+                            <BiArrowBack className="text-slate-800 rounded-lg w-7 h-7 mt-2 hover:text-slate-900" />
+                            <span className="text-slate-800 m-2">Back</span>
                         </button>
-                        <div className="text-xl font-bold text-neutral-800 ml-2 mt-2">
-                            Profile
-                        </div>
                     </div>
-                    <div className="w-full h-[1px] bg-neutral-300 mt-4"></div>
-                    <div className="flex flex-col sm:flex-row items-center sm:space-x-4 mt-3">
-                        <div className="flex flex-col items-center sm:mt-2 ">
-                            <div className="relative w-52 h-52 -mr-4 sm:ml-10 mb-1 ">
+                    <div className="flex flex-col sm:flex-row items-center sm:space-x-4 mr-32">
+                        <div className="flex flex-col items-center sm:mt-2 mx-16 mb-32 ">
+                            <div className="relative w-[280px] h-[224px] -mr-4 sm:ml-10 mb-1 ">
                                 <img
                                     src={imagePreview}
                                     alt="Profile Preview"
-                                    className="h-52 w-52 pb-4 border-2 rounded-lg border-neutral-300 shadow-sm mx-auto pt-4 px-4 text-neutral-800 text-lg bg-neutral-100 "
+                                    className="h-[280px] w-[280px] pb-4 border-2 rounded-lg border-neutral-300 shadow-sm mx-auto pt-4 px-4 text-neutral-800 text-lg bg-neutral-100 "
                                 />
                             </div>
                         </div>
@@ -162,7 +161,7 @@ const FormProfile = ({ user, isEditing }) => {
                             </InputProfile2>
                             <div className="flex flex-col sm:flex-row mb-3 sm:ml-12 space-y-2 sm:space-x-2 sm:justify-start justify-center">
                                 <button
-                                    className="flex items-center justify-center rounded-lg bg-blue-500 text-white border-2 border-blue-500 px-4 py-2 hover:bg-blue-600 hover:text-white text-sm my-3"
+                                    className="flex items-center justify-center rounded-lg bg-neutral-800 text-white border-2 border-neutral-600 py-3 px-8 hover:bg-neutral-900 hover:text-white text-sm my-3 ml-8"
                                     type="button"
                                     onClick={() => router.get("/profile/edit")}
                                 >
@@ -186,37 +185,26 @@ const FormProfile = ({ user, isEditing }) => {
                         value={usePage().props.csrf}
                         ref={csrfRef}
                     />
-                    <div className="flex items-center ml-2">
+                    <div className="flex items-center ml-2 ">
                         <button
                             type="button"
                             onClick={() => router.get("/profile")}
+                            className="flex relative top-0"
                         >
-                            <IoChevronBackCircle className="text-slate-800 rounded-lg w-7 h-7 mt-2 hover:text-slate-900" />
+                            <BiArrowBack className="text-slate-800 rounded-lg w-7 h-7 mt-4 hover:text-slate-900 " />
+                            <span className="text-slate-800 ml-2 mt-4">
+                                Back
+                            </span>
                         </button>
-                        <div className="text-xl font-bold text-neutral-800 ml-2 mt-2">
-                            Edit Profile
-                        </div>
                     </div>
-                    <div className="w-full h-[1px] bg-neutral-300 mt-4"></div>
-                    <div className="flex flex-col sm:flex-row items-center sm:space-x-4">
-                        <div className="flex flex-col items-center sm:mb-0 my-4 mt-4">
-                            <div className="relative w-52 h-52 -mr-4 sm:ml-10">
-                                {imagePreview ? (
-                                    <img
-                                        src={imagePreview}
-                                        alt="Profile Preview"
-                                        className="w-full h-52 pb-4 border-2 rounded-lg border-neutral-300 shadow-sm mx-auto pt-4 px-4 text-neutral-800 text-lg bg-neutral-100"
-                                    />
-                                ) : (
-                                    <CiUser
-                                        className="w-full h-52 border-2 rounded-lg border-neutral-300 shadow-sm mx-auto pt-4 px-4 text-neutral-800 text-lg bg-neutral-100 cursor-pointer"
-                                        onClick={() =>
-                                            document
-                                                .getElementById("imageUpload")
-                                                .click()
-                                        }
-                                    />
-                                )}
+                    <div className="flex flex-col sm:flex-row items-center sm:space-x-4 mt-3 mr-32">
+                        <div className="flex flex-col items-center sm:mt-2 m-16 -mt-1 ">
+                            <div className="relative w-56 h-56 -mr-4 sm:ml-10 mb-1 ">
+                                <img
+                                    src={imagePreview}
+                                    alt="Profile Preview"
+                                    className="h-56 w-56 pb-4 border-2 rounded-lg border-neutral-300 shadow-sm mx-auto pt-4 px-4 text-neutral-800 text-lg bg-neutral-100 "
+                                />
                                 <label
                                     htmlFor="imageUpload"
                                     className=" cursor-pointer"
@@ -292,7 +280,7 @@ const FormProfile = ({ user, isEditing }) => {
                                     {isLoading ? `Saving...` : "Save Profile"}
                                 </ButtonForm>
                                 <button
-                                    className="flex items-center justify-center text-blue-500 bg-white border-2 border-blue-500 rounded-lg px-4 font-semibold hover:bg-blue-500 hover:text-white  text-sm p-2"
+                                    className="flex items-center justify-center bg-white border-2 border-neutral-600 rounded-lg  font-semibold hover:bg-neutral-800 hover:text-white  text-sm py-3 px-10"
                                     type="button"
                                     onClick={() =>
                                         changePasswordModalRef.current.openModal()

@@ -7,46 +7,47 @@ import {
     MdOutlineFolder,
     MdSettings,
     MdHome,
+    MdWorkspaces,
 } from "react-icons/md";
 import { router } from "@inertiajs/react";
 
-const LayoutHome = ({ children }) => {
+const LayoutHome = ({ children, pageTitle, user }) => {
     const handleNavigation = (path) => {
         router.visit(path);
     };
 
     return (
         <div className="flex flex-col ">
-            <Navbar className="z-10" />
+            <Navbar className="z-10" user={user} />
             <div className="flex flex-1 pt-16">
                 <Sidebar>
                     <SidebarItem
-                        icon={<MdHome />}
-                        text="Home"
+                        icon={<MdWorkspaces className="w-6 h-6 md:" />}
+                        text="Workspace"
                         onClick={() => handleNavigation("/home")}
                     />
                     <SidebarItem
-                        icon={<MdOutlineCalendarToday />}
+                        icon={<MdOutlineCalendarToday className="w-6 h-6 " />}
                         text="Task"
                         onClick={() => handleNavigation("/task")}
                     />
-                    <SidebarItem
-                        icon={<MdGroup />}
+                    {/* <SidebarItem
+                        icon={<MdGroup className="w-6 h-6" />}
                         text="Members"
                         onClick={() => handleNavigation("/members")}
-                    />
+                    /> */}
                     <SidebarItem
-                        icon={<MdOutlineFolder />}
+                        icon={<MdOutlineFolder className="w-6 h-6" />}
                         text="FileManagement"
                         onClick={() => handleNavigation("/file-management")}
                     />
-                    <SidebarItem
-                        icon={<MdSettings />}
-                        text="Settings"
-                        onClick={() => handleNavigation("/settings")}
-                    />
                 </Sidebar>
-                <div className="flex-grow p-4 ml-64">{children}</div>
+                <div className="flex-grow p-4 mt-4 justify-center items-center mx-auto bg-neutral-200 w-full rounded-l-[4rem]">
+                    <h1 className="m-8 ml-20 text-slate-800 text-4xl font-bold">
+                        {pageTitle}
+                    </h1>
+                    {children}
+                </div>
             </div>
         </div>
     );

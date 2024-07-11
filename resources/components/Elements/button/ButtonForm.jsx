@@ -12,7 +12,7 @@ const ButtonForm = ({
         disabled={disabled}
         type={type}
         onClick={onClick}
-        className={`border-2 border-blue-500 bg-blue-500 rounded-lg px-12 py-2 inline-block font-semibold hover:bg-blue-600 text-white mt-2 text-sm ${
+        className={`border-2 border-neutral-600 bg-neutral-800 rounded-lg px-14 py-3  inline-block font-semibold hover:bg-neutral-900 text-white mt-2 text-sm ${
             isloading
                 ? "inline-flex px-[34px] items-center justify-center bg-blue-500 hover:bg-blue-400 transition ease-in-out duration-150 cursor-not-allowed"
                 : ""
