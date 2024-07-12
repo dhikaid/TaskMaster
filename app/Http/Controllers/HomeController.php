@@ -12,12 +12,10 @@ class HomeController extends Controller
     // halaman utama
     public function index()
     {
-        $user = User::find(auth()->user()->id);
-
+        $user = User::myProfile();
         $data = [
             'user' => $user
         ];
-
         return Inertia::render('Home', $data);
     }
 }

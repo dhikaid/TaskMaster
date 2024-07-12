@@ -14,7 +14,7 @@ class ProfileController extends Controller
     // halaman tampilan
     public function index()
     {
-        $user = User::find(auth()->user()->id);
+        $user = User::myProfile();
         //data yang dikirim
         $data = [
             'user' => $user,
@@ -69,7 +69,7 @@ class ProfileController extends Controller
         //cek dlu
         Gate::authorize('update-myprofile');
 
-        $user = User::find(auth()->user()->id);
+        $user = User::myProfile();
         //data yang dikirim
         $data = [
             'user' => $user,
