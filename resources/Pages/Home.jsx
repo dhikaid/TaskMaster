@@ -1,14 +1,14 @@
 import React from "react";
-import LayoutHome from "../components/Layouts/LayoutHome";
-import Navbar from "../components/Fragments/Navbar";
 import { Head } from "@inertiajs/react";
+import LayoutHome from "../components/Layouts/LayoutHome";
 
-const Home = () => {
+const Home = ({ user }) => {
     return (
         <>
             <Head title="Home | TaskMaster" />
-            <Navbar />
-            <LayoutHome />
+            <LayoutHome user={user}>
+                <h1>Welcome to the Home Page</h1>
+            </LayoutHome>
         </>
     );
 };

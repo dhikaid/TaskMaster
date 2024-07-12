@@ -16,6 +16,26 @@ Route::get('/', function () {
 // HALAMAN HOME
 Route::get('/home', [HomeController::class, 'index'])->middleware('auth');
 
+// SIDEBAR TASK
+Route::get('/task', function () {
+    return Inertia::render('task');
+});
+
+// SIDEBAR MEMBERS
+Route::get('/members', function () {
+    return Inertia::render('members');
+});
+
+// SIDEBAR FILE
+Route::get('/fileManagement', function () {
+    return Inertia::render('fileManagement');
+});
+
+// SIDEBAR SETTING
+Route::get('/setting', function () {
+    return Inertia::render('setting');
+});
+
 // HALAMAN SIGNUP
 Route::get('/signup', function () {
     return Inertia::render('signup', [
@@ -54,7 +74,7 @@ Route::post('/oauth/forgot', [OauthController::class, 'forgot'])->middleware('gu
 
 Route::post('/oauth/resetPassword', [OauthController::class, 'resetPassword'])->middleware('guest');
 
-//PROFILE
+// PROFILE
 Route::get('/profile', [ProfileController::class, 'index'])->middleware('auth');
 Route::put('/profile/{user:uuid}', [ProfileController::class, 'update'])->middleware('auth');
 Route::post('/profile/{user:uuid}', [ProfileController::class, 'changePassword'])->middleware('auth');

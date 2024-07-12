@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { MdOutlineAccountCircle } from "react-icons/md";
 import { Link, router } from "@inertiajs/react";
 import { BiLogOut } from "react-icons/bi";
+import { useForm } from "@inertiajs/react";
 
-const Navbar = () => {
+const Navbar = ({ user }) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
     const toggleDropdown = () => {
@@ -20,18 +21,32 @@ const Navbar = () => {
     const handleHome = () => {
         router.visit("/home");
     };
+    const [imagePreview, setImagePreview] = useState(
+        `/storage/${user.image}` || ""
+    );
+
     return (
-        <nav className="p-4 flex justify-between text-slate-700 items-center fixed w-full border-b-2 border-b-slate-200 bg-white z-10 shadow-md">
-            <Link href="/home" className="text-xl font-semibold ml-4">
-                Task Master
+        <nav className="fixed p-6 flex justify-between text-neutral-800 hover:text-neutral-900 items-center w-full bg-white z-50 ">
+            <Link
+                href="/home"
+                className="text-2xl font-bold ml-5 tracking-wider"
+            >
+                TaskMaster
             </Link>
             <div className="relative">
                 <button
                     className="flex items-center focus:outline-none mr-4"
                     onClick={toggleDropdown}
                 >
-                    <MdOutlineAccountCircle className="w-8 h-8 mr-2" />
-                    <span>Account</span>
+                    <img
+                        src={imagePreview}
+                        alt="Profile"
+                        className="w-8 h-8 rounded-full mr-2 "
+                    />
+
+                    <span className="uppercase font-medium">
+                        {user.fullname}
+                    </span>
                 </button>
                 {dropdownOpen && (
                     <div className="absolute right-0 mt-2 w-48 bg-white text-slate-800 rounded-lg shadow-lg z-20">
