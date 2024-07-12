@@ -46,4 +46,11 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public static function myProfile()
+    {
+        $user = self::find(auth()->user()->id);
+        $user['firstname'] = explode(' ',  $user['fullname'], 2)[0];
+        return $user;
+    }
 }

@@ -8,13 +8,11 @@ use App\Http\Controllers\ProfileController;
 
 // HALAMAN UTAMA
 Route::get('/', function () {
-    return Inertia::render('Home', [
-        'data' => 1,
-    ]);
+    route('home');
 })->middleware('auth');
 
 // HALAMAN HOME
-Route::get('/home', [HomeController::class, 'index'])->middleware('auth');
+Route::get('/home', [HomeController::class, 'index'])->middleware('auth')->name('home');
 
 // SIDEBAR TASK
 Route::get('/task', function () {

@@ -43,10 +43,12 @@ const LayoutHome = ({ children, pageTitle, user }) => {
                     />
                 </Sidebar>
                 <div className="flex-grow p-4 mt-4 justify-center items-center mx-auto bg-neutral-200 w-full rounded-l-[4rem]">
-                    <h1 className="m-8 ml-20 text-slate-800 text-4xl font-bold">
-                        {pageTitle}
-                    </h1>
-                    {children}
+                    <div className="ml-16 m-8">
+                        <h1 className=" text-slate-800 text-4xl font-bold">
+                            {pageTitle}
+                        </h1>
+                        <div className="mt-5 ">{children}</div>
+                    </div>
                 </div>
             </div>
         </div>

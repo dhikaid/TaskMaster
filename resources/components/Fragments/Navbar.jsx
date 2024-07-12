@@ -45,7 +45,7 @@ const Navbar = ({ user }) => {
                     />
 
                     <span className="uppercase font-medium">
-                        {user.fullname}
+                        {user.firstname}
                     </span>
                 </button>
                 {dropdownOpen && (
