@@ -100,7 +100,7 @@ const ChangePassword = forwardRef(({ user, isPassword }, ref) => {
                 onClose={closeModal}
                 hasError={hasError}
             >
-                <div className="text-xl font-bold my-4 text-center text-neutral-700 mb-6">
+                <div className="text-xl font-bold mb-7  text-neutral-800 ">
                     Change Password
                 </div>
 
@@ -144,7 +144,7 @@ const ChangePassword = forwardRef(({ user, isPassword }, ref) => {
                     </div>
                 )}
 
-                <form onSubmit={handleSubmit} className="flex flex-col w-full">
+                <form onSubmit={handleSubmit} className="flex flex-col ">
                     <input
                         type="hidden"
                         name="_token"
@@ -160,7 +160,7 @@ const ChangePassword = forwardRef(({ user, isPassword }, ref) => {
                             name="old_password"
                             value={old_password}
                             onChange={handleChange}
-                            className="bg-gray-100 outline-none text-sm flex-1 text-start w-full"
+                            className="bg-gray-100 outline-none text-sm flex-1 text-start  "
                             placeholder="Enter your old password"
                         />
                     </LabelPassword>
@@ -173,7 +173,7 @@ const ChangePassword = forwardRef(({ user, isPassword }, ref) => {
                             name="password1"
                             value={password1}
                             onChange={handleChange}
-                            className="bg-gray-100 outline-none text-sm flex-1 text-start w-full"
+                            className="bg-gray-100 outline-none text-sm flex-1 text-start "
                             placeholder="Enter your new password"
                         />
                     </LabelPassword>
@@ -186,7 +186,7 @@ const ChangePassword = forwardRef(({ user, isPassword }, ref) => {
                             name="password2"
                             value={password2}
                             onChange={handleChange}
-                            className="bg-gray-100 outline-none text-sm flex-1 text-start w-full"
+                            className="bg-gray-100 outline-none text-sm flex-1 text-start "
                             placeholder="Confirm your new password"
                         />
                     </LabelPassword>
@@ -194,7 +194,7 @@ const ChangePassword = forwardRef(({ user, isPassword }, ref) => {
                         type="submit"
                         disabled={isLoading}
                         isloading={isLoading}
-                        className="my-8 mb-5 w-full m-auto"
+                        className="my-8 mb-1  m-auto"
                     >
                         {isLoading ? `Saving...` : "Save Profile"}
                     </ButtonForm>

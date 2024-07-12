@@ -163,7 +163,7 @@ const FormProfile = ({ user, isEditing }) => {
                                 </InputProfile2>
                                 <div className="flex flex-col sm:flex-row mb-3 sm:ml-12 space-y-2 sm:space-x-2 sm:justify-start justify-center">
                                     <button
-                                        className="flex items-center justify-center rounded-lg bg-neutral-800 text-white border-2 border-neutral-600 py-3 px-8 hover:bg-neutral-900 hover:text-white text-sm my-3 ml-8"
+                                        className="flex items-center justify-center rounded-xl bg-neutral-800 text-white border-2 border-neutral-600 py-3 px-8 hover:bg-neutral-900 hover:text-white text-sm my-3 ml-8"
                                         type="button"
                                         onClick={() =>
                                             router.get("/profile/edit")
@@ -293,7 +293,7 @@ const FormProfile = ({ user, isEditing }) => {
                                             : "Save Profile"}
                                     </ButtonForm>
                                     <button
-                                        className="flex items-center justify-center bg-white border-2 border-neutral-600 rounded-lg  font-semibold hover:bg-neutral-800 hover:text-white  text-sm py-3 px-10"
+                                        className="flex items-center justify-center bg-white border-2 border-neutral-600 rounded-xl  font-semibold hover:bg-neutral-800 hover:text-white text-sm py-3 px-10"
                                         type="button"
                                         onClick={() =>
                                             changePasswordModalRef.current.openModal()
