@@ -110,7 +110,7 @@ const FormProfile = ({ user, isEditing }) => {
                 onClose={handleCloseModal}
             />
             {!isEditing ? (
-                <div className="flex flex-col w-full h-full">
+                <div className="flex flex-col w-full h-full lg:ml-4 lg:w-80%">
                     <div className="flex items-center ml-2">
                         <button
                             type="button"

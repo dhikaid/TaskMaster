@@ -3,7 +3,7 @@ import { MdPerson } from "react-icons/md";
 
 const CardWorkspace = ({ title, creator, members, onViewTask }) => {
     return (
-        <div className="bg-gray-200 p-4 h-56 rounded-xl shadow-md w-full md:w-1/3 m-2 flex flex-col justify-between">
+        <div className="bg-gray-200 p-4 h-56 rounded-xl shadow-md w-full m-2 flex flex-col justify-between">
             <div>
                 <h2 className="text-xl font-bold mb-2">{title}</h2>
                 <p className="text-gray-700">

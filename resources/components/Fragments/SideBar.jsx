@@ -3,35 +3,37 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 
 const SidebarContext = createContext();
 
-export default function Sidebar({ children }) {
+export default function Sidebar({ children, hide }) {
     const [expanded, setExpanded] = useState(true);
     return (
         <>
-            <aside className="h-[90dvh] mt-3 ml-2">
-                <div
-                    className={`h-full flex flex-col top-14  rounded-lg ${
-                        !expanded ? "rounded-lg" : " rounded-lg"
-                    }`}
-                >
-                    <div className="p-4 pb-2 flex justify-between items-center">
-                        <button
-                            onClick={() => setExpanded((curr) => !curr)}
-                            className="p-1.5 rounded-lg"
-                        >
-                            {expanded ? (
-                                <div className="ml-[205px]">
-                                    <MdKeyboardArrowLeft className="w-7 h-7 hover:bg-neutral-800 hover:text-white rounded-lg" />
-                                </div>
-                            ) : (
-                                <MdKeyboardArrowRight className="w-7 h-7 hover:bg-neutral-800 hover:text-white rounded-lg" />
-                            )}
-                        </button>
+            {!hide && (
+                <aside className="h-[89dvh] mt-3 ml-2">
+                    <div
+                        className={`h-full flex flex-col top-14  rounded-lg ${
+                            !expanded ? "rounded-lg" : " rounded-lg"
+                        }`}
+                    >
+                        <div className="p-4 pb-2 flex justify-between items-center">
+                            <button
+                                onClick={() => setExpanded((curr) => !curr)}
+                                className="p-1.5 rounded-lg"
+                            >
+                                {expanded ? (
+                                    <div className="ml-[205px]">
+                                        <MdKeyboardArrowLeft className="w-7 h-7 hover:bg-neutral-800 hover:text-white rounded-lg" />
+                                    </div>
+                                ) : (
+                                    <MdKeyboardArrowRight className="w-7 h-7 hover:bg-neutral-800 hover:text-white rounded-lg" />
+                                )}
+                            </button>
+                        </div>
+                        <SidebarContext.Provider value={{ expanded }}>
+                            <ul className="flex-1 px-3">{children}</ul>
+                        </SidebarContext.Provider>
                     </div>
-                    <SidebarContext.Provider value={{ expanded }}>
-                        <ul className="flex-1 px-3">{children}</ul>
-                    </SidebarContext.Provider>
-                </div>
-            </aside>
+                </aside>
+            )}
         </>
     );
 }

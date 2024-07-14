@@ -28,19 +28,22 @@ const Home = ({ user, pageTitle }) => {
             path: "/task/google",
         },
     ];
+
     return (
         <>
             <Head title="Home | TaskMaster" />
             <LayoutIndex user={user} pageTitle="Workspace">
-                {cards.map((card, index) => (
-                    <CardWorkspace
-                        key={index}
-                        title={card.title}
-                        creator={card.creator}
-                        members={card.members}
-                        onViewTask={() => handleViewTask(card.path)}
-                    />
-                ))}
+                <div className="flex flex-wrap w-full justify-center gap-4 lg:flex-nowrap ">
+                    {cards.map((card, index) => (
+                        <CardWorkspace
+                            key={index}
+                            title={card.title}
+                            creator={card.creator}
+                            members={card.members}
+                            onViewTask={() => handleViewTask(card.path)}
+                        />
+                    ))}
+                </div>
             </LayoutIndex>
         </>
     );

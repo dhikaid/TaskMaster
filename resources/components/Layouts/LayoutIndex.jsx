@@ -3,53 +3,45 @@ import Sidebar, { SidebarItem } from "../Fragments/SideBar";
 import Navbar from "../Fragments/Navbar";
 import {
     MdOutlineCalendarToday,
-    MdGroup,
     MdOutlineFolder,
-    MdSettings,
-    MdHome,
     MdWorkspaces,
 } from "react-icons/md";
 import { router } from "@inertiajs/react";
 
-const LayoutIndex = ({ children, pageTitle, user }) => {
+const LayoutIndex = ({ children, pageTitle, user, hideSidebar }) => {
     const handleNavigation = (path) => {
         router.visit(path);
     };
 
     return (
-        <div className="flex flex-col ">
+        <div className="flex flex-col">
             <Navbar className="z-10" user={user} />
-            <div className="flex flex-1 pt-16">
-                <Sidebar>
+            <div className="flex flex-1 pt-[90px]">
+                <Sidebar hide={hideSidebar}>
                     <SidebarItem
-                        icon={<MdWorkspaces className="w-6 h-6 md:" />}
+                        icon={<MdWorkspaces className="w-6 h-6" />}
                         text="Workspace"
                         onClick={() => handleNavigation("/home")}
                     />
                     <SidebarItem
-                        icon={<MdOutlineCalendarToday className="w-6 h-6 " />}
+                        icon={<MdOutlineCalendarToday className="w-6 h-6" />}
                         text="Task"
                         onClick={() => handleNavigation("/task")}
                     />
-                    {/* <SidebarItem
-                        icon={<MdGroup className="w-6 h-6" />}
-                        text="Members"
-                        onClick={() => handleNavigation("/members")}
-                    /> */}
                     <SidebarItem
                         icon={<MdOutlineFolder className="w-6 h-6" />}
-                        text="FileManagement"
+                        text="File Management"
                         onClick={() => handleNavigation("/file-management")}
                     />
                 </Sidebar>
-                <div className="flex-grow p-4 mt-4 justify-center items-center mx-auto bg-neutral-200 w-full rounded-l-[4rem]">
-                    <div className="ml-16 m-8">
-                        <h1 className=" text-slate-800 text-4xl font-bold">
+                <div className="flex-grow p-4 bg-neutral-200 rounded-l-[4rem]">
+                    <div className="m-8">
+                        <h1 className="text-slate-800 text-4xl font-bold">
                             {pageTitle}
                         </h1>
-                        <div className="mt-5 ">
-                            <div className=" w-full bg-neutral-200 ">
-                                <div className=" h-[70svh] border-2 border-neutral-200 p-4 rounded-[25px] shadow-sm flex  bg-white">
+                        <div className="mt-5">
+                            <div className="w-full bg-neutral-200">
+                                <div className="xl:h-[67svh] h-full border-2 border-neutral-200 p-4 rounded-[25px] shadow-sm flex bg-white flex-col md:flex-row">
                                     {children}
                                 </div>
                             </div>

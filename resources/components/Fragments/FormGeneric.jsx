@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import InputFormGeneric from "../Elements/input/InputFormGeneric";
-import ButtonForm from "../Elements/button/ButtonForm";
+import ButtonSign from "../Elements/button/ButtonSign";
 import { usePage, router, Link } from "@inertiajs/react";
 import { FaCircleCheck } from "react-icons/fa6";
 import { MdError } from "react-icons/md";
@@ -125,13 +125,13 @@ const FormGeneric = ({ inputs, formTitle, postRoute, isSignUp }) => {
                     </a>
                 </div>
             )}
-            <ButtonForm
+            <ButtonSign
                 onClick={handleSubmit}
                 disabled={isLoading}
                 isloading={isLoading}
             >
                 {isLoading ? `Processing...` : formTitle}
-            </ButtonForm>
+            </ButtonSign>
 
             <p className="text-center mt-2 block xl:hidden text-xs my-4 pt-2">
                 {isSignUp ? (
