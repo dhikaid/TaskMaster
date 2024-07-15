@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -8,7 +9,7 @@ use App\Http\Controllers\ProfileController;
 
 // HALAMAN UTAMA
 Route::get('/', function () {
-    route('home');
+    return redirect('/home');
 })->middleware('auth');
 
 // HALAMAN HOME
@@ -16,7 +17,11 @@ Route::get('/home', [HomeController::class, 'index'])->middleware('auth')->name(
 
 // SIDEBAR TASK
 Route::get('/task', function () {
-    return Inertia::render('task');
+    $user = User::myProfile();
+    $data = [
+        'user' => $user
+    ];
+    return Inertia::render('task', $data);
 });
 
 // SIDEBAR MEMBERS

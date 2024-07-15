@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid');
             $table->string('nama');
-            $table->foreignId('detail_team')->references('id')->on('detail_team');
+            // $table->foreignId('detail_team')->references('id')->on('detail_team');
             $table->timestamps();
         });
     }

@@ -1,5 +1,5 @@
 import React from "react";
-import Sidebar, { SidebarItem } from "../Fragments/SideBar";
+import Sidebar, { SidebarItem, useSidebar } from "../Fragments/SideBar";
 import Navbar from "../Fragments/Navbar";
 import {
     MdOutlineCalendarToday,
@@ -9,6 +9,8 @@ import {
 import { router } from "@inertiajs/react";
 
 const LayoutIndex = ({ children, pageTitle, user, hideSidebar }) => {
+    const { expanded } = useSidebar();
+
     const handleNavigation = (path) => {
         router.visit(path);
     };
@@ -16,7 +18,7 @@ const LayoutIndex = ({ children, pageTitle, user, hideSidebar }) => {
     return (
         <div className="flex flex-col">
             <Navbar className="z-10" user={user} />
-            <div className="flex flex-1 pt-[90px]">
+            <div className="flex flex-1 ">
                 <Sidebar hide={hideSidebar}>
                     <SidebarItem
                         icon={<MdWorkspaces className="w-6 h-6" />}
@@ -34,14 +36,18 @@ const LayoutIndex = ({ children, pageTitle, user, hideSidebar }) => {
                         onClick={() => handleNavigation("/file-management")}
                     />
                 </Sidebar>
-                <div className="flex-grow p-4 bg-neutral-200 rounded-l-[4rem]">
-                    <div className="m-8">
+                <div
+                    className={`flex-grow p-4 bg-neutral-200 rounded-l-[4rem] overflow-hidden h-[calc(100dvh-96px)] ${
+                        !expanded ? "ml-20" : "ml-80"
+                    }`}
+                >
+                    <div className="m-8 overflow-auto h-[calc(100dvh-10px)]">
                         <h1 className="text-slate-800 text-4xl font-bold">
                             {pageTitle}
                         </h1>
                         <div className="mt-5">
                             <div className="w-full bg-neutral-200">
-                                <div className="xl:h-[67svh] h-full border-2 border-neutral-200 p-4 rounded-[25px] shadow-sm flex bg-white flex-col md:flex-row">
+                                <div className="min-h-[calc(100dvh-240px)] border-2 border-neutral-200 p-4 rounded-[25px] shadow-sm flex bg-white flex-col md:flex-row">
                                     {children}
                                 </div>
                             </div>

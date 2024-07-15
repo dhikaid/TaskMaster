@@ -2,6 +2,7 @@ import React from "react";
 import { Head } from "@inertiajs/react";
 import LayoutIndex from "../components/Layouts/LayoutIndex";
 import CardWorkspace from "../components/Fragments/Card/CardWorkspace";
+import { SidebarProvider } from "../components/Fragments/SideBar";
 
 const Home = ({ user, pageTitle }) => {
     const handleViewTask = (path) => {
@@ -32,19 +33,21 @@ const Home = ({ user, pageTitle }) => {
     return (
         <>
             <Head title="Home | TaskMaster" />
-            <LayoutIndex user={user} pageTitle="Workspace">
-                <div className="flex flex-wrap w-full justify-center gap-4 lg:flex-nowrap ">
-                    {cards.map((card, index) => (
-                        <CardWorkspace
-                            key={index}
-                            title={card.title}
-                            creator={card.creator}
-                            members={card.members}
-                            onViewTask={() => handleViewTask(card.path)}
-                        />
-                    ))}
-                </div>
-            </LayoutIndex>
+            <SidebarProvider>
+                <LayoutIndex user={user} pageTitle="Workspace">
+                    <div className="flex flex-wrap w-full justify-center gap-4 lg:flex-nowrap over">
+                        {cards.map((card, index) => (
+                            <CardWorkspace
+                                key={index}
+                                title={card.title}
+                                creator={card.creator}
+                                members={card.members}
+                                onViewTask={() => handleViewTask(card.path)}
+                            />
+                        ))}
+                    </div>
+                </LayoutIndex>
+            </SidebarProvider>
         </>
     );
 };
