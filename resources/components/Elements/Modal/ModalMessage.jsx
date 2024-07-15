@@ -1,6 +1,6 @@
 import React from "react";
-import { FaCircleCheck } from "react-icons/fa6";
 import { MdError } from "react-icons/md";
+import { AiOutlineCheckCircle } from "react-icons/ai";
 
 const ModalMessage = ({ isOpen, message, onClose }) => {
     if (!isOpen) return null;
@@ -20,7 +20,7 @@ const ModalMessage = ({ isOpen, message, onClose }) => {
             >
                 <div className="flex items-center justify-center rounded-l-lg mb-2 px-2">
                     {message.status === 200 ? (
-                        <FaCircleCheck className="text-3xl text-green-500" />
+                        <AiOutlineCheckCircle className="text-4xl text-white bg-green-500 rounded-full" />
                     ) : (
                         <MdError className="text-4xl text-red-500" />
                     )}
@@ -45,7 +45,7 @@ const ModalMessage = ({ isOpen, message, onClose }) => {
                         {message.message}
                     </p>
                     <button
-                        className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-3xl"
+                        className="mt-4 bg-neutral-800 hover:bg-neutral-900 border-neutral-600 text-white py-2 px-4 rounded-3xl"
                         onClick={onClose}
                     >
                         OK

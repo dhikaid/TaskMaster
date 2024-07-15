@@ -2,7 +2,7 @@ import React from "react";
 
 const LabelPassword = ({ label, error, children }) => (
     <div className="mb-4">
-        <label className="block text-sm font-medium text-slate-800">
+        <label className="block text-sm font-medium text-slate-800 pl-1">
             {label}
         </label>
         <div
