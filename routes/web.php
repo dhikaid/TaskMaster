@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OauthController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TeamController;
 
 // HALAMAN UTAMA
 Route::get('/', function () {
@@ -82,6 +83,9 @@ Route::get('/profile', [ProfileController::class, 'index'])->middleware('auth');
 Route::put('/profile/{user:uuid}', [ProfileController::class, 'update'])->middleware('auth');
 Route::post('/profile/{user:uuid}', [ProfileController::class, 'changePassword'])->middleware('auth');
 Route::get('/profile/edit', [ProfileController::class, 'edit'])->middleware('auth');
+
+//CREATE TEAM
+Route::post('/team/create', [TeamController::class, 'createTeam'])->middleware('auth');
 
 // DEBUG
 Route::get('/image', function () {

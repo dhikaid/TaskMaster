@@ -18,8 +18,8 @@ const LayoutIndex = ({ children, pageTitle, user, hideSidebar }) => {
     return (
         <div className="flex flex-col">
             <Navbar className="z-10" user={user} />
-            <div className="flex flex-1 ">
-                <Sidebar hide={hideSidebar}>
+            <div className="flex flex-1">
+                <Sidebar hide={hideSidebar} className="xl:hidden">
                     <SidebarItem
                         icon={<MdWorkspaces className="w-6 h-6" />}
                         text="Workspace"
@@ -37,8 +37,8 @@ const LayoutIndex = ({ children, pageTitle, user, hideSidebar }) => {
                     />
                 </Sidebar>
                 <div
-                    className={`flex-grow p-4 bg-neutral-200 rounded-l-[4rem] overflow-hidden h-[calc(100dvh-96px)] ${
-                        !expanded ? "ml-20" : "ml-80"
+                    className={`flex-grow p-4 bg-neutral-200 xl:rounded-l-[4rem] overflow-hidden h-[calc(100dvh-96px)] ${
+                        !expanded ? "xl:ml-20" : "xl:ml-72 "
                     }`}
                 >
                     <div className="m-8 overflow-auto h-[calc(100dvh-10px)]">

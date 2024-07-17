@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Head } from "@inertiajs/react";
 import LayoutIndex from "../components/Layouts/LayoutIndex";
 import CardWorkspace from "../components/Fragments/Card/CardWorkspace";
 import { SidebarProvider } from "../components/Fragments/SideBar";
-
+import { usePage } from "@inertiajs/react";
 const Home = ({ user, pageTitle }) => {
     const handleViewTask = (path) => {
         router.visit(path);
     };
-
+    const { csrf } = usePage().props;
+    const csrfRef = useRef(csrf);
     const cards = [
         {
             title: "Romusha",
@@ -35,6 +36,12 @@ const Home = ({ user, pageTitle }) => {
             <Head title="Home | TaskMaster" />
             <SidebarProvider>
                 <LayoutIndex user={user} pageTitle="Workspace">
+                    <input
+                        type="hidden"
+                        name="_token"
+                        value={csrf}
+                        ref={csrfRef}
+                    />
                     <div className="flex flex-wrap w-full justify-center gap-4 lg:flex-nowrap over">
                         {cards.map((card, index) => (
                             <CardWorkspace
