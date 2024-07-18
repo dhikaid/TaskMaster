@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Team;
 use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
@@ -14,8 +15,10 @@ class HomeController extends Controller
     {
         $user = User::myProfile();
         $data = [
-            'user' => $user
+            'user' => $user,
+            'teams' => Team::with('member')->get(),
         ];
+
         return Inertia::render('Home', $data);
     }
 }

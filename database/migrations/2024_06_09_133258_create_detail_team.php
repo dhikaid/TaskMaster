@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('leader')->references('id')->on('users');
             $table->json('member')->nullable();
+            $table->foreignId('team')->references('id')->on('teams');
             $table->timestamps();
         });
     }

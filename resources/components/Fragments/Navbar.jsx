@@ -34,7 +34,7 @@ const Navbar = ({ user }) => {
     };
 
     return (
-        <nav className="fixed p-6 flex justify-between text-neutral-800 hover:text-neutral-900 items-center w-full bg-white z-50">
+        <nav className=" flex justify-between text-neutral-800 hover:text-neutral-900 items-center w-full bg-white z-50 h-24">
             <Link
                 href="/home"
                 className="text-2xl font-bold ml-5 tracking-wider"

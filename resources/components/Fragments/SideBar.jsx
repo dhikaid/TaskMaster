@@ -3,20 +3,35 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 
 const SidebarContext = createContext();
 
-export default function Sidebar({ children, hide }) {
+export function SidebarProvider({ children }) {
     const [expanded, setExpanded] = useState(true);
+    const toggleSidebar = () => setExpanded((prev) => !prev);
+
+    return (
+        <SidebarContext.Provider value={{ expanded, toggleSidebar }}>
+            {children}
+        </SidebarContext.Provider>
+    );
+}
+
+export function useSidebar() {
+    return useContext(SidebarContext);
+}
+
+export default function Sidebar({ children, hide }) {
+    const { expanded, toggleSidebar } = useSidebar();
     return (
         <>
             {!hide && (
-                <aside className="h-[89dvh] mt-3 ml-2">
+                <aside className="h-[89dvh] fixed bg-white left-0">
                     <div
-                        className={`h-full flex flex-col top-14  rounded-lg ${
-                            !expanded ? "rounded-lg" : " rounded-lg"
+                        className={`h-full flex flex-col top-14 rounded-lg ${
+                            !expanded ? "rounded-lg" : "rounded-lg a"
                         }`}
                     >
                         <div className="p-4 pb-2 flex justify-between items-center">
                             <button
-                                onClick={() => setExpanded((curr) => !curr)}
+                                onClick={toggleSidebar}
                                 className="p-1.5 rounded-lg"
                             >
                                 {expanded ? (
@@ -28,9 +43,7 @@ export default function Sidebar({ children, hide }) {
                                 )}
                             </button>
                         </div>
-                        <SidebarContext.Provider value={{ expanded }}>
-                            <ul className="flex-1 px-3">{children}</ul>
-                        </SidebarContext.Provider>
+                        <ul className="flex-1 px-3">{children}</ul>
                     </div>
                 </aside>
             )}
