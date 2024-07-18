@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, usePage, router } from "@inertiajs/react";
 import { BiLogOut } from "react-icons/bi";
 import { FaPlus } from "react-icons/fa6";
+import FormTeam from "../Fragments/Formteam";
 
 const Navbar = ({ user }) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -27,25 +28,29 @@ const Navbar = ({ user }) => {
         router.visit(path);
     };
 
-    const [createteam, setCreateteam] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handleCreateTeam = () => {
-        setCreateteam(!createteam);
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
     };
 
     return (
-        <nav className=" flex justify-between text-neutral-800 hover:text-neutral-900 items-center w-full bg-white z-50 h-24">
+        <nav className="flex justify-between text-neutral-800 hover:text-neutral-900 items-center w-full bg-white z-50 h-24">
             <Link
                 href="/home"
-                className="text-2xl font-bold ml-5 tracking-wider"
+                className="text-2xl font-bold ml-8 tracking-wider"
             >
                 TaskMaster
             </Link>
 
-            <div className="relative flex mt-2">
+            <div className="relative flex mt-2 mr-4">
                 <button
-                    onClick={handleCreateTeam}
-                    className="flex mr-8 border rounded-full px-6 py-2 bg-neutral-200 font-semibold"
+                    onClick={openModal}
+                    className=" mr-8 border rounded-full px-6 py-2 bg-neutral-200 font-semibold hidden lg:flex"
                 >
                     <FaPlus className="w-5 h-5 mr-2 my-auto" />
                     Create Team
@@ -74,25 +79,25 @@ const Navbar = ({ user }) => {
                         </a>
                         <button
                             onClick={() => handleNavigation("/home")}
-                            className="px-4 pr-[86px] justify-start py-2 hover:bg-neutral-100"
+                            className="px-4 pr-[86px] justify-start py-2 hover:bg-neutral-100 xl:hidden"
                         >
                             Workspace
                         </button>
                         <button
                             onClick={() => handleNavigation("/task")}
-                            className="px-4 pr-[140px] py-2 hover:bg-neutral-100"
+                            className="px-4 pr-[140px] py-2 hover:bg-neutral-100 xl:hidden"
                         >
                             Task
                         </button>
                         <button
-                            onClick={handleCreateTeam}
-                            className="px-4 pr-[71px] py-2 hover:bg-neutral-100"
+                            onClick={openModal}
+                            className="px-4 pr-[71px] py-2 hover:bg-neutral-100 xl:hidden"
                         >
                             Create Team
                         </button>
                         <button
                             onClick={() => handleNavigation("/file-management")}
-                            className="px-4 pr-[37px] py-2 hover:bg-neutral-100"
+                            className="px-4 pr-[37px] py-2 hover:bg-neutral-100 xl:hidden"
                         >
                             File Management
                         </button>
@@ -108,6 +113,7 @@ const Navbar = ({ user }) => {
                     </div>
                 )}
             </div>
+            <FormTeam isOpen={isModalOpen} closeModal={closeModal} />
         </nav>
     );
 };

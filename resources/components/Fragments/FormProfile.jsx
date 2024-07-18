@@ -1,17 +1,15 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { useForm, usePage, router } from "@inertiajs/react";
 import InputProfile from "../Elements/input/InputProfile";
 import InputProfile2 from "../Elements/input/InputProfile2";
-import ButtonProfile from "../Elements/button/ButtonProfile";
 import ButtonForm from "../Elements/button/ButtonForm";
 import Textarea from "../Elements/input/InputTextArea";
 import ModalMessage from "../Elements/Modal/ModalMessage";
-import { CiUser } from "react-icons/ci";
 import { MdCameraAlt } from "react-icons/md";
 import ChangePassword from "../Layouts/ChangePassword";
-import { IoChevronBackCircle, IoPencilOutline } from "react-icons/io5";
-import { IoMdArrowRoundBack } from "react-icons/io";
+import { IoPencilOutline } from "react-icons/io5";
 import { BiArrowBack } from "react-icons/bi";
+import { TbUpload } from "react-icons/tb";
 
 const FormProfile = ({ user, isEditing }) => {
     const { errors, csrf } = usePage().props;
@@ -26,7 +24,7 @@ const FormProfile = ({ user, isEditing }) => {
         _method: "PUT",
         _token: csrf,
     });
-    console.log(progress);
+
     const [isChanged, setIsChanged] = useState(false);
     const [isLoading, setisLoading] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
@@ -118,21 +116,23 @@ const FormProfile = ({ user, isEditing }) => {
                             className="flex"
                         >
                             <BiArrowBack className="text-slate-800 rounded-lg w-7 h-7 mt-2 hover:text-slate-900" />
-                            <span className="text-slate-800 m-2">Back</span>
+                            <span className="text-slate-800 mt-2 ml-2">
+                                Back
+                            </span>
                         </button>
                     </div>
                     <div className="flex h-full w-full">
-                        <div className="flex flex-col sm:flex-row items-center sm:space-x-4 mr-32 h-full w-full">
-                            <div className="flex flex-col items-center sm:mt-2 mx-16 mb-32 ">
+                        <div className="flex flex-col lg:flex-row lg:items-center lg:mx-auto  items-center sm:space-x-4 mr-32 h-full w-full">
+                            <div className="flex flex-col items-center sm:mt-2 mx-16 lg:mx-20 mb-32 ">
                                 <div className="relative w-[280px] h-[224px] -mr-4 sm:ml-10 mb-1 ">
                                     <img
                                         src={imagePreview}
                                         alt="Profile Preview"
-                                        className="h-[280px] w-[280px] pb-4 border-2 rounded-lg border-neutral-300 shadow-sm mx-auto pt-4 px-4 text-neutral-800 text-lg bg-neutral-100 "
+                                        className="h-[280px] w-[280px] shadow-sm mx-auto text-neutral-800 text-lg rounded-3xl "
                                     />
                                 </div>
                             </div>
-                            <div className="flex flex-col w-full mt-4">
+                            <div className="flex flex-col w-full xl:mt-4 lg:ml-4">
                                 <div className="flex items-start">
                                     <InputProfile2 label="Full Name :">
                                         <div className="outline-none flex-1 text-start">
@@ -205,19 +205,19 @@ const FormProfile = ({ user, isEditing }) => {
                         </button>
                     </div>
                     <div className="flex h-full w-full">
-                        <div className="flex flex-col sm:flex-row items-center sm:space-x-4 mt-3 mr-32 h-full w-full">
+                        <div className="flex flex-col sm:flex-row items-center sm:space-x-4  mr-32 h-full w-full">
                             <div className="flex flex-col items-center sm:mt-2 m-16 -mt-1 ">
-                                <div className="relative w-56 h-56 -mr-4 sm:ml-10 mb-1 ">
+                                <div className="relative w-[280px] h-[280px] -mr-4 sm:ml-10 mb-1 ">
                                     <img
                                         src={imagePreview}
                                         alt="Profile Preview"
-                                        className="h-56 w-56 pb-4 border-2 rounded-lg border-neutral-300 shadow-sm mx-auto pt-4 px-4 text-neutral-800 text-lg bg-neutral-100 "
+                                        className="h-[280px] w-[280px] shadow-sm mx-auto  text-neutral-800 text-lg rounded-3xl "
                                     />
                                     <label
                                         htmlFor="imageUpload"
                                         className=" cursor-pointer"
                                     >
-                                        <MdCameraAlt className="absolute top-2 left-2 w-8 h-8 text-neutral-800 cursor-pointer bg-white rounded-full p-2 hover:bg-neutral-100" />
+                                        <TbUpload className="absolute bottom-0 mx-auto left-0 right-0 h-12 py-2 text-neutral-800 cursor-pointer bg-neutral-200 rounded-full w-full  hover:bg-neutral-300 opacity-50" />
                                         <input
                                             id="imageUpload"
                                             type="file"
@@ -230,7 +230,7 @@ const FormProfile = ({ user, isEditing }) => {
                                 </div>
                             </div>
 
-                            <div className="flex flex-col w-full mt-4">
+                            <div className="flex flex-col w-full ">
                                 <InputProfile
                                     label="Full Name"
                                     error={errors.fullname}

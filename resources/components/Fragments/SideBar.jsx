@@ -23,12 +23,8 @@ export default function Sidebar({ children, hide }) {
     return (
         <>
             {!hide && (
-                <aside className="h-[89dvh] fixed bg-white left-0">
-                    <div
-                        className={`h-full flex flex-col top-14 rounded-lg ${
-                            !expanded ? "rounded-lg" : "rounded-lg a"
-                        }`}
-                    >
+                <aside className="h-[89dvh] fixed bg-white left-0 hidden xl:flex">
+                    <div className="h-full flex flex-col top-14 rounded-lg">
                         <div className="p-4 pb-2 flex justify-between items-center">
                             <button
                                 onClick={toggleSidebar}
