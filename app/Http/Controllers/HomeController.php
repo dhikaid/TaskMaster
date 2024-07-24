@@ -16,7 +16,7 @@ class HomeController extends Controller
         $user = User::myProfile();
         $data = [
             'user' => $user,
-            'teams' => Team::with('member')->get(),
+            'teams' => Team::with(['member.leader', 'member.member'])->get(),
         ];
 
         return Inertia::render('Home', $data);

@@ -101,6 +101,12 @@ const FormTeam = ({ isOpen, closeModal, team = { team: "", member: "" } }) => {
                 </div>
             )}
             <form onSubmit={handleSubmit}>
+                <input
+                    type="hidden"
+                    name="_token"
+                    value={usePage().props.csrf}
+                    ref={csrfRef}
+                />
                 <LabelPassword label="Team Name" error={errors.team}>
                     <InputTeam
                         name="team"
@@ -112,11 +118,11 @@ const FormTeam = ({ isOpen, closeModal, team = { team: "", member: "" } }) => {
                         placeholder="Enter Team Name"
                         required
                     />
-                    {errors.team && (
+                    {/* {errors.team && (
                         <div className="text-red-500 text-xs mt-1">
                             {errors.team}
                         </div>
-                    )}
+                    )} */}
                 </LabelPassword>
                 <LabelPassword label="Team Members" error={errors.member}>
                     <InputTeam
@@ -129,13 +135,16 @@ const FormTeam = ({ isOpen, closeModal, team = { team: "", member: "" } }) => {
                         placeholder="Enter Team Members"
                     />
                 </LabelPassword>
-                <ButtonForm
-                    type="submit"
-                    disabled={isLoading}
-                    className=" mt-4 mb-1 mx-auto justify-center items-center flex"
-                >
-                    {isLoading ? "Saving..." : "Save Profile"}
-                </ButtonForm>
+                <div className="flex">
+                    <ButtonForm
+                        type="submit"
+                        disabled={isLoading}
+                        isloading={isLoading}
+                        className=" mt-4 mb-1 mx-auto justify-center items-center flex"
+                    >
+                        {isLoading ? "Creating..." : "Create Team"}
+                    </ButtonForm>
+                </div>
             </form>
         </ModalTeam>
     );

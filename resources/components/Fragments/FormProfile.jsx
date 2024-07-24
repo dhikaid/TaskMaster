@@ -108,62 +108,54 @@ const FormProfile = ({ user, isEditing }) => {
                 onClose={handleCloseModal}
             />
             {!isEditing ? (
-                <div className="flex flex-col w-full h-full  lg:w-80%">
+                <div className="flex flex-col w-full h-full lg:w-80%">
                     <div className="flex items-center ml-2">
                         <button
                             type="button"
                             onClick={() => router.get("/home")}
                             className="flex"
                         >
-                            <BiArrowBack className="text-slate-800 rounded-lg w-7 h-7 mt-2 hover:text-slate-900" />
-                            <span className="text-slate-800 mt-2 ml-2">
+                            <BiArrowBack className="text-slate-800 rounded-lg w-5 h-5 md:w-7 md:h-7 mt-2 hover:text-slate-900" />
+                            <span className="text-slate-800 mt-1 md:mt-2 ml-2">
                                 Back
                             </span>
                         </button>
                     </div>
-                    <div className="flex h-full w-full">
-                        <div className="flex flex-col lg:flex-row lg:items-center lg:mx-auto  items-center sm:space-x-4 mr-32 h-full w-full">
-                            <div className="flex flex-col items-center sm:mt-2 mx-16 lg:mx-20 mb-32 ">
-                                <div className="relative w-[280px] h-[224px] -mr-4 sm:ml-10 mb-1 ">
-                                    <img
-                                        src={imagePreview}
-                                        alt="Profile Preview"
-                                        className="h-[280px] w-[280px] shadow-sm mx-auto text-neutral-800 text-lg rounded-3xl "
-                                    />
+                    <div className="md:flex h-full items-center justify-around md:p-28 mx-4 md:mx-0">
+                        <div className="relative w-full md:w-1/2 my-4">
+                            <img
+                                src={imagePreview}
+                                className="w-80  rounded-3xl justify-center items-center m-auto"
+                                alt=""
+                            />
+                        </div>
+                        <div className="detail w-full text-base md:text-lg m-auto">
+                            <InputProfile2 label="Full Name :">
+                                <div className="outline-none flex-1 text-star ">
+                                    {user.fullname}
                                 </div>
-                            </div>
-                            <div className="flex flex-col w-full xl:mt-4 lg:ml-4">
-                                <div className="flex items-start">
-                                    <InputProfile2 label="Full Name :">
-                                        <div className="outline-none flex-1 text-start">
-                                            {user.fullname}
-                                        </div>
-                                    </InputProfile2>
+                            </InputProfile2>
+                            <InputProfile2 label="Username :">
+                                <div className=" outline-none flex-1 text-start ">
+                                    {user.username}
                                 </div>
-                                <div className="flex items-start">
-                                    <InputProfile2 label="Username :">
-                                        <div className=" outline-none flex-1 text-start ">
-                                            {user.username}
-                                        </div>
-                                    </InputProfile2>
+                            </InputProfile2>
+                            <InputProfile2 label="Email :">
+                                <div className=" outline-none flex-1 text-start  ">
+                                    {user.email}
                                 </div>
-                                <div className="flex items-start">
-                                    <InputProfile2 label="Email :">
-                                        <div className=" outline-none flex-1 text-start ">
-                                            {user.email}
-                                        </div>
-                                    </InputProfile2>
-                                </div>
-                                <InputProfile2 label="Bio :">
-                                    <textarea
-                                        className="border-1 border border-gray-200 outline-none flex-1 text-start p-2 resize-none h-[84px] rounded-lg"
-                                        value={user.bio}
-                                        readOnly
-                                    />
-                                </InputProfile2>
-                                <div className="flex flex-col sm:flex-row mb-3 sm:ml-12 space-y-2 sm:space-x-2 sm:justify-start justify-center">
+                            </InputProfile2>
+                            <InputProfile2 label="Bio :">
+                                <textarea
+                                    className="border-1 border border-gray-200 outline-none flex-1 text-start p-2 resize-none h-[84px] rounded-lg"
+                                    value={user.bio}
+                                    readOnly
+                                />
+                            </InputProfile2>
+                            <div className="formgroup w-full sm:w-10/12 max-auto mx-auto ">
+                                <div className="mb-3">
                                     <button
-                                        className="flex items-center justify-center rounded-xl bg-neutral-800 text-white border-2 border-neutral-600 py-3 px-8 hover:bg-neutral-900 hover:text-white text-sm my-3 ml-8"
+                                        className="flex items-center justify-center rounded-xl bg-neutral-800 text-white border-2 border-neutral-600 py-3 px-8 hover:bg-neutral-900 hover:text-white text-sm ml-1 md:ml-2 w-full md:w-auto"
                                         type="button"
                                         onClick={() =>
                                             router.get("/profile/edit")
@@ -183,7 +175,7 @@ const FormProfile = ({ user, isEditing }) => {
                 <form
                     onSubmit={handleSubmit}
                     method="POST"
-                    className="flex flex-col w-full h-full"
+                    className="flex flex-col w-full h-full lg:w-80%"
                     encType="multipart/form-data"
                 >
                     <input
@@ -192,98 +184,93 @@ const FormProfile = ({ user, isEditing }) => {
                         value={usePage().props.csrf}
                         ref={csrfRef}
                     />
-                    <div className="flex items-center ml-2 ">
+                    <div className="flex items-center ml-2">
                         <button
                             type="button"
                             onClick={() => router.get("/profile")}
-                            className="flex relative top-0"
+                            className="flex"
                         >
-                            <BiArrowBack className="text-slate-800 rounded-lg w-7 h-7 mt-2 hover:text-slate-900 " />
-                            <span className="text-slate-800 ml-2 mt-2">
+                            <BiArrowBack className="text-slate-800 rounded-lg w-5 h-5 md:w-7 md:h-7 mt-2 hover:text-slate-900" />
+                            <span className="text-slate-800 mt-1 md:mt-2 ml-2">
                                 Back
                             </span>
                         </button>
                     </div>
-                    <div className="flex h-full w-full">
-                        <div className="flex flex-col sm:flex-row items-center sm:space-x-4  mr-32 h-full w-full">
-                            <div className="flex flex-col items-center sm:mt-2 m-16 -mt-1 ">
-                                <div className="relative w-[280px] h-[280px] -mr-4 sm:ml-10 mb-1 ">
-                                    <img
-                                        src={imagePreview}
-                                        alt="Profile Preview"
-                                        className="h-[280px] w-[280px] shadow-sm mx-auto  text-neutral-800 text-lg rounded-3xl "
-                                    />
-                                    <label
-                                        htmlFor="imageUpload"
-                                        className=" cursor-pointer"
-                                    >
-                                        <TbUpload className="absolute bottom-0 mx-auto left-0 right-0 h-12 py-2 text-neutral-800 cursor-pointer bg-neutral-200 rounded-full w-full  hover:bg-neutral-300 opacity-50" />
-                                        <input
-                                            id="imageUpload"
-                                            type="file"
-                                            className="hidden"
-                                            onChange={handleImageChange}
-                                            name="image"
-                                            accept="image/png, image/jpg, image/jpeg"
-                                        />
-                                    </label>
-                                </div>
-                            </div>
+                    <div className="md:flex h-full items-center justify-around md:p-28 mx-4 md:mx-0">
+                        <div className="relative w-full md:w-1/2 my-4">
+                            <img
+                                src={imagePreview}
+                                className="w-80  rounded-3xl justify-center items-center m-auto"
+                                alt=""
+                            />
+                            <label
+                                htmlFor="imageUpload"
+                                className=" cursor-pointer"
+                            >
+                                <TbUpload className="absolute bottom-0 mx-auto left-0 right-0 h-12 py-2 text-neutral-800 cursor-pointer bg-neutral-200 rounded-full md:w-80 w-full  hover:bg-neutral-300 opacity-50" />
+                                <input
+                                    id="imageUpload"
+                                    type="file"
+                                    className="hidden"
+                                    onChange={handleImageChange}
+                                    name="image"
+                                    accept="image/png, image/jpg, image/jpeg"
+                                />
+                            </label>
+                        </div>
 
-                            <div className="flex flex-col w-full ">
-                                <InputProfile
-                                    label="Full Name"
-                                    error={errors.fullname}
-                                >
-                                    <input
-                                        autoComplete="off"
-                                        name="fullname"
-                                        type="text"
-                                        value={data.fullname}
-                                        onChange={handleChange}
-                                        className="bg-gray-100 outline-none  flex-1 text-start pl-1"
-                                    />
-                                </InputProfile>
-                                <InputProfile
-                                    label="Username"
-                                    error={errors.username}
-                                >
-                                    <input
-                                        required
-                                        autoComplete="off"
-                                        name="username"
-                                        type="text"
-                                        value={data.username}
-                                        onChange={handleChange}
-                                        className="bg-gray-100 outline-none  flex-1 text-start pl-1"
-                                    />
-                                </InputProfile>
-                                <InputProfile
-                                    label="Email"
-                                    error={errors.email}
-                                >
-                                    <input
-                                        required
-                                        autoComplete="off"
-                                        name="email"
-                                        type="email"
-                                        value={data.email}
-                                        onChange={handleChange}
-                                        className="bg-gray-100 outline-none  flex-1 text-start pl-1"
-                                    />
-                                </InputProfile>
-                                <InputProfile label="Bio" error={errors.bio}>
-                                    <Textarea
-                                        autoComplete="off"
-                                        name="bio"
-                                        value={data.bio}
-                                        onChange={handleChange}
-                                        className="bg-gray-100 outline-none  flex-1 text-start pl-1 resize-none"
-                                    />
-                                </InputProfile>
-                                <div className="flex flex-col sm:flex-row mb-3 sm:ml-11 space-y-2 sm:space-x-2 sm:justify-start justify-center">
+                        <div className="detail w-full text-base md:text-lg">
+                            <InputProfile
+                                label="Full Name"
+                                error={errors.fullname}
+                            >
+                                <input
+                                    autoComplete="off"
+                                    name="fullname"
+                                    type="text"
+                                    value={data.fullname}
+                                    onChange={handleChange}
+                                    className="bg-gray-100 outline-none  flex-1 text-start pl-1"
+                                />
+                            </InputProfile>
+                            <InputProfile
+                                label="Username"
+                                error={errors.username}
+                            >
+                                <input
+                                    required
+                                    autoComplete="off"
+                                    name="username"
+                                    type="text"
+                                    value={data.username}
+                                    onChange={handleChange}
+                                    className="bg-gray-100 outline-none  flex-1 text-start pl-1"
+                                />
+                            </InputProfile>
+                            <InputProfile label="Email" error={errors.email}>
+                                <input
+                                    required
+                                    autoComplete="off"
+                                    name="email"
+                                    type="email"
+                                    value={data.email}
+                                    onChange={handleChange}
+                                    className="bg-gray-100 outline-none  flex-1 text-start pl-1"
+                                />
+                            </InputProfile>
+                            <InputProfile label="Bio" error={errors.bio}>
+                                <Textarea
+                                    autoComplete="off"
+                                    name="bio"
+                                    value={data.bio}
+                                    onChange={handleChange}
+                                    className="bg-gray-100 outline-none  flex-1 text-start pl-1 resize-none"
+                                />
+                            </InputProfile>
+                            <div className="formgroup w-full sm:w-10/12 max-auto mx-auto ">
+                                <div className="md:flex items-center gap-3 sm:gap-x-5">
                                     <ButtonForm
-                                        className="flex items-center justify-center text-sm"
+                                        className="flex items-center justify-center text-sm w-full md:w-auto"
                                         type="submit"
                                         disabled={isLoading}
                                         isloading={isLoading}
@@ -293,7 +280,7 @@ const FormProfile = ({ user, isEditing }) => {
                                             : "Save Profile"}
                                     </ButtonForm>
                                     <button
-                                        className="flex items-center justify-center bg-white border-2 border-neutral-600 rounded-xl  font-semibold hover:bg-neutral-800 hover:text-white text-sm py-3 px-10"
+                                        className="flex items-center justify-center border-2 border-neutral-600 bg-white rounded-xl px-14 py-3  font-semibold hover:bg-neutral-900 text-black hover:text-white mt-2 text-sm w-full md:w-auto"
                                         type="button"
                                         onClick={() =>
                                             changePasswordModalRef.current.openModal()

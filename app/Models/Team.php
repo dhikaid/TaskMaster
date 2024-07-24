@@ -12,12 +12,12 @@ class Team extends Model
     protected $table = 'teams';
 
     protected $guarded = ['id'];
-    // protected $hidden = [
-    //     'id'
-    // ];
+    protected $hidden = [
+        'id'
+    ];
 
     public function member(): HasMany
     {
-        return $this->hasMany(TeamDetails::class);
+        return $this->hasMany(TeamDetails::class, 'id');
     }
 }
