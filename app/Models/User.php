@@ -53,4 +53,12 @@ class User extends Authenticatable
         $user['firstname'] = explode(' ',  $user['fullname'], 2)[0];
         return $user;
     }
+
+    public function scopeFilter($query, string $filters)
+    {
+        $query->when($filters ?? false, function ($query, $search) {
+            return $query->where('username', 'like', '%' . $search . '%')
+                ->orWhere('fullname', 'like', '%' . $search . '%');
+        });
+    }
 }
