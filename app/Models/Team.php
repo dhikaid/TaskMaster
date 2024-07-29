@@ -14,12 +14,12 @@ class Team extends Model
 
     protected $guarded = ['id'];
     protected $hidden = [
-        'id'
+        'id',
     ];
 
     public function member(): HasMany
     {
-        return $this->hasMany(TeamDetails::class, 'id');
+        return $this->hasMany(TeamDetails::class, 'team');
     }
 
     public function leader(): BelongsTo

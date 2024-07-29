@@ -21,6 +21,8 @@ class TeamController extends Controller
             $rules['member'] = 'nullable|array';
         }
 
+
+
         $validatedData = $request->validate($rules);
 
         $team = [
@@ -31,15 +33,21 @@ class TeamController extends Controller
 
         $team = Team::create($team);
 
-        $member = [
-            'team' => $team->id,
-        ];
 
         if ($request->member) {
-            $member['member'] = json_encode($validatedData['member']); // Convert array to JSON string
+            $members = [
+                'team' => $team->id,
+            ];
+            // foreach
+            foreach ($request->member as $member) {
+                if (auth()->user()->username != $member) {
+                    $user = User::where('username', $member)->first();
+                    $members['member'] = $user->id;
+                    $member = TeamDetails::create($members);
+                }
+            }
         }
 
-        $member = TeamDetails::create($member);
 
         $data = [
             'status' => 200,
@@ -77,4 +85,3 @@ class TeamController extends Controller
         return response()->json($data);
     }
 }
-

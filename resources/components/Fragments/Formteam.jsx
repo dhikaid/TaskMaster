@@ -22,9 +22,11 @@ const FormTeam = ({ isOpen, closeModal, team = { team: "", member: [] } }) => {
         setValues({ ...values, [name]: value });
     };
 
-    const handleTagChange = (event) => {
-        const members = event.detail.tagify.value.map((item) => item.value);
-        setValues({ ...values, member: members });
+    const [tags, setTags] = useState([]);
+
+    const handleTagChange = (e) => {
+        let members = e.detail.tagify.value.map((item) => item.value);
+        tags.push(members);
     };
 
     const handleSearch = async (event) => {
@@ -53,7 +55,7 @@ const FormTeam = ({ isOpen, closeModal, team = { team: "", member: [] } }) => {
             `/team/create`,
             {
                 ...values,
-                member: values.member, // Send as an array of strings
+                member: tags.pop(), // Send as an array of strings
             },
             {
                 onSuccess: (page) => {
@@ -139,11 +141,18 @@ const FormTeam = ({ isOpen, closeModal, team = { team: "", member: [] } }) => {
                 </LabelPassword>
 
                 <LabelPassword label="Team Members" error={errors.member}>
-                    <TagInput
-                        value={values.member.map((username) => ({ username }))}
-                        onChange={handleTagChange}
-                        onSearch={handleSearch}
-                    />
+                    <div className="flex flex-col w-full">
+                        <TagInput
+                            value={tags}
+                            onChange={handleTagChange}
+                            onSearch={handleSearch}
+                        />
+                        {/* <p className="text-sm mt-3">
+                            <span className="font-bold">
+                                Member(s): {tags.pop}
+                            </span>
+                        </p> */}
+                    </div>
                 </LabelPassword>
 
                 <div className="flex">

@@ -13,7 +13,7 @@ class TeamDetails extends Model
 
     protected $guarded = ['id'];
     protected $hidden = [
-        'id'
+        'id', 'team', 'created_at', 'updated_at'
     ];
 
     public function member(): BelongsTo

@@ -30,8 +30,9 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
+
         'password',
-        'remember_token',
+        'remember_token', 'created_at', 'updated_at'
     ];
 
     /**
@@ -58,7 +59,7 @@ class User extends Authenticatable
     {
         $query->when($filters ?? false, function ($query, $search) {
             return $query->where('username', 'like', '%' . $search . '%')
-                ->orWhere('fullname', 'like', '%' . $search . '%');
+                ->whereNot('username', auth()->user()->username);
         });
     }
 }
