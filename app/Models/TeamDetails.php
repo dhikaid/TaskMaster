@@ -16,11 +16,6 @@ class TeamDetails extends Model
         'id'
     ];
 
-    public function leader(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'leader');
-    }
-
     public function member(): BelongsTo
     {
         return $this->belongsTo(User::class, 'member');

@@ -28,13 +28,13 @@ class TeamController extends Controller
 
         $team = [
             'uuid' => fake()->uuid(),
-            'team' => $validatedData['team']
+            'team' => $validatedData['team'],
+            'leader' => auth()->user()->id
         ];
 
-        $team =   Team::create($team);
+        $team =  Team::create($team);
 
         $member = [
-            'leader' =>  auth()->user()->id,
             'team' => $team->id
         ];
 
