@@ -1,37 +1,59 @@
-import React, { useRef, useState } from "react";
-import InputTeam from "../Elements/input/InputTeam";
-import { router, usePage } from "@inertiajs/react";
+import React, { useState } from "react";
+import { usePage, router } from "@inertiajs/react";
 import ModalTeam from "../Elements/Modal/ModalTeam";
 import { FaCircleCheck } from "react-icons/fa6";
 import { MdError } from "react-icons/md";
 import LabelPassword from "../Elements/input/LabelPassword";
 import ButtonForm from "../Elements/button/ButtonForm";
+import TagInput from "../Elements/input/TagInput";
 
-const FormTeam = ({ isOpen, closeModal, team = { team: "", member: "" } }) => {
-    const { errors, csrf, flash } = usePage().props;
-    const csrfRef = useRef(csrf);
+const FormTeam = ({ isOpen, closeModal, team = { team: "", member: [] } }) => {
+    const { errors, csrf } = usePage().props;
     const [isLoading, setIsLoading] = useState(false);
     const [isAlert, setIsAlert] = useState({});
     const [values, setValues] = useState({
         team: team.team,
-        member: team.member,
-        _token: csrfRef.current.value,
+        member: [...team.member],
+        _token: csrf,
     });
 
-    function handleChange(event) {
+    const handleChange = (event) => {
         const { name, value } = event.target;
         setValues({ ...values, [name]: value });
-    }
+    };
 
-    function handleSubmit(event) {
+    const handleTagChange = (event) => {
+        const members = event.detail.tagify.value.map((item) => item.value);
+        setValues({ ...values, member: members });
+    };
+
+    const handleSearch = async (event) => {
+        const query = event.detail.value;
+        if (query) {
+            const response = await fetch(`/member/search?query=${query}`);
+            const result = await response.json();
+            if (result.status === 200) {
+                event.detail.tagify.settings.whitelist = result.data.map(
+                    (user) => ({
+                        value: user.username,
+                    })
+                );
+                event.detail.tagify.dropdown.show.call(
+                    event.detail.tagify,
+                    query
+                );
+            }
+        }
+    };
+
+    const handleSubmit = (event) => {
         event.preventDefault();
         setIsLoading(true);
         router.post(
             `/team/create`,
             {
-                team: values.team,
-                member: values.member,
-                _token: csrfRef.current.value,
+                ...values,
+                member: values.member, // Send as an array of strings
             },
             {
                 onSuccess: (page) => {
@@ -40,8 +62,8 @@ const FormTeam = ({ isOpen, closeModal, team = { team: "", member: "" } }) => {
                     if (page.props.flash.message.status === 200) {
                         setValues({
                             team: "",
-                            member: "",
-                            _token: csrfRef.current.value,
+                            member: [],
+                            _token: csrf,
                         });
                         setTimeout(() => {
                             closeModal();
@@ -53,7 +75,7 @@ const FormTeam = ({ isOpen, closeModal, team = { team: "", member: "" } }) => {
                 },
             }
         );
-    }
+    };
 
     return (
         <ModalTeam isOpen={isOpen} onClose={closeModal} hasError={errors}>
@@ -100,15 +122,11 @@ const FormTeam = ({ isOpen, closeModal, team = { team: "", member: "" } }) => {
                     </div>
                 </div>
             )}
+
             <form onSubmit={handleSubmit}>
-                <input
-                    type="hidden"
-                    name="_token"
-                    value={usePage().props.csrf}
-                    ref={csrfRef}
-                />
+                <input type="hidden" name="_token" value={csrf} />
                 <LabelPassword label="Team Name" error={errors.team}>
-                    <InputTeam
+                    <input
                         name="team"
                         onChange={handleChange}
                         value={values.team}
@@ -118,29 +136,22 @@ const FormTeam = ({ isOpen, closeModal, team = { team: "", member: "" } }) => {
                         placeholder="Enter Team Name"
                         required
                     />
-                    {/* {errors.team && (
-                        <div className="text-red-500 text-xs mt-1">
-                            {errors.team}
-                        </div>
-                    )} */}
                 </LabelPassword>
+
                 <LabelPassword label="Team Members" error={errors.member}>
-                    <InputTeam
-                        name="member"
-                        onChange={handleChange}
-                        value={values.member}
-                        className={`bg-gray-100 outline-none text-sm flex-1 text-start ${
-                            errors.member ? "border-red-500" : ""
-                        }`}
-                        placeholder="Enter Team Members"
+                    <TagInput
+                        value={values.member.map((username) => ({ username }))}
+                        onChange={handleTagChange}
+                        onSearch={handleSearch}
                     />
                 </LabelPassword>
+
                 <div className="flex">
                     <ButtonForm
                         type="submit"
                         disabled={isLoading}
-                        isloading={isLoading}
-                        className=" mt-4 mb-1 mx-auto justify-center items-center flex"
+                        isLoading={isLoading}
+                        className="mt-4 mb-1 mx-auto justify-center items-center flex"
                     >
                         {isLoading ? "Creating..." : "Create Team"}
                     </ButtonForm>

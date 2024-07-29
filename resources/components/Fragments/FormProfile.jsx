@@ -207,7 +207,7 @@ const FormProfile = ({ user, isEditing }) => {
                                 htmlFor="imageUpload"
                                 className=" cursor-pointer"
                             >
-                                <TbUpload className="absolute bottom-0 mx-auto left-0 right-0 h-12 py-2 text-neutral-800 cursor-pointer bg-neutral-200 rounded-full md:w-80 w-full  hover:bg-neutral-300 opacity-50" />
+                                <TbUpload className="absolute bottom-0 mx-auto left-0 right-0 h-12 py-2 text-neutral-800 cursor-pointer bg-neutral-200 rounded-full  w-full  hover:bg-neutral-300 opacity-50" />
                                 <input
                                     id="imageUpload"
                                     type="file"
