@@ -1,5 +1,5 @@
 import React from "react";
-import { Head, usePage } from "@inertiajs/react";
+import { Head, usePage, router } from "@inertiajs/react";
 import LayoutIndex from "../components/Layouts/LayoutIndex";
 import CardWorkspace from "../components/Fragments/Card/CardWorkspace";
 import { SidebarProvider } from "../components/Fragments/SideBar";
@@ -7,8 +7,8 @@ import { SidebarProvider } from "../components/Fragments/SideBar";
 const Home = () => {
     const { user, teams } = usePage().props;
 
-    const handleViewTask = (path) => {
-        router.visit(path);
+    const handleViewTask = (id) => {
+        router.visit(`/task/${id}`);
     };
 
     return (
@@ -16,19 +16,18 @@ const Home = () => {
             <Head title="Home | TaskMaster" />
             <SidebarProvider>
                 <LayoutIndex user={user} pageTitle="Workspace">
-                    <div className="flex flex-wrap w-full gap-4">
+                    <div className="flex flex-wrap w-full gap-4 justify-center my-2">
                         {teams.length > 0 ? (
                             teams.map((team, index) => (
                                 <CardWorkspace
                                     key={index}
                                     title={team.team}
                                     creator={team.leader.fullname}
-                                    members={(team.member || []).map(
-                                        (member) => member.username
+                                    members={(team.members || []).map(
+                                        (memberDetail) =>
+                                            memberDetail.member.username
                                     )}
-                                    onViewTask={() =>
-                                        handleViewTask(`/task/${team.id}`)
-                                    }
+                                    onViewTask={() => handleViewTask(team.id)}
                                 />
                             ))
                         ) : (

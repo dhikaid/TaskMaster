@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\TeamDetails;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-
+use Inertia\Inertia;
 class TeamController extends Controller
 {
     public function createTeam(Request $request)
@@ -83,5 +83,13 @@ class TeamController extends Controller
             ];
         }
         return response()->json($data);
+    }
+    public function detailTask($id)
+    {
+        $team = Team::with(['leader', 'member.member'])->findOrFail($id);
+    
+        return Inertia::render('DetailTask', [
+            'team' => $team,
+        ]);
     }
 }

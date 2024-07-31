@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Tags from "@yaireo/tagify";
 import "@yaireo/tagify/dist/tagify.css";
 
-const TagInput = ({ value, onChange, onSearch }) => {
+const TagInput = ({ label, value, onChange, onSearch, error }) => {
     const tagifyRef = useRef();
     const [tagifyInstance, setTagifyInstance] = useState(null);
 
@@ -38,11 +38,19 @@ const TagInput = ({ value, onChange, onSearch }) => {
     }, [value, tagifyInstance]);
 
     return (
-        <input
-            ref={tagifyRef}
-            className="tagify w-full leading-5 relative text-sm py-2 px-4 rounded bg-white border overflow-x-auto focus:outline-none"
-            placeholder="Enter team members"
-        />
+        <div className="mb-4">
+            <label className="block text-sm font-medium text-slate-800 pl-1">
+                {label}
+            </label>
+            <div className="flex items-center rounded-xl bg-gray-100 border focus-within:border-blue-500 hover:border-blue-500 shadow-sm focus-within:border-[1px]">
+                <input
+                    ref={tagifyRef}
+                    className="tagify leading-5 relative text-sm rounded-lg overflow-x-auto focus:outline-none w-full text-slate-500 py-[2px]"
+                    placeholder="Enter team members"
+                />
+            </div>
+            {error && <span className="text-red-500 text-xs">{error}</span>}
+        </div>
     );
 };
 

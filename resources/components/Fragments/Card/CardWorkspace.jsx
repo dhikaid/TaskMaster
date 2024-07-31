@@ -3,8 +3,9 @@ import { MdPerson } from "react-icons/md";
 
 const CardWorkspace = ({ title, creator, members, onViewTask }) => {
     const maxTitle = title.length > 20 ? `${title.substring(0, 20)}...` : title;
+
     return (
-        <div className="bg-gray-200 p-4 h-56 w-80 rounded-xl shadow-md m-2 flex flex-col justify-between">
+        <div className="bg-gray-200 p-4 h-56 w-[340px] rounded-xl shadow-md m-2 flex flex-col justify-between">
             <div>
                 <h2 className="text-xl font-bold mb-2">{maxTitle}</h2>
                 <p className="text-gray-700">

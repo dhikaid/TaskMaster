@@ -88,6 +88,12 @@ Route::get('/profile/edit', [ProfileController::class, 'edit'])->middleware('aut
 Route::post('/team/create', [TeamController::class, 'createTeam'])->middleware('auth');
 Route::get('/member/search', [TeamController::class, 'searchMember'])->middleware('auth');
 
+// DETAIL TASK
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', [HomeController::class, 'index']);
+    Route::get('/task/{id}', [TeamController::class, 'detailTask']);
+});
+
 // DEBUG
 Route::get('/image', function () {
     return fake()->image(storage_path('app/public/avatar'), 300, 300, null, false, false, 'A', true, 'png');

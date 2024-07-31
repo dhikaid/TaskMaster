@@ -132,28 +132,21 @@ const FormTeam = ({ isOpen, closeModal, team = { team: "", member: [] } }) => {
                         name="team"
                         onChange={handleChange}
                         value={values.team}
-                        className={`bg-gray-100 outline-none text-sm flex-1 text-start ${
-                            errors.team ? "border-red-500" : ""
-                        }`}
+                        className="bg-gray-100 outline-none text-sm flex-1 text-start py-2 px-2"
                         placeholder="Enter Team Name"
                         required
                     />
                 </LabelPassword>
 
-                <LabelPassword label="Team Members" error={errors.member}>
-                    <div className="flex flex-col w-full">
-                        <TagInput
-                            value={tags}
-                            onChange={handleTagChange}
-                            onSearch={handleSearch}
-                        />
-                        {/* <p className="text-sm mt-3">
-                            <span className="font-bold">
-                                Member(s): {tags.pop}
-                            </span>
-                        </p> */}
-                    </div>
-                </LabelPassword>
+                <div className="mb-4">
+                    <TagInput
+                        label="Team Members"
+                        value={tags}
+                        onChange={handleTagChange}
+                        onSearch={handleSearch}
+                        error={errors.member}
+                    />
+                </div>
 
                 <div className="flex">
                     <ButtonForm
