@@ -3,16 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Team;
+use App\Models\User;
 use App\Models\TeamDetails;
 use Illuminate\Http\Request;
-
+use Illuminate\Validation\ValidationException;
+use Inertia\Inertia;
 class TeamController extends Controller
 {
-
-
     public function createTeam(Request $request)
     {
-
         $rules = [
             'team' => "required|unique:users,username",
             'member' => "nullable",
@@ -22,31 +21,75 @@ class TeamController extends Controller
             $rules['member'] = 'nullable|array';
         }
 
+
+
         $validatedData = $request->validate($rules);
 
         $team = [
             'uuid' => fake()->uuid(),
-            'team' => $validatedData['team']
+            'team' => $validatedData['team'],
+            'leader' => auth()->user()->id,
         ];
 
-        $team =   Team::create($team);
+        $team = Team::create($team);
 
-        $member = [
-            'leader' =>  auth()->user()->id,
-            'team' => $team->id
-        ];
 
         if ($request->member) {
-            $member['member'] = $validatedData['member'];
+            $members = [
+                'team' => $team->id,
+            ];
+            // foreach
+            foreach ($request->member as $member) {
+                if (auth()->user()->username != $member) {
+                    $user = User::where('username', $member)->first();
+                    $members['member'] = $user->id;
+                    $member = TeamDetails::create($members);
+                }
+            }
         }
 
-        $member = TeamDetails::create($member);
 
         $data = [
             'status' => 200,
-            'message' => "Your team has been created."
+            'message' => "Your team has been created.",
         ];
 
         return redirect('/home')->with('message', $data);
+    }
+
+    public function searchMember(Request $request)
+    {
+        try {
+            $validatedData = $request->validate([
+                'query' => 'required',
+            ]);
+
+            $user = User::filter($validatedData['query'])->latest()->get();
+            if (!$user->isEmpty()) {
+                $data = [
+                    'status' => 200,
+                    'data' => $user,
+                ];
+            } else {
+                $data = [
+                    'status' => 404,
+                    'data' => 'User not found',
+                ];
+            }
+        } catch (ValidationException $e) {
+            $data = [
+                'status' => 403,
+                'message' => $e->errors(),
+            ];
+        }
+        return response()->json($data);
+    }
+    public function detailTask($id)
+    {
+        $team = Team::with(['leader', 'member.member'])->findOrFail($id);
+    
+        return Inertia::render('DetailTask', [
+            'team' => $team,
+        ]);
     }
 }

@@ -86,6 +86,13 @@ Route::get('/profile/edit', [ProfileController::class, 'edit'])->middleware('aut
 
 //CREATE TEAM
 Route::post('/team/create', [TeamController::class, 'createTeam'])->middleware('auth');
+Route::get('/member/search', [TeamController::class, 'searchMember'])->middleware('auth');
+
+// DETAIL TASK
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', [HomeController::class, 'index']);
+    Route::get('/task/{id}', [TeamController::class, 'detailTask']);
+});
 
 // DEBUG
 Route::get('/image', function () {
