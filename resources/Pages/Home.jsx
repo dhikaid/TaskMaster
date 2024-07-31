@@ -7,8 +7,8 @@ import { SidebarProvider } from "../components/Fragments/SideBar";
 const Home = () => {
     const { user, teams } = usePage().props;
 
-    const handleViewTask = (id) => {
-        router.visit(`/task/${id}`);
+    const handleViewTask = (uuid) => {
+        router.visit(`/task/${uuid}`);
     };
 
     return (
@@ -16,18 +16,17 @@ const Home = () => {
             <Head title="Home | TaskMaster" />
             <SidebarProvider>
                 <LayoutIndex user={user} pageTitle="Workspace">
-                    <div className="flex flex-wrap w-full gap-4 justify-center my-2">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full justify-start md:m-4">
                         {teams.length > 0 ? (
                             teams.map((team, index) => (
                                 <CardWorkspace
                                     key={index}
                                     title={team.team}
-                                    creator={team.leader.fullname}
-                                    members={(team.members || []).map(
-                                        (memberDetail) =>
-                                            memberDetail.member.username
+                                    creator={team.leader}
+                                    members={(team.member || []).map(
+                                        (memberDetail) => memberDetail.member
                                     )}
-                                    onViewTask={() => handleViewTask(team.id)}
+                                    onViewTask={() => handleViewTask(team.uuid)}
                                 />
                             ))
                         ) : (

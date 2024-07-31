@@ -17,14 +17,11 @@ const TagInput = ({ label, value, onChange, onSearch, error }) => {
         });
 
         setTagifyInstance(tagify);
-
         tagify.on("input", onSearch);
         tagify.on("add", onChange);
         tagify.on("remove", onChange);
-
-        return () => {
-            tagify.destroy();
-        };
+        tagify.on("submit", onChange);
+        return () => {};
     }, [onChange, onSearch]);
 
     useEffect(() => {

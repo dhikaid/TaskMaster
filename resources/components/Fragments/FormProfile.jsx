@@ -31,7 +31,8 @@ const FormProfile = ({ user, isEditing }) => {
     const [message, setMessage] = useState({ status: null, message: "" });
     const changePasswordModalRef = useRef(null);
     const [imagePreview, setImagePreview] = useState(
-        `/storage/${user.image}` || ""
+        `/storage/${user.image}` ||
+            "/storage/avatar/ea27a38c7cf33438cb79a1bf63a103be.png"
     );
 
     const handleChange = (event) => {
@@ -122,13 +123,14 @@ const FormProfile = ({ user, isEditing }) => {
                         </button>
                     </div>
                     <div className="md:flex h-full items-center justify-around md:p-28 mx-4 md:mx-0">
-                        <div className="relative w-full md:w-1/2 my-4">
+                        <div className="relative w-full md:w-1/2 my-4 overflow-hidden">
                             <img
                                 src={imagePreview}
-                                className="w-80  rounded-3xl justify-center items-center m-auto"
+                                className="w-full rounded-3xl justify-center items-center m-auto aspect-square object-cover"
                                 alt=""
                             />
                         </div>
+
                         <div className="detail w-full text-base md:text-lg m-auto">
                             <InputProfile2 label="Full Name :">
                                 <div className="outline-none flex-1 text-star ">
@@ -197,17 +199,17 @@ const FormProfile = ({ user, isEditing }) => {
                         </button>
                     </div>
                     <div className="md:flex h-full items-center justify-around md:p-28 mx-4 md:mx-0">
-                        <div className="relative w-full md:w-1/2 my-4">
+                        <div className="relative w-full md:w-1/2 my-4 overflow-hidden">
                             <img
                                 src={imagePreview}
-                                className="w-80  rounded-3xl justify-center items-center m-auto"
+                                className="w-full rounded-3xl justify-center items-center m-auto aspect-square object-cover"
                                 alt=""
                             />
                             <label
                                 htmlFor="imageUpload"
-                                className=" cursor-pointer"
+                                className="absolute bottom-0 left-0 right-0 w-full"
                             >
-                                <TbUpload className="absolute bottom-0 mx-auto left-0 right-0 h-12 py-2 text-neutral-800 cursor-pointer bg-neutral-200 rounded-full  w-full  hover:bg-neutral-300 opacity-50" />
+                                <TbUpload className="h-12 p-2 text-neutral-800 cursor-pointer bg-neutral-200 rounded-b-3xl hover:bg-neutral-300 opacity-70 w-full" />
                                 <input
                                     id="imageUpload"
                                     type="file"

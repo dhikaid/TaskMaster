@@ -9,11 +9,11 @@ const DetailTask = () => {
             <Head title={`Task | ${team.team}`} />
             <div className="container mx-auto my-4">
                 <h1 className="text-3xl font-bold">{team.team}</h1>
-                <p>Leader: {team.leader.fullname}</p>
+                <p>Leader: {team[0].leader.fullname}</p>
                 <p>Members:</p>
                 <ul className="list-disc list-inside">
-                    {team.member.map((memberDetail, index) => (
-                        <li key={index}>{memberDetail.member.username}</li>
+                    {team[0].member.map((memberDetail, index) => (
+                        <li key={index}>{memberDetail.member.fullname}</li>
                     ))}
                 </ul>
             </div>

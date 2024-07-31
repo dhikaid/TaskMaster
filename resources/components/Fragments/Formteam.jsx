@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { usePage, router } from "@inertiajs/react";
 import ModalTeam from "../Elements/Modal/ModalTeam";
 import { FaCircleCheck } from "react-icons/fa6";
@@ -9,6 +9,7 @@ import TagInput from "../Elements/input/TagInput";
 
 const FormTeam = ({ isOpen, closeModal, team = { team: "", member: [] } }) => {
     const { errors, csrf } = usePage().props;
+    const csrfRef = useRef(csrf);
     const [isLoading, setIsLoading] = useState(false);
     const [isAlert, setIsAlert] = useState({});
     const [values, setValues] = useState({
@@ -24,8 +25,9 @@ const FormTeam = ({ isOpen, closeModal, team = { team: "", member: [] } }) => {
 
     const [tags, setTags] = useState([]);
 
-    const handleTagChange = (e) => {
-        let members = e.detail.tagify.value.map((item) => item.value);
+    const handleTagChange = (event) => {
+        const members = event.detail.tagify.value;
+        setValues({ ...values, member: members });
         tags.push(members);
     };
 
@@ -51,11 +53,13 @@ const FormTeam = ({ isOpen, closeModal, team = { team: "", member: [] } }) => {
     const handleSubmit = (event) => {
         event.preventDefault();
         setIsLoading(true);
+        const csrfToken = csrfRef.current.value;
         router.post(
             `/team/create`,
             {
                 ...values,
-                member: tags.pop(), // Send as an array of strings
+                member: values.member, // Send as an array of strings
+                _token: csrfToken,
             },
             {
                 onSuccess: (page) => {
@@ -67,6 +71,7 @@ const FormTeam = ({ isOpen, closeModal, team = { team: "", member: [] } }) => {
                             member: [],
                             _token: csrf,
                         });
+                        setTags([]);
                         setTimeout(() => {
                             closeModal();
                         }, 2000);
@@ -126,7 +131,12 @@ const FormTeam = ({ isOpen, closeModal, team = { team: "", member: [] } }) => {
             )}
 
             <form onSubmit={handleSubmit}>
-                <input type="hidden" name="_token" value={csrf} />
+                <input
+                    type="hidden"
+                    name="_token"
+                    value={usePage().props.csrf}
+                    ref={csrfRef}
+                />
                 <LabelPassword label="Team Name" error={errors.team}>
                     <input
                         name="team"

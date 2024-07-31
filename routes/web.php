@@ -91,7 +91,7 @@ Route::get('/member/search', [TeamController::class, 'searchMember'])->middlewar
 // DETAIL TASK
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', [HomeController::class, 'index']);
-    Route::get('/task/{id}', [TeamController::class, 'detailTask']);
+    Route::get('/task/{team:uuid}', [TeamController::class, 'detailTask']);
 });
 
 // DEBUG
