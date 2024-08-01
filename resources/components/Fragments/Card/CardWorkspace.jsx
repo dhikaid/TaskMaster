@@ -9,7 +9,6 @@ const CardWorkspace = ({ title, creator, members, onViewTask }) => {
             <div>
                 <h2 className="text-xl font-bold mb-2">{maxTitle}</h2>
                 <div className="text-gray-700">
-                    {/* Created by <MdPerson className="inline-block" />{" "} */}
                     <div className="flex gap-1 items-center">
                         Created by{" "}
                         <img

@@ -47,7 +47,7 @@ const LayoutIndex = ({ children, pageTitle, user, hideSidebar }) => {
                         </h1>
                         <div className="mt-5">
                             <div className="w-full bg-neutral-200">
-                                <div className="min-h-[calc(100dvh-240px)] border-2 border-neutral-200 p-4 rounded-[25px] shadow-sm flex bg-white flex-col md:flex-row">
+                                <div className="min-h-[calc(100dvh-240px)] border-2 border-neutral-200 p-4 rounded-[25px] shadow-sm  bg-white flex-col ">
                                     {children}
                                 </div>
                             </div>

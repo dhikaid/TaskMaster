@@ -40,7 +40,7 @@ const TagInput = ({ label, value, onChange, onSearch, error }) => {
                 {label}
             </label>
             <div className="flex items-center rounded-xl bg-gray-100 border focus-within:border-blue-500 hover:border-blue-500 shadow-sm focus-within:border-[1px]">
-                <input
+                <textarea
                     ref={tagifyRef}
                     className="tagify leading-5 relative text-sm rounded-lg overflow-x-auto focus:outline-none w-full text-slate-500 py-[2px]"
                     placeholder="Enter team members"

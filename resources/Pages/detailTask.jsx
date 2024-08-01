@@ -1,23 +1,17 @@
 import React from "react";
-import { Head, usePage } from "@inertiajs/react";
+import LayoutDetailTask from "../components/Layouts/LayoutDetailTask";
+import { tasks } from "../services/tasks";
+import TaskCard from "../components/Fragments/Card/CardTask";
 
 const DetailTask = () => {
-    const { team } = usePage().props;
-
     return (
-        <>
-            <Head title={`Task | ${team.team}`} />
-            <div className="container mx-auto my-4">
-                <h1 className="text-3xl font-bold">{team.team}</h1>
-                <p>Leader: {team[0].leader.fullname}</p>
-                <p>Members:</p>
-                <ul className="list-disc list-inside">
-                    {team[0].member.map((memberDetail, index) => (
-                        <li key={index}>{memberDetail.member.fullname}</li>
-                    ))}
-                </ul>
+        <LayoutDetailTask>
+            <div className="p-4">
+                {tasks.map((task) => (
+                    <TaskCard key={task.id} task={task} />
+                ))}
             </div>
-        </>
+        </LayoutDetailTask>
     );
 };
 

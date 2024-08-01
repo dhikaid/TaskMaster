@@ -87,12 +87,23 @@ class TeamController extends Controller
     }
 
 
-    public function detailTask($uuid)
+public function detailTask($uuid)
     {
-        $team = Team::with(['leader', 'member.member'])->where('uuid', $uuid)->get();
+        $user = User::myProfile();
+        $team = Team::with(['leader', 'member.member'])->where('uuid', $uuid)->first();
+
+        if (!$team) {
+            return redirect('/home')->with('message', [
+                'status' => 404,
+                'message' => 'Team not found',
+            ]);
+        }
+
         $data = [
+            'user' => $user,
             'team' => $team
         ];
+
         return Inertia::render('detailTask', $data);
     }
 }
