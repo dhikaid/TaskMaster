@@ -1,16 +1,23 @@
 import React from "react";
 import LayoutDetailTask from "../components/Layouts/LayoutDetailTask";
-import { tasks } from "../services/tasks";
+import { tasks, chat } from "../services/tasks";
 import TaskCard from "../components/Fragments/Card/CardTask";
 
 const DetailTask = () => {
     return (
         <LayoutDetailTask>
-            <div className="p-4">
-                {tasks.map((task) => (
-                    <TaskCard key={task.id} task={task} />
-                ))}
-            </div>
+            {(openModal) => (
+                <div className="p-4">
+                    {tasks.map((task) => (
+                        <TaskCard
+                            key={task.id}
+                            task={task}
+                            openModal={openModal}
+                            chat={chat}
+                        />
+                    ))}
+                </div>
+            )}
         </LayoutDetailTask>
     );
 };
