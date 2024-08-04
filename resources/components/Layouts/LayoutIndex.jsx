@@ -41,13 +41,13 @@ const LayoutIndex = ({ children, pageTitle, user, hideSidebar }) => {
                         !expanded ? "xl:ml-20" : "xl:ml-72 "
                     }`}
                 >
-                    <div className="m-8 overflow-auto h-[calc(100dvh-10px)]">
-                        <h1 className="text-slate-800 text-4xl font-bold">
+                    <div className="m-2 md:m-8 overflow-auto h-[calc(100dvh-10px)] pb-40 ">
+                        <h1 className="text-slate-800 text-2xl md:text-4xl font-bold">
                             {pageTitle}
                         </h1>
                         <div className="mt-5">
                             <div className="w-full bg-neutral-200">
-                                <div className="min-h-[calc(100dvh-240px)] border-2 border-neutral-200 p-4 rounded-[25px] shadow-sm flex bg-white flex-col md:flex-row">
+                                <div className="min-h-[calc(100dvh-240px)] border-2 border-neutral-200 p-4 rounded-[25px] shadow-sm  bg-white flex-col ">
                                     {children}
                                 </div>
                             </div>

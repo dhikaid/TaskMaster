@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('detail_team', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('leader')->references('id')->on('users');
-            $table->json('member')->nullable();
             $table->foreignId('team')->references('id')->on('teams');
+            $table->foreignId('member')->nullable()->references('id')->on('users');
+            $table->boolean('verified_team')->default(false);
             $table->timestamps();
         });
     }
