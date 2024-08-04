@@ -58,7 +58,7 @@ const FormTeam = ({ isOpen, closeModal, team = { team: "", member: [] } }) => {
             `/team/create`,
             {
                 ...values,
-                member: values.member, // Send as an array of strings
+                member: values.member,
                 _token: csrfToken,
             },
             {

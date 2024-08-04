@@ -7,9 +7,7 @@ const Task = ({ user }) => {
     return (
         <>
             <Head title="My Profile | TaskMaster" />
-            <SidebarProvider>
-                <LayoutHome pageTitle="My Profile" user={user} />
-            </SidebarProvider>
+            <div>Task</div>
         </>
     );
 };

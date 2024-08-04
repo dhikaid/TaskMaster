@@ -2,8 +2,10 @@ import React from "react";
 import LayoutDetailTask from "../components/Layouts/LayoutDetailTask";
 import { tasks, chat } from "../services/tasks";
 import TaskCard from "../components/Fragments/Card/CardTask";
+import { usePage } from "@inertiajs/react";
 
 const DetailTask = () => {
+    const { team } = usePage().props;
     return (
         <LayoutDetailTask>
             {(openModal) => (

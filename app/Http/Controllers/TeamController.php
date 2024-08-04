@@ -106,4 +106,63 @@ public function detailTask($uuid)
 
         return Inertia::render('detailTask', $data);
     }
+    public function allTask($uuid)
+    {
+        $user = User::myProfile();
+        $team = Team::with(['leader', 'member.member'])->where('uuid', $uuid)->first();
+
+        if (!$team) {
+            return redirect('/home')->with('message', [
+                'status' => 404,
+                'message' => 'Team not found',
+            ]);
+        }
+
+        $data = [
+            'user' => $user,
+            'team' => $team
+        ];
+
+        return Inertia::render('allTask', $data);
+    }
+
+    public function members($uuid)
+    {
+        $user = User::myProfile();
+        $team = Team::with(['leader', 'member.member'])->where('uuid', $uuid)->first();
+
+        if (!$team) {
+            return redirect('/home')->with('message', [
+                'status' => 404,
+                'message' => 'Team not found',
+            ]);
+        }
+
+        $data = [
+            'user' => $user,
+            'team' => $team
+        ];
+
+        return Inertia::render('members', $data);
+    }
+
+    public function settings($uuid)
+    {
+        $user = User::myProfile();
+        $team = Team::with(['leader', 'member.member'])->where('uuid', $uuid)->first();
+
+        if (!$team) {
+            return redirect('/home')->with('message', [
+                'status' => 404,
+                'message' => 'Team not found',
+            ]);
+        }
+
+        $data = [
+            'user' => $user,
+            'team' => $team
+        ];
+
+        return Inertia::render('settings', $data);
+    }
 }
